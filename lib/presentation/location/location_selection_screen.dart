@@ -60,7 +60,9 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.grey.withOpacity(0.3)),
+                  border: Border.all(
+                    color: AppColors.grey.withValues(alpha: 0.3),
+                  ),
                 ),
                 child: TextField(
                   controller: _searchController,
@@ -85,13 +87,15 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
               decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.grey.withOpacity(0.2)),
+                border: Border.all(
+                  color: AppColors.grey.withValues(alpha: 0.2),
+                ),
               ),
               child: ListTile(
                 leading: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColors.red.withOpacity(0.1),
+                    color: AppColors.red.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -123,7 +127,9 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
               decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.grey.withOpacity(0.2)),
+                border: Border.all(
+                  color: AppColors.grey.withValues(alpha: 0.2),
+                ),
               ),
               child: ListTile(
                 leading: Icon(
@@ -142,7 +148,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
               ),
             ),
 
-            // Import from Blinkit
+            // Import from Map
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
@@ -285,7 +291,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.grey.withOpacity(0.2)),
+        border: Border.all(color: AppColors.grey.withValues(alpha: 0.2)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -350,7 +356,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(icon, color: color, size: 20),
@@ -368,7 +374,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.grey.withOpacity(0.2)),
+        border: Border.all(color: AppColors.grey.withValues(alpha: 0.2)),
       ),
       child: Row(
         children: [
