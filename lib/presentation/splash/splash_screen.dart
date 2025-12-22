@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
-import '../home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,9 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
       });
       await Future.delayed(const Duration(milliseconds: 300));
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-        );
+        context.go(AppRouter.home);
       }
     }
   }
