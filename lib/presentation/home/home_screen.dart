@@ -12,16 +12,39 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedTabIndex = 0;
+  late PageController _pageController;
 
   final List<Map<String, dynamic>> _navTabs = [
     {'icon': Icons.auto_awesome, 'label': 'FOR YOU'},
-    {'icon': Icons.restaurant, 'label': 'DINING'},
-    {'icon': Icons.event, 'label': 'EVENTS'},
-    {'icon': Icons.movie, 'label': 'MOVIES'},
-    {'icon': Icons.store, 'label': 'STORES'},
-    {'icon': Icons.celebration, 'label': 'ACTIVITIES'},
-    {'icon': Icons.sports_esports, 'label': 'PLAY'},
+    {'icon': Icons.event, 'label': 'Appointments'},
+    {'icon': Icons.document_scanner, 'label': 'Prescriptions'},
+    {'icon': Icons.store, 'label': 'Pharmacy'},
+    {'icon': Icons.medical_services, 'label': 'Medicines'},
+    {'icon': Icons.fitness_center, 'label': 'Activities'},
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 0);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onTabTapped(int index) {
+    setState(() {
+      _selectedTabIndex = index;
+    });
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,13 +163,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   final tab = _navTabs[index];
                   final isSelected = _selectedTabIndex == index;
                   return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedTabIndex = index;
-                      });
-                    },
+                    onTap: () => _onTabTapped(index),
+                    behavior: HitTestBehavior.opaque,
                     child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -177,36 +198,107 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             // Divider
-            Divider(color: AppColors.grey.withOpacity(0.3), height: 1),
+            Divider(color: AppColors.grey.withValues(alpha: 0.3), height: 1),
 
-            // Content area
+            // Content area with PageView
             Expanded(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              child: PageView.builder(
+                controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                onPageChanged: (index) {
+                  setState(() {
+                    _selectedTabIndex = index;
+                  });
+                },
+                itemCount: _navTabs.length,
+                itemBuilder: (context, index) {
+                  return _buildTabContent(index);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTabContent(int index) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 60),
+            Icon(Icons.medical_services, size: 100, color: AppColors.red),
+            const SizedBox(height: 24),
+            Text(
+              'Welcome to Medico24',
+              style: Theme.of(
+                context,
+              ).textTheme.headlineMedium?.copyWith(color: AppColors.coal),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Page ${index + 1}: ${_navTabs[index]['label']}',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: AppColors.red,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Your health companion',
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(color: AppColors.grey),
+            ),
+            const SizedBox(height: 40),
+            // Add more content to make it scrollable
+            ...List.generate(
+              10,
+              (i) => Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppColors.red.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.red.withOpacity(0.3)),
+                ),
+                child: Row(
                   children: [
                     Icon(
-                      Icons.medical_services,
-                      size: 100,
+                      _navTabs[index]['icon'],
                       color: AppColors.red,
+                      size: 32,
                     ),
-                    const SizedBox(height: 24),
-                    Text(
-                      'Welcome to Medico24',
-                      style: Theme.of(context).textTheme.headlineMedium
-                          ?.copyWith(color: AppColors.coal),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Your health companion',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyLarge?.copyWith(color: AppColors.grey),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Item ${i + 1}',
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(
+                                  color: AppColors.coal,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Sample content for ${_navTabs[index]['label']} section',
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(color: AppColors.grey),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
+            const SizedBox(height: 40),
           ],
         ),
       ),
