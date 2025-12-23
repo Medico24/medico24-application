@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/router/app_router.dart';
 import '../../core/services/auth_service.dart';
@@ -323,7 +324,11 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 60),
-            Icon(Icons.medical_services, size: 100, color: AppColors.red),
+            SvgPicture.asset(
+              'assets/images/logo.svg',
+              width: 100,
+              height: 100,
+            ),
             const SizedBox(height: 24),
             Text(
               'Welcome to Medico24',

@@ -57,7 +57,11 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const Spacer(),
               // Logo
-              Icon(Icons.medical_services, size: 120, color: AppColors.red),
+              SvgPicture.asset(
+                'assets/images/logo.svg',
+                width: 120,
+                height: 120,
+              ),
               const SizedBox(height: 24),
               // App name
               Text(
