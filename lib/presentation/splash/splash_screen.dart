@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/router/app_router.dart';
@@ -16,10 +17,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToHome();
+    _navigateToNextScreen();
   }
 
-  Future<void> _navigateToHome() async {
+  Future<void> _navigateToNextScreen() async {
     await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
       setState(() {
@@ -27,7 +28,13 @@ class _SplashScreenState extends State<SplashScreen> {
       });
       await Future.delayed(const Duration(milliseconds: 300));
       if (mounted) {
-        context.go(AppRouter.home);
+        // Check if user is logged in
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          context.go(AppRouter.home);
+        } else {
+          context.go(AppRouter.login);
+        }
       }
     }
   }
