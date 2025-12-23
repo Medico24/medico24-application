@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/router/app_router.dart';
+import '../../core/services/auth_service.dart';
 import '../../core/theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,6 +14,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedTabIndex = 0;
   late PageController _pageController;
+  final List<ScrollController> _scrollControllers = [];
+  bool _isTopBarVisible = true;
+  double _topBarHeight = 1.0;
+  final AuthService _authService = AuthService();
 
   final List<Map<String, dynamic>> _navTabs = [
     {'icon': Icons.auto_awesome, 'label': 'FOR YOU'},
@@ -27,12 +32,45 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 0);
+    for (int i = 0; i < _navTabs.length; i++) {
+      final controller = ScrollController();
+      controller.addListener(() => _handleScroll(controller));
+      _scrollControllers.add(controller);
+    }
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    for (var controller in _scrollControllers) {
+      controller.dispose();
+    }
     super.dispose();
+  }
+
+  void _handleScroll(ScrollController controller) {
+    if (controller.hasClients) {
+      final scrollOffset = controller.offset;
+      if (scrollOffset > 50 && _isTopBarVisible) {
+        setState(() {
+          _isTopBarVisible = false;
+        });
+      } else if (scrollOffset <= 10 && !_isTopBarVisible) {
+        setState(() {
+          _isTopBarVisible = true;
+        });
+      }
+
+      // Smooth opacity animation based on scroll
+      if (scrollOffset <= 50) {
+        final newOpacity = 1.0 - (scrollOffset / 50).clamp(0.0, 1.0);
+        if ((newOpacity - _topBarHeight).abs() > 0.01) {
+          setState(() {
+            _topBarHeight = newOpacity;
+          });
+        }
+      }
+    }
   }
 
   void _onTabTapped(int index) {
@@ -54,76 +92,130 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             // Top bar with location, bookmark, and user profile
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                children: [
-                  // Location section
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => context.push(AppRouter.locationSelection),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: AppColors.grey,
-                            size: 24,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+            ClipRect(
+              child: AnimatedAlign(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                alignment: Alignment.topCenter,
+                heightFactor: _isTopBarVisible ? 1.0 : 0.0,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 200),
+                  opacity: _topBarHeight,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: Row(
+                      children: [
+                        // Location section
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () =>
+                                context.push(AppRouter.locationSelection),
+                            child: Row(
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'Kora',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium
-                                          ?.copyWith(
-                                            color: AppColors.coal,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Icon(
-                                      Icons.keyboard_arrow_down,
-                                      color: AppColors.coal,
-                                      size: 20,
-                                    ),
-                                  ],
+                                Icon(
+                                  Icons.location_on,
+                                  color: AppColors.grey,
+                                  size: 24,
                                 ),
-                                Text(
-                                  'Madhyamgram, Kolkata',
-                                  style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(color: AppColors.grey),
-                                  overflow: TextOverflow.ellipsis,
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Kora',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium
+                                                ?.copyWith(
+                                                  color: AppColors.coal,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Icon(
+                                            Icons.keyboard_arrow_down,
+                                            color: AppColors.coal,
+                                            size: 20,
+                                          ),
+                                        ],
+                                      ),
+                                      Text(
+                                        'Madhyamgram, Kolkata',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(color: AppColors.grey),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        // Bookmark icon
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.bookmark_border,
+                            color: AppColors.coal,
+                            size: 28,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        // User profile
+                        GestureDetector(
+                          onTap: () async {
+                            final confirmed = await showDialog<bool>(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Sign Out'),
+                                content: const Text(
+                                  'Are you sure you want to sign out?',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, false),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, true),
+                                    child: const Text('Sign Out'),
+                                  ),
+                                ],
+                              ),
+                            );
+                            if (confirmed == true && mounted) {
+                              await _authService.signOut();
+                              if (mounted) {
+                                context.go(AppRouter.login);
+                              }
+                            }
+                          },
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: AppColors.grey,
+                            child: Icon(
+                              Icons.person,
+                              color: AppColors.white,
+                              size: 24,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  // Bookmark icon
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.bookmark_border,
-                      color: AppColors.coal,
-                      size: 28,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  // User profile
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: AppColors.grey,
-                    child: Icon(Icons.person, color: AppColors.white, size: 24),
-                  ),
-                ],
+                ),
               ),
             ),
 
@@ -212,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 itemCount: _navTabs.length,
                 itemBuilder: (context, index) {
-                  return _buildTabContent(index);
+                  return _buildTabContent(index, _scrollControllers[index]);
                 },
               ),
             ),
@@ -222,8 +314,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildTabContent(int index) {
+  Widget _buildTabContent(int index, ScrollController scrollController) {
     return SingleChildScrollView(
+      controller: scrollController,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -261,9 +354,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 margin: const EdgeInsets.only(bottom: 16),
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: AppColors.red.withOpacity(0.1),
+                  color: AppColors.red.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.red.withOpacity(0.3)),
+                  border: Border.all(
+                    color: AppColors.red.withValues(alpha: 0.3),
+                  ),
                 ),
                 child: Row(
                   children: [
