@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/router/app_router.dart';
 import '../../core/services/auth_service.dart';
 import '../../core/theme/app_colors.dart';
+import '../accessibility/accessibility_settings_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -36,9 +37,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Text(
           'Profile',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AppColors.coal,
-                fontWeight: FontWeight.w600,
-              ),
+            color: AppColors.coal,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -59,11 +60,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         : null,
                     child: _currentUser?.photoURL == null
                         ? Text(
-                            _currentUser?.displayName?.substring(0, 1).toUpperCase() ??
+                            _currentUser?.displayName
+                                    ?.substring(0, 1)
+                                    .toUpperCase() ??
                                 'U',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
+                            style: Theme.of(context).textTheme.headlineMedium
                                 ?.copyWith(
                                   color: AppColors.white,
                                   fontWeight: FontWeight.bold,
@@ -79,19 +80,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         Text(
                           _currentUser?.displayName ?? 'User',
-                          style:
-                              Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    color: AppColors.coal,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                color: AppColors.coal,
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           _currentUser?.email ?? '',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: AppColors.grey,
-                                  ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: AppColors.grey),
                         ),
                       ],
                     ),
@@ -109,133 +108,136 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             const Divider(height: 1),
 
+            // Specially Abled
+            _buildSection(context, 'Specially Abled', [
+              _buildListTile(
+                context,
+                icon: Icons.accessible,
+                title: 'Accessibility Settings',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AccessibilitySettingsScreen(),
+                    ),
+                  );
+                },
+              ),
+            ]),
+
+            const Divider(height: 1),
+
             // Health Records
-            _buildSection(
-              context,
-              'Health Records',
-              [
-                _buildListTile(
-                  context,
-                  icon: Icons.event,
-                  title: 'Appointments',
-                  onTap: () {},
-                ),
-                _buildListTile(
-                  context,
-                  icon: Icons.description,
-                  title: 'Prescriptions',
-                  onTap: () {},
-                ),
-                _buildListTile(
-                  context,
-                  icon: Icons.assessment,
-                  title: 'Test Reports',
-                  onTap: () {},
-                ),
-                _buildListTile(
-                  context,
-                  icon: Icons.medical_services,
-                  title: 'Medical History',
-                  onTap: () {},
-                ),
-              ],
-            ),
+            _buildSection(context, 'Health Records', [
+              _buildListTile(
+                context,
+                icon: Icons.event,
+                title: 'Appointments',
+                onTap: () {},
+              ),
+              _buildListTile(
+                context,
+                icon: Icons.description,
+                title: 'Prescriptions',
+                onTap: () {},
+              ),
+              _buildListTile(
+                context,
+                icon: Icons.assessment,
+                title: 'Test Reports',
+                onTap: () {},
+              ),
+              _buildListTile(
+                context,
+                icon: Icons.medical_services,
+                title: 'Medical History',
+                onTap: () {},
+              ),
+            ]),
 
             const Divider(height: 1),
 
             // Preferences
-            _buildSection(
-              context,
-              'Preferences',
-              [
-                _buildListTile(
-                  context,
-                  icon: Icons.notifications_outlined,
-                  title: 'Notifications',
-                  onTap: () {},
+            _buildSection(context, 'Preferences', [
+              _buildListTile(
+                context,
+                icon: Icons.notifications_outlined,
+                title: 'Notifications',
+                onTap: () {},
+              ),
+              _buildListTile(
+                context,
+                icon: Icons.language,
+                title: 'Language',
+                trailing: Text(
+                  'English',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: AppColors.grey),
                 ),
-                _buildListTile(
-                  context,
-                  icon: Icons.language,
-                  title: 'Language',
-                  trailing: Text(
-                    'English',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppColors.grey,
-                        ),
-                  ),
-                  onTap: () {},
-                ),
-                _buildListTile(
-                  context,
-                  icon: Icons.location_on_outlined,
-                  title: 'Saved Addresses',
-                  onTap: () {},
-                ),
-              ],
-            ),
+                onTap: () {},
+              ),
+              _buildListTile(
+                context,
+                icon: Icons.location_on_outlined,
+                title: 'Saved Addresses',
+                onTap: () {},
+              ),
+            ]),
 
             const Divider(height: 1),
 
             // Account
-            _buildSection(
-              context,
-              'Account',
-              [
-                _buildListTile(
-                  context,
-                  icon: Icons.payment,
-                  title: 'Payment Methods',
-                  onTap: () {},
-                ),
-                _buildListTile(
-                  context,
-                  icon: Icons.family_restroom,
-                  title: 'Family Members',
-                  onTap: () {},
-                ),
-                _buildListTile(
-                  context,
-                  icon: Icons.security,
-                  title: 'Privacy & Security',
-                  onTap: () {},
-                ),
-              ],
-            ),
+            _buildSection(context, 'Account', [
+              _buildListTile(
+                context,
+                icon: Icons.payment,
+                title: 'Payment Methods',
+                onTap: () {},
+              ),
+              _buildListTile(
+                context,
+                icon: Icons.family_restroom,
+                title: 'Family Members',
+                onTap: () {},
+              ),
+              _buildListTile(
+                context,
+                icon: Icons.security,
+                title: 'Privacy & Security',
+                onTap: () {},
+              ),
+            ]),
 
             const Divider(height: 1),
 
             // Support
-            _buildSection(
-              context,
-              'Support',
-              [
-                _buildListTile(
-                  context,
-                  icon: Icons.help_outline,
-                  title: 'Help & Support',
-                  onTap: () {},
-                ),
-                _buildListTile(
-                  context,
-                  icon: Icons.info_outline,
-                  title: 'About',
-                  onTap: () {},
-                ),
-                _buildListTile(
-                  context,
-                  icon: Icons.description_outlined,
-                  title: 'Terms & Conditions',
-                  onTap: () {},
-                ),
-                _buildListTile(
-                  context,
-                  icon: Icons.privacy_tip_outlined,
-                  title: 'Privacy Policy',
-                  onTap: () {},
-                ),
-              ],
-            ),
+            _buildSection(context, 'Support', [
+              _buildListTile(
+                context,
+                icon: Icons.help_outline,
+                title: 'Help & Support',
+                onTap: () {},
+              ),
+              _buildListTile(
+                context,
+                icon: Icons.info_outline,
+                title: 'About',
+                onTap: () {},
+              ),
+              _buildListTile(
+                context,
+                icon: Icons.description_outlined,
+                title: 'Terms & Conditions',
+                onTap: () {},
+              ),
+              _buildListTile(
+                context,
+                icon: Icons.privacy_tip_outlined,
+                title: 'Privacy Policy',
+                onTap: () {},
+              ),
+            ]),
 
             const Divider(height: 1),
 
@@ -250,8 +252,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       context: context,
                       builder: (context) => AlertDialog(
                         title: const Text('Sign Out'),
-                        content:
-                            const Text('Are you sure you want to sign out?'),
+                        content: const Text(
+                          'Are you sure you want to sign out?',
+                        ),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.pop(context, false),
@@ -284,10 +287,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   child: const Text(
                     'Sign Out',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -313,10 +313,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Text(
             title,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.grey,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                ),
+              color: AppColors.grey,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+            ),
           ),
         ),
         ...children,
@@ -335,11 +335,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       leading: Icon(icon, color: AppColors.coal, size: 24),
       title: Text(
         title,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: AppColors.coal,
-            ),
+        style: Theme.of(
+          context,
+        ).textTheme.bodyLarge?.copyWith(color: AppColors.coal),
       ),
-      trailing: trailing ??
+      trailing:
+          trailing ??
           Icon(Icons.chevron_right, color: AppColors.grey, size: 24),
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),

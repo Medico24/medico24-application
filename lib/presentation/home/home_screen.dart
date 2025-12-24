@@ -296,11 +296,8 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 60),
-            SvgPicture.asset(
-              'assets/images/logo.svg',
-              width: 100,
-              height: 100,
-            ),
+
+            SvgPicture.asset('assets/images/logo.svg', width: 100, height: 100),
             const SizedBox(height: 24),
             Text(
               'Welcome to Medico24',
