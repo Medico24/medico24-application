@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../presentation/auth/login_screen.dart';
 import '../../presentation/home/home_screen.dart';
 import '../../presentation/location/location_selection_screen.dart';
+import '../../presentation/profile/profile_screen.dart';
 import '../../presentation/splash/splash_screen.dart';
 
 class AppRouter {
@@ -10,6 +11,7 @@ class AppRouter {
   static const String login = '/login';
   static const String home = '/home';
   static const String locationSelection = '/location-selection';
+  static const String profile = '/profile';
 
   static GoRouter createRouter() {
     return GoRouter(
@@ -21,6 +23,10 @@ class AppRouter {
         ),
         GoRoute(path: login, builder: (context, state) => const LoginScreen()),
         GoRoute(path: home, builder: (context, state) => const HomeScreen()),
+        GoRoute(
+          path: profile,
+          builder: (context, state) => const ProfileScreen(),
+        ),
         GoRoute(
           path: locationSelection,
           pageBuilder: (context, state) => CustomTransitionPage<void>(

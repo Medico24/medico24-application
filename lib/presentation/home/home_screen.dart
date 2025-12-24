@@ -174,35 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(width: 8),
                         // User profile
                         GestureDetector(
-                          onTap: () async {
-                            final confirmed = await showDialog<bool>(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: const Text('Sign Out'),
-                                content: const Text(
-                                  'Are you sure you want to sign out?',
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, false),
-                                    child: const Text('Cancel'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, true),
-                                    child: const Text('Sign Out'),
-                                  ),
-                                ],
-                              ),
-                            );
-                            if (confirmed == true && mounted) {
-                              await _authService.signOut();
-                              if (mounted) {
-                                context.go(AppRouter.login);
-                              }
-                            }
-                          },
+                          onTap: () => context.push(AppRouter.profile),
                           child: CircleAvatar(
                             radius: 20,
                             backgroundColor: AppColors.grey,
