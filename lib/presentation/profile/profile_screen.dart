@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/database/database.dart';
 import '../../core/router/app_router.dart';
 import '../../core/services/auth_service.dart';
 import '../../core/theme/app_colors.dart';
@@ -15,12 +16,36 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final AuthService _authService = AuthService();
+  final AppDatabase _database = AppDatabase();
   User? _currentUser;
+  String _hearingLevel = 'none';
+  String _visionLevel = 'none';
+  String _mobilityLevel = 'none';
+  bool _isOlderPerson = false;
 
   @override
   void initState() {
     super.initState();
     _currentUser = FirebaseAuth.instance.currentUser;
+    _loadAccessibilitySettings();
+  }
+
+  Future<void> _loadAccessibilitySettings() async {
+    final settings = await _database.getAccessibilitySettings();
+    if (settings != null && mounted) {
+      setState(() {
+        _hearingLevel = settings.hearingLevel;
+        _visionLevel = settings.visionLevel;
+        _mobilityLevel = settings.mobilityLevel;
+        _isOlderPerson = settings.isOlderPerson;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _database.close();
+    super.dispose();
   }
 
   @override
@@ -92,6 +117,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(color: AppColors.grey),
                         ),
+                        const SizedBox(height: 8),
+                        // Accessibility status icons
+                        _buildAccessibilityIcons(),
                       ],
                     ),
                   ),
@@ -114,13 +142,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 context,
                 icon: Icons.accessible,
                 title: 'Accessibility Settings',
-                onTap: () {
-                  Navigator.push(
+                onTap: () async {
+                  await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const AccessibilitySettingsScreen(),
                     ),
                   );
+                  // Reload accessibility settings when returning
+                  _loadAccessibilitySettings();
                 },
               ),
             ]),
@@ -344,6 +374,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Icon(Icons.chevron_right, color: AppColors.grey, size: 24),
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+    );
+  }
+
+  Widget _buildAccessibilityIcons() {
+    final List<Widget> icons = [];
+
+    // Older Person - Purple
+    if (_isOlderPerson) {
+      icons.add(
+        _buildAccessibilityIcon(
+          icon: Icons.elderly,
+          color: const Color(0xFF9C27B0), // Purple
+          label: 'Older Person',
+        ),
+      );
+    }
+
+    // Hearing Problem - Orange
+    if (_hearingLevel != 'none') {
+      icons.add(
+        _buildAccessibilityIcon(
+          icon: Icons.hearing_disabled,
+          color: const Color(0xFFFF9800), // Orange
+          label: 'Hearing',
+        ),
+      );
+    }
+
+    // Vision Problem - Blue
+    if (_visionLevel != 'none') {
+      icons.add(
+        _buildAccessibilityIcon(
+          icon: Icons.visibility_off,
+          color: const Color(0xFF2196F3), // Blue
+          label: 'Vision',
+        ),
+      );
+    }
+
+    // Mobility Problem - Green
+    if (_mobilityLevel != 'none') {
+      icons.add(
+        _buildAccessibilityIcon(
+          icon: Icons.accessible,
+          color: const Color(0xFF4CAF50), // Green
+          label: 'Mobility',
+        ),
+      );
+    }
+
+    // If no accessibility settings, return empty container
+    if (icons.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Wrap(spacing: 8, runSpacing: 4, children: icons);
+  }
+
+  Widget _buildAccessibilityIcon({
+    required IconData icon,
+    required Color color,
+    required String label,
+  }) {
+    return Tooltip(
+      message: label,
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(icon, size: 20, color: color),
+      ),
     );
   }
 }

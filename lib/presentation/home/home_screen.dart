@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -20,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   double _topBarHeight = 1.0;
   final AppDatabase _database = AppDatabase();
   CurrentLocationData? _currentLocation;
+  User? _currentUser;
 
   final List<Map<String, dynamic>> _navTabs = [
     {'icon': Icons.auto_awesome, 'label': 'FOR YOU'},
@@ -33,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _currentUser = FirebaseAuth.instance.currentUser;
     _pageController = PageController(initialPage: 0);
     for (int i = 0; i < _navTabs.length; i++) {
       final controller = ScrollController();
@@ -191,12 +194,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           onTap: () => context.push(AppRouter.profile),
                           child: CircleAvatar(
                             radius: 20,
-                            backgroundColor: AppColors.grey,
-                            child: Icon(
-                              Icons.person,
-                              color: AppColors.white,
-                              size: 24,
-                            ),
+                            backgroundColor: AppColors.red,
+                            backgroundImage: _currentUser?.photoURL != null
+                                ? NetworkImage(_currentUser!.photoURL!)
+                                : null,
+                            child: _currentUser?.photoURL == null
+                                ? Text(
+                                    _currentUser?.displayName
+                                            ?.substring(0, 1)
+                                            .toUpperCase() ??
+                                        'U',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                : null,
                           ),
                         ),
                       ],
