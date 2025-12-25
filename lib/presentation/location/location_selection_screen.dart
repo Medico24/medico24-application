@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:medico24/core/router/app_router.dart';
 import '../../core/database/database.dart';
 import '../../core/theme/app_colors.dart';
 
@@ -160,6 +161,12 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                 ),
               ),
               child: ListTile(
+                onTap: () async {
+                  final result = await context.push(AppRouter.addAddress);
+                  if (result == true) {
+                    _loadData(); // Reload data when returning from add address
+                  }
+                },
                 leading: Icon(
                   Icons.add_circle_outline,
                   color: AppColors.red,
