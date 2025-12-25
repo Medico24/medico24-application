@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/database/database.dart';
 import '../../core/theme/app_colors.dart';
 
 class LocationSelectionScreen extends StatefulWidget {
@@ -12,10 +13,35 @@ class LocationSelectionScreen extends StatefulWidget {
 
 class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final AppDatabase _database = AppDatabase();
+  List<SavedAddressesData> _savedAddresses = [];
+  List<RecentLocation> _recentLocations = [];
+  CurrentLocationData? _currentLocation;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final saved = await _database.getAllSavedAddresses();
+    final recent = await _database.getRecentLocations(limit: 5);
+    final current = await _database.getCurrentLocation();
+
+    if (mounted) {
+      setState(() {
+        _savedAddresses = saved;
+        _recentLocations = recent;
+        _currentLocation = current;
+      });
+    }
+  }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _database.close();
     super.dispose();
   }
 
@@ -112,7 +138,9 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                   ),
                 ),
                 subtitle: Text(
-                  'Kora, Madhyamgram, Kolkata',
+                  _currentLocation != null
+                      ? '${_currentLocation!.title}, ${_currentLocation!.city}'
+                      : 'Enable location services',
                   style: Theme.of(
                     context,
                   ).textTheme.bodyMedium?.copyWith(color: AppColors.coal),
@@ -191,85 +219,133 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
             const SizedBox(height: 16),
 
             // Saved Addresses Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'SAVED ADDRESSES',
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: AppColors.grey,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
+            if (_savedAddresses.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'SAVED ADDRESSES',
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: AppColors.grey,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.5,
+                  ),
                 ),
               ),
-            ),
 
-            const SizedBox(height: 12),
+            if (_savedAddresses.isNotEmpty) const SizedBox(height: 12),
 
             // Saved Addresses List
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                children: [
-                  _buildSavedAddressItem(
-                    context,
-                    icon: Icons.home_outlined,
-                    label: 'Home',
-                    distance: '866 km',
-                    address:
-                        'H4 Hostel (Vivekananda), IIITDM Jabalpur, IIITDM Jabalpur, Airport Rd, Pdpm Iiitdm Jab...',
-                    phone: '+91-6290597853',
-                  ),
-                  const SizedBox(height: 12),
-                  _buildSavedAddressItem(
-                    context,
-                    icon: Icons.location_on_outlined,
-                    label: 'Bus Stand',
-                    distance: '873 km',
-                    address: 'In Front Of Daluram, Market, Jabalpur',
-                    phone: '+91-6290597853',
-                  ),
-                ],
+            if (_savedAddresses.isNotEmpty)
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: _savedAddresses.length,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    final address = _savedAddresses[index];
+                    return _buildSavedAddressItem(
+                      context,
+                      icon: address.isDefault
+                          ? Icons.home_outlined
+                          : Icons.location_on_outlined,
+                      label: address.title,
+                      distance: '',
+                      address: '${address.address}, ${address.city}',
+                      onTap: () async {
+                        await _database.updateCurrentLocation(
+                          title: address.title,
+                          address: address.address,
+                          city: address.city,
+                          latitude: address.latitude,
+                          longitude: address.longitude,
+                        );
+                        await _database.addRecentLocation(
+                          address: address.address,
+                          city: address.city,
+                          latitude: address.latitude,
+                          longitude: address.longitude,
+                        );
+                        if (mounted) {
+                          context.pop();
+                        }
+                      },
+                      onDelete: () async {
+                        await _database.deleteSavedAddress(address.id);
+                        _loadData();
+                      },
+                    );
+                  },
+                ),
+              )
+            else
+              const Padding(
+                padding: EdgeInsets.all(32),
+                child: Center(child: Text('No saved addresses yet')),
               ),
-            ),
 
             const SizedBox(height: 16),
 
             // Recent Locations Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'RECENT LOCATIONS',
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: AppColors.grey,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
+            if (_recentLocations.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'RECENT LOCATIONS',
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: AppColors.grey,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.5,
+                  ),
                 ),
               ),
-            ),
 
-            const SizedBox(height: 12),
+            if (_recentLocations.isNotEmpty) const SizedBox(height: 12),
 
             // Recent Locations List
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  _buildRecentLocationItem(
-                    context,
-                    location: 'Kora',
-                    time: '11 m',
-                    address: 'Madhyamgram, Kolkata',
-                  ),
-                  const SizedBox(height: 12),
-                  _buildRecentLocationItem(
-                    context,
-                    location: 'Esplanade',
-                    time: '19 d',
-                    address: 'Madhya Kolkata',
-                  ),
-                ],
+            if (_recentLocations.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: _recentLocations.map((location) {
+                    final now = DateTime.now();
+                    final diff = now.difference(location.accessedAt);
+                    final timeAgo = diff.inDays > 0
+                        ? '${diff.inDays} d'
+                        : diff.inHours > 0
+                        ? '${diff.inHours} h'
+                        : '${diff.inMinutes} m';
+
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: _buildRecentLocationItem(
+                        context,
+                        location: location.city.split(',').first,
+                        time: timeAgo,
+                        address: location.address,
+                        onTap: () async {
+                          await _database.updateCurrentLocation(
+                            title: location.city.split(',').first,
+                            address: location.address,
+                            city: location.city,
+                            latitude: location.latitude,
+                            longitude: location.longitude,
+                          );
+                          await _database.addRecentLocation(
+                            address: location.address,
+                            city: location.city,
+                            latitude: location.latitude,
+                            longitude: location.longitude,
+                          );
+                          if (mounted) {
+                            context.pop();
+                          }
+                        },
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
-            ),
 
             const SizedBox(height: 16),
           ],
@@ -284,70 +360,75 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
     required String label,
     required String distance,
     required String address,
-    required String phone,
+    VoidCallback? onTap,
+    VoidCallback? onDelete,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.grey.withValues(alpha: 0.2)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            children: [
-              Icon(icon, color: AppColors.coal, size: 28),
-              const SizedBox(height: 4),
-              Text(
-                distance,
-                style: Theme.of(
-                  context,
-                ).textTheme.labelSmall?.copyWith(color: AppColors.grey),
-              ),
-            ],
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.grey.withValues(alpha: 0.2)),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
               children: [
-                Text(
-                  label,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: AppColors.coal,
-                    fontWeight: FontWeight.w600,
+                Icon(icon, color: AppColors.coal, size: 28),
+                if (distance.isNotEmpty) const SizedBox(height: 4),
+                if (distance.isNotEmpty)
+                  Text(
+                    distance,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelSmall?.copyWith(color: AppColors.grey),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  address,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: AppColors.coal),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Phone number: $phone',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: AppColors.grey),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    _buildIconButton(Icons.more_horiz, AppColors.grey),
-                    const SizedBox(width: 16),
-                    _buildIconButton(Icons.share_outlined, AppColors.red),
-                  ],
-                ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppColors.coal,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    address,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: AppColors.coal),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (onDelete != null) const SizedBox(height: 12),
+                  if (onDelete != null)
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: onDelete,
+                          child: _buildIconButton(
+                            Icons.delete_outline,
+                            AppColors.red,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        _buildIconButton(Icons.share_outlined, AppColors.blue),
+                      ],
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -368,51 +449,55 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
     required String location,
     required String time,
     required String address,
+    VoidCallback? onTap,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.grey.withValues(alpha: 0.2)),
-      ),
-      child: Row(
-        children: [
-          Column(
-            children: [
-              Icon(Icons.access_time, color: AppColors.grey, size: 24),
-              const SizedBox(height: 4),
-              Text(
-                time,
-                style: Theme.of(
-                  context,
-                ).textTheme.labelSmall?.copyWith(color: AppColors.grey),
-              ),
-            ],
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.grey.withValues(alpha: 0.2)),
+        ),
+        child: Row(
+          children: [
+            Column(
               children: [
-                Text(
-                  location,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: AppColors.coal,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                Icon(Icons.access_time, color: AppColors.grey, size: 24),
                 const SizedBox(height: 4),
                 Text(
-                  address,
+                  time,
                   style: Theme.of(
                     context,
-                  ).textTheme.bodyMedium?.copyWith(color: AppColors.grey),
+                  ).textTheme.labelSmall?.copyWith(color: AppColors.grey),
                 ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    location,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppColors.coal,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    address,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: AppColors.grey),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

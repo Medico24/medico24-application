@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/database/database.dart';
 import '../../core/router/app_router.dart';
-import '../../core/services/auth_service.dart';
 import '../../core/theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,7 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<ScrollController> _scrollControllers = [];
   bool _isTopBarVisible = true;
   double _topBarHeight = 1.0;
-  final AuthService _authService = AuthService();
+  final AppDatabase _database = AppDatabase();
+  CurrentLocationData? _currentLocation;
 
   final List<Map<String, dynamic>> _navTabs = [
     {'icon': Icons.auto_awesome, 'label': 'FOR YOU'},
@@ -38,6 +39,16 @@ class _HomeScreenState extends State<HomeScreen> {
       controller.addListener(() => _handleScroll(controller));
       _scrollControllers.add(controller);
     }
+    _loadCurrentLocation();
+  }
+
+  Future<void> _loadCurrentLocation() async {
+    final location = await _database.getCurrentLocation();
+    if (mounted) {
+      setState(() {
+        _currentLocation = location;
+      });
+    }
   }
 
   @override
@@ -46,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
     for (var controller in _scrollControllers) {
       controller.dispose();
     }
+    _database.close();
     super.dispose();
   }
 
@@ -130,7 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Row(
                                         children: [
                                           Text(
-                                            'Kora',
+                                            _currentLocation?.title ??
+                                                'Select location',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleMedium
@@ -148,7 +161,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ],
                                       ),
                                       Text(
-                                        'Madhyamgram, Kolkata',
+                                        _currentLocation?.address ??
+                                            'Tap to select',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall

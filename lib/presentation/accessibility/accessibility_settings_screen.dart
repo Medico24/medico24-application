@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/database/database.dart';
 import '../../core/theme/app_colors.dart';
 
 class AccessibilitySettingsScreen extends StatefulWidget {
@@ -11,10 +12,35 @@ class AccessibilitySettingsScreen extends StatefulWidget {
 
 class _AccessibilitySettingsScreenState
     extends State<AccessibilitySettingsScreen> {
+  final AppDatabase _database = AppDatabase();
   String _hearingLevel = 'none';
   String _visionLevel = 'none';
   String _mobilityLevel = 'none';
   bool _isOlderPerson = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+
+  Future<void> _loadSettings() async {
+    final settings = await _database.getAccessibilitySettings();
+    if (settings != null && mounted) {
+      setState(() {
+        _hearingLevel = settings.hearingLevel;
+        _visionLevel = settings.visionLevel;
+        _mobilityLevel = settings.mobilityLevel;
+        _isOlderPerson = settings.isOlderPerson;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _database.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -192,15 +218,22 @@ class _AccessibilitySettingsScreenState
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // TODO: Save accessibility settings
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text('Accessibility settings saved'),
-                        backgroundColor: AppColors.blue,
-                      ),
+                  onPressed: () async {
+                    await _database.updateAccessibilitySettings(
+                      hearingLevel: _hearingLevel,
+                      visionLevel: _visionLevel,
+                      mobilityLevel: _mobilityLevel,
+                      isOlderPerson: _isOlderPerson,
                     );
-                    Navigator.pop(context);
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('Accessibility settings saved'),
+                          backgroundColor: AppColors.blue,
+                        ),
+                      );
+                      Navigator.pop(context);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.blue,
