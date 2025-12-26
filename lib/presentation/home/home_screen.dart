@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../../core/database/database.dart';
-import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
-import '../appointments/appointments_calendar.dart';
+import 'package:medico24/core/database/database.dart';
+import 'package:medico24/core/theme/app_colors.dart';
+import 'tabs/appointments_tab.dart';
+import 'tabs/default_tab_content.dart';
+import 'widgets/home_top_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -110,115 +108,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             // Top bar with location, bookmark, and user profile
-            ClipRect(
-              child: AnimatedAlign(
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.easeInOut,
-                alignment: Alignment.topCenter,
-                heightFactor: _isTopBarVisible ? 1.0 : 0.0,
-                child: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 200),
-                  opacity: _topBarHeight,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: Row(
-                      children: [
-                        // Location section
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () =>
-                                context.push(AppRouter.locationSelection),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.location_on,
-                                  color: AppColors.grey,
-                                  size: 24,
-                                ),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            _currentLocation?.title ??
-                                                'Select location',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium
-                                                ?.copyWith(
-                                                  color: AppColors.coal,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                          ),
-                                          const SizedBox(width: 4),
-                                          Icon(
-                                            Icons.keyboard_arrow_down,
-                                            color: AppColors.coal,
-                                            size: 20,
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        _currentLocation?.address ??
-                                            'Tap to select',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(color: AppColors.grey),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        // Bookmark icon
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.bookmark_border,
-                            color: AppColors.coal,
-                            size: 28,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        // User profile
-                        GestureDetector(
-                          onTap: () => context.push(AppRouter.profile),
-                          child: CircleAvatar(
-                            radius: 20,
-                            backgroundColor: AppColors.red,
-                            backgroundImage: _currentUser?.photoURL != null
-                                ? NetworkImage(_currentUser!.photoURL!)
-                                : null,
-                            child: _currentUser?.photoURL == null
-                                ? Text(
-                                    _currentUser?.displayName
-                                            ?.substring(0, 1)
-                                            .toUpperCase() ??
-                                        'U',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                : null,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+            HomeTopBar(
+              isVisible: _isTopBarVisible,
+              opacity: _topBarHeight,
+              currentLocation: _currentLocation,
+              currentUser: _currentUser,
             ),
 
             // Search bar
@@ -317,227 +211,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildTabContent(int index, ScrollController scrollController) {
-    // Special handling for Appointments tab (index 1)
+    // Appointments tab
     if (index == 1) {
-      return SingleChildScrollView(
-        controller: scrollController,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const AppointmentsCalendar(),
-              const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'Upcoming Appointments',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: AppColors.coal,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              // Placeholder for upcoming appointments list
-              ...List.generate(
-                3,
-                (i) => Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: AppColors.grey.withValues(alpha: 0.2),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 48,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: AppColors.blue.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Icon(
-                          Icons.medical_services,
-                          color: AppColors.blue,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Dr. Sample Doctor ${i + 1}',
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(
-                                    color: AppColors.coal,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'General Checkup',
-                              style: Theme.of(context).textTheme.bodyMedium
-                                  ?.copyWith(color: AppColors.grey),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            '10:00 AM',
-                            style: Theme.of(context).textTheme.labelLarge
-                                ?.copyWith(
-                                  color: AppColors.blue,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Tomorrow',
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(color: AppColors.grey),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 8),
-                      Container(
-                        height: 40,
-                        width: 1,
-                        color: AppColors.grey.withValues(alpha: 0.3),
-                      ),
-                      const SizedBox(width: 8),
-                      IconButton(
-                        onPressed: () async {
-                          final phoneNumber = '+916290597853';
-                          final uri = Uri.parse('tel:$phoneNumber');
-                          try {
-                            await launchUrl(uri);
-                          } catch (e) {
-                            if (mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Could not launch phone dialer',
-                                  ),
-                                  backgroundColor: AppColors.red,
-                                ),
-                              );
-                            }
-                          }
-                        },
-                        icon: Icon(
-                          Icons.phone,
-                          color: AppColors.blue,
-                          size: 24,
-                        ),
-                        tooltip: 'Call Doctor',
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 40),
-            ],
-          ),
-        ),
-      );
+      return AppointmentsTab(scrollController: scrollController);
     }
 
     // Default content for other tabs
-    return SingleChildScrollView(
-      controller: scrollController,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 60),
-
-            SvgPicture.asset('assets/images/logo.svg', width: 100, height: 100),
-            const SizedBox(height: 24),
-            Text(
-              'Welcome to Medico24',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineMedium?.copyWith(color: AppColors.coal),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Page ${index + 1}: ${_navTabs[index]['label']}',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AppColors.red,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Your health companion',
-              style: Theme.of(
-                context,
-              ).textTheme.bodyLarge?.copyWith(color: AppColors.grey),
-            ),
-            const SizedBox(height: 40),
-            // Add more content to make it scrollable
-            ...List.generate(
-              10,
-              (i) => Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: AppColors.red.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: AppColors.red.withValues(alpha: 0.3),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      _navTabs[index]['icon'],
-                      color: AppColors.red,
-                      size: 32,
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Item ${i + 1}',
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  color: AppColors.coal,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Sample content for ${_navTabs[index]['label']} section',
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(color: AppColors.grey),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 40),
-          ],
-        ),
-      ),
+    return DefaultTabContent(
+      scrollController: scrollController,
+      tabIndex: index,
+      tabLabel: _navTabs[index]['label'],
+      tabIcon: _navTabs[index]['icon'],
     );
   }
 }
