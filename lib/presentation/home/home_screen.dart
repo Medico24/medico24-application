@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/database/database.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
@@ -408,6 +409,39 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ?.copyWith(color: AppColors.grey),
                           ),
                         ],
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        height: 40,
+                        width: 1,
+                        color: AppColors.grey.withValues(alpha: 0.3),
+                      ),
+                      const SizedBox(width: 8),
+                      IconButton(
+                        onPressed: () async {
+                          final phoneNumber = '+916290597853';
+                          final uri = Uri.parse('tel:$phoneNumber');
+                          try {
+                            await launchUrl(uri);
+                          } catch (e) {
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Could not launch phone dialer',
+                                  ),
+                                  backgroundColor: AppColors.red,
+                                ),
+                              );
+                            }
+                          }
+                        },
+                        icon: Icon(
+                          Icons.phone,
+                          color: AppColors.blue,
+                          size: 24,
+                        ),
+                        tooltip: 'Call Doctor',
                       ),
                     ],
                   ),
