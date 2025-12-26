@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../presentation/auth/login_screen.dart';
-import '../../presentation/home/home_screen.dart';
-import '../../presentation/location/add_address_screen.dart';
-import '../../presentation/location/location_selection_screen.dart';
-import '../../presentation/profile/profile_screen.dart';
-import '../../presentation/splash/splash_screen.dart';
+import 'package:medico24/presentation/auth/login_screen.dart';
+import 'package:medico24/presentation/home/home_screen.dart';
+import 'package:medico24/presentation/location/add_address_screen.dart';
+import 'package:medico24/presentation/location/location_selection_screen.dart';
+import 'package:medico24/presentation/profile/profile_screen.dart';
+import 'package:medico24/presentation/splash/splash_screen.dart';
 
 class AppRouter {
   static const String splash = '/';

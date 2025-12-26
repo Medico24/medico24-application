@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../core/database/database.dart';
-import '../../core/theme/app_colors.dart';
+import 'package:medico24/core/database/database.dart';
+import 'package:medico24/core/theme/app_colors.dart';
 
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});

@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../core/database/database.dart';
-import '../../core/router/app_router.dart';
-import '../../core/services/auth_service.dart';
-import '../../core/theme/app_colors.dart';
-import '../accessibility/accessibility_settings_screen.dart';
+import 'package:medico24/core/database/database.dart';
+import 'package:medico24/core/router/app_router.dart';
+import 'package:medico24/core/services/auth_service.dart';
+import 'package:medico24/core/theme/app_colors.dart';
+import 'package:medico24/presentation/accessibility/accessibility_settings_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

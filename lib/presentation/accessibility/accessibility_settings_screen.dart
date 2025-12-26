@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../core/database/database.dart';
-import '../../core/theme/app_colors.dart';
+import 'package:medico24/core/database/database.dart';
+import 'package:medico24/core/theme/app_colors.dart';
 
 class AccessibilitySettingsScreen extends StatefulWidget {
   const AccessibilitySettingsScreen({super.key});

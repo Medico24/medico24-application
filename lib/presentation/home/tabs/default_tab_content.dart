@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../core/theme/app_colors.dart';
+import 'package:medico24/core/theme/app_colors.dart';
 
 class DefaultTabContent extends StatelessWidget {
   final ScrollController scrollController;

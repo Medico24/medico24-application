@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import '../../core/router/app_router.dart';
-import '../../core/services/auth_service.dart';
-import '../../core/theme/app_colors.dart';
+import 'package:medico24/core/router/app_router.dart';
+import 'package:medico24/core/services/auth_service.dart';
+import 'package:medico24/core/theme/app_colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
