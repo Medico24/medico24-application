@@ -18,7 +18,7 @@ class ApiConstants {
 
   // Authentication
   static const String googleLogin = '$apiVersion/auth/google/login';
-  static const String googleCallback = '$apiVersion/auth/google/callback';
+  static const String firebaseVerify = '$apiVersion/auth/firebase/verify';
   static const String refreshToken = '$apiVersion/auth/refresh';
   static const String logout = '$apiVersion/auth/logout';
 

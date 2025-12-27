@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../api_constants.dart';
 import '../models/auth_model.dart';
 
 class AuthApiService {
@@ -8,7 +9,7 @@ class AuthApiService {
 
   Future<LoginResponse> googleCallback(GoogleAuthRequest request) async {
     final response = await _dio.post(
-      '/api/v1/auth/google/callback',
+      ApiConstants.firebaseVerify,
       data: request.toJson(),
     );
     return LoginResponse.fromJson(response.data);
