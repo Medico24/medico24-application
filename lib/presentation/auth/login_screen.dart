@@ -90,7 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
-                    side: BorderSide(color: AppColors.grey.withOpacity(0.3)),
+                    side: BorderSide(
+                      color: AppColors.grey.withValues(alpha: 0.3),
+                    ),
                   ),
                   elevation: 0,
                 ),

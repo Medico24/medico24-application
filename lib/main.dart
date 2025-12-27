@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:medico24/core/router/app_router.dart';
+import 'package:medico24/core/service_locator.dart';
 import 'package:medico24/core/theme/app_theme.dart';
 
 void main() async {
@@ -12,6 +13,9 @@ void main() async {
 
   // Initialize Firebase
   await Firebase.initializeApp();
+
+  // Initialize service locator
+  serviceLocator.init();
 
   runApp(const MyApp());
 }
