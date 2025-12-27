@@ -23,10 +23,10 @@ Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
     };
 
 GoogleAuthRequest _$GoogleAuthRequestFromJson(Map<String, dynamic> json) =>
-    GoogleAuthRequest(code: json['code'] as String);
+    GoogleAuthRequest(idToken: json['id_token'] as String);
 
 Map<String, dynamic> _$GoogleAuthRequestToJson(GoogleAuthRequest instance) =>
-    <String, dynamic>{'code': instance.code};
+    <String, dynamic>{'id_token': instance.idToken};
 
 TokenRefreshRequest _$TokenRefreshRequestFromJson(Map<String, dynamic> json) =>
     TokenRefreshRequest(refreshToken: json['refresh_token'] as String);

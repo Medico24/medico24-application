@@ -1776,6 +1776,2017 @@ class CurrentLocationCompanion extends UpdateCompanion<CurrentLocationData> {
   }
 }
 
+class $AppointmentsTable extends Appointments
+    with TableInfo<$AppointmentsTable, Appointment> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AppointmentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _patientIdMeta = const VerificationMeta(
+    'patientId',
+  );
+  @override
+  late final GeneratedColumn<String> patientId = GeneratedColumn<String>(
+    'patient_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _doctorIdMeta = const VerificationMeta(
+    'doctorId',
+  );
+  @override
+  late final GeneratedColumn<String> doctorId = GeneratedColumn<String>(
+    'doctor_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _doctorNameMeta = const VerificationMeta(
+    'doctorName',
+  );
+  @override
+  late final GeneratedColumn<String> doctorName = GeneratedColumn<String>(
+    'doctor_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _clinicIdMeta = const VerificationMeta(
+    'clinicId',
+  );
+  @override
+  late final GeneratedColumn<String> clinicId = GeneratedColumn<String>(
+    'clinic_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clinicNameMeta = const VerificationMeta(
+    'clinicName',
+  );
+  @override
+  late final GeneratedColumn<String> clinicName = GeneratedColumn<String>(
+    'clinic_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _appointmentAtMeta = const VerificationMeta(
+    'appointmentAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> appointmentAt =
+      GeneratedColumn<DateTime>(
+        'appointment_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _appointmentEndAtMeta = const VerificationMeta(
+    'appointmentEndAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> appointmentEndAt =
+      GeneratedColumn<DateTime>(
+        'appointment_end_at',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _reasonMeta = const VerificationMeta('reason');
+  @override
+  late final GeneratedColumn<String> reason = GeneratedColumn<String>(
+    'reason',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contactPhoneMeta = const VerificationMeta(
+    'contactPhone',
+  );
+  @override
+  late final GeneratedColumn<String> contactPhone = GeneratedColumn<String>(
+    'contact_phone',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sourceMeta = const VerificationMeta('source');
+  @override
+  late final GeneratedColumn<String> source = GeneratedColumn<String>(
+    'source',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cancelledAtMeta = const VerificationMeta(
+    'cancelledAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> cancelledAt = GeneratedColumn<DateTime>(
+    'cancelled_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _lastSyncedAtMeta = const VerificationMeta(
+    'lastSyncedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastSyncedAt = GeneratedColumn<DateTime>(
+    'last_synced_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    patientId,
+    doctorId,
+    doctorName,
+    clinicId,
+    clinicName,
+    appointmentAt,
+    appointmentEndAt,
+    reason,
+    contactPhone,
+    notes,
+    status,
+    source,
+    createdAt,
+    updatedAt,
+    cancelledAt,
+    deletedAt,
+    lastSyncedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'appointments';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Appointment> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('patient_id')) {
+      context.handle(
+        _patientIdMeta,
+        patientId.isAcceptableOrUnknown(data['patient_id']!, _patientIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_patientIdMeta);
+    }
+    if (data.containsKey('doctor_id')) {
+      context.handle(
+        _doctorIdMeta,
+        doctorId.isAcceptableOrUnknown(data['doctor_id']!, _doctorIdMeta),
+      );
+    }
+    if (data.containsKey('doctor_name')) {
+      context.handle(
+        _doctorNameMeta,
+        doctorName.isAcceptableOrUnknown(data['doctor_name']!, _doctorNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_doctorNameMeta);
+    }
+    if (data.containsKey('clinic_id')) {
+      context.handle(
+        _clinicIdMeta,
+        clinicId.isAcceptableOrUnknown(data['clinic_id']!, _clinicIdMeta),
+      );
+    }
+    if (data.containsKey('clinic_name')) {
+      context.handle(
+        _clinicNameMeta,
+        clinicName.isAcceptableOrUnknown(data['clinic_name']!, _clinicNameMeta),
+      );
+    }
+    if (data.containsKey('appointment_at')) {
+      context.handle(
+        _appointmentAtMeta,
+        appointmentAt.isAcceptableOrUnknown(
+          data['appointment_at']!,
+          _appointmentAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_appointmentAtMeta);
+    }
+    if (data.containsKey('appointment_end_at')) {
+      context.handle(
+        _appointmentEndAtMeta,
+        appointmentEndAt.isAcceptableOrUnknown(
+          data['appointment_end_at']!,
+          _appointmentEndAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('reason')) {
+      context.handle(
+        _reasonMeta,
+        reason.isAcceptableOrUnknown(data['reason']!, _reasonMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_reasonMeta);
+    }
+    if (data.containsKey('contact_phone')) {
+      context.handle(
+        _contactPhoneMeta,
+        contactPhone.isAcceptableOrUnknown(
+          data['contact_phone']!,
+          _contactPhoneMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_contactPhoneMeta);
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('source')) {
+      context.handle(
+        _sourceMeta,
+        source.isAcceptableOrUnknown(data['source']!, _sourceMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sourceMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('cancelled_at')) {
+      context.handle(
+        _cancelledAtMeta,
+        cancelledAt.isAcceptableOrUnknown(
+          data['cancelled_at']!,
+          _cancelledAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('last_synced_at')) {
+      context.handle(
+        _lastSyncedAtMeta,
+        lastSyncedAt.isAcceptableOrUnknown(
+          data['last_synced_at']!,
+          _lastSyncedAtMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Appointment map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Appointment(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      patientId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}patient_id'],
+      )!,
+      doctorId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}doctor_id'],
+      ),
+      doctorName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}doctor_name'],
+      )!,
+      clinicId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}clinic_id'],
+      ),
+      clinicName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}clinic_name'],
+      ),
+      appointmentAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}appointment_at'],
+      )!,
+      appointmentEndAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}appointment_end_at'],
+      ),
+      reason: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}reason'],
+      )!,
+      contactPhone: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}contact_phone'],
+      )!,
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      source: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      cancelledAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}cancelled_at'],
+      ),
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      lastSyncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_synced_at'],
+      ),
+    );
+  }
+
+  @override
+  $AppointmentsTable createAlias(String alias) {
+    return $AppointmentsTable(attachedDatabase, alias);
+  }
+}
+
+class Appointment extends DataClass implements Insertable<Appointment> {
+  final String id;
+  final String patientId;
+  final String? doctorId;
+  final String doctorName;
+  final String? clinicId;
+  final String? clinicName;
+  final DateTime appointmentAt;
+  final DateTime? appointmentEndAt;
+  final String reason;
+  final String contactPhone;
+  final String? notes;
+  final String status;
+  final String source;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? cancelledAt;
+  final DateTime? deletedAt;
+  final DateTime? lastSyncedAt;
+  const Appointment({
+    required this.id,
+    required this.patientId,
+    this.doctorId,
+    required this.doctorName,
+    this.clinicId,
+    this.clinicName,
+    required this.appointmentAt,
+    this.appointmentEndAt,
+    required this.reason,
+    required this.contactPhone,
+    this.notes,
+    required this.status,
+    required this.source,
+    required this.createdAt,
+    required this.updatedAt,
+    this.cancelledAt,
+    this.deletedAt,
+    this.lastSyncedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['patient_id'] = Variable<String>(patientId);
+    if (!nullToAbsent || doctorId != null) {
+      map['doctor_id'] = Variable<String>(doctorId);
+    }
+    map['doctor_name'] = Variable<String>(doctorName);
+    if (!nullToAbsent || clinicId != null) {
+      map['clinic_id'] = Variable<String>(clinicId);
+    }
+    if (!nullToAbsent || clinicName != null) {
+      map['clinic_name'] = Variable<String>(clinicName);
+    }
+    map['appointment_at'] = Variable<DateTime>(appointmentAt);
+    if (!nullToAbsent || appointmentEndAt != null) {
+      map['appointment_end_at'] = Variable<DateTime>(appointmentEndAt);
+    }
+    map['reason'] = Variable<String>(reason);
+    map['contact_phone'] = Variable<String>(contactPhone);
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    map['status'] = Variable<String>(status);
+    map['source'] = Variable<String>(source);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || cancelledAt != null) {
+      map['cancelled_at'] = Variable<DateTime>(cancelledAt);
+    }
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    if (!nullToAbsent || lastSyncedAt != null) {
+      map['last_synced_at'] = Variable<DateTime>(lastSyncedAt);
+    }
+    return map;
+  }
+
+  AppointmentsCompanion toCompanion(bool nullToAbsent) {
+    return AppointmentsCompanion(
+      id: Value(id),
+      patientId: Value(patientId),
+      doctorId: doctorId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(doctorId),
+      doctorName: Value(doctorName),
+      clinicId: clinicId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(clinicId),
+      clinicName: clinicName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(clinicName),
+      appointmentAt: Value(appointmentAt),
+      appointmentEndAt: appointmentEndAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(appointmentEndAt),
+      reason: Value(reason),
+      contactPhone: Value(contactPhone),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+      status: Value(status),
+      source: Value(source),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      cancelledAt: cancelledAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(cancelledAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      lastSyncedAt: lastSyncedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastSyncedAt),
+    );
+  }
+
+  factory Appointment.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Appointment(
+      id: serializer.fromJson<String>(json['id']),
+      patientId: serializer.fromJson<String>(json['patientId']),
+      doctorId: serializer.fromJson<String?>(json['doctorId']),
+      doctorName: serializer.fromJson<String>(json['doctorName']),
+      clinicId: serializer.fromJson<String?>(json['clinicId']),
+      clinicName: serializer.fromJson<String?>(json['clinicName']),
+      appointmentAt: serializer.fromJson<DateTime>(json['appointmentAt']),
+      appointmentEndAt: serializer.fromJson<DateTime?>(
+        json['appointmentEndAt'],
+      ),
+      reason: serializer.fromJson<String>(json['reason']),
+      contactPhone: serializer.fromJson<String>(json['contactPhone']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      status: serializer.fromJson<String>(json['status']),
+      source: serializer.fromJson<String>(json['source']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      cancelledAt: serializer.fromJson<DateTime?>(json['cancelledAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      lastSyncedAt: serializer.fromJson<DateTime?>(json['lastSyncedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'patientId': serializer.toJson<String>(patientId),
+      'doctorId': serializer.toJson<String?>(doctorId),
+      'doctorName': serializer.toJson<String>(doctorName),
+      'clinicId': serializer.toJson<String?>(clinicId),
+      'clinicName': serializer.toJson<String?>(clinicName),
+      'appointmentAt': serializer.toJson<DateTime>(appointmentAt),
+      'appointmentEndAt': serializer.toJson<DateTime?>(appointmentEndAt),
+      'reason': serializer.toJson<String>(reason),
+      'contactPhone': serializer.toJson<String>(contactPhone),
+      'notes': serializer.toJson<String?>(notes),
+      'status': serializer.toJson<String>(status),
+      'source': serializer.toJson<String>(source),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'cancelledAt': serializer.toJson<DateTime?>(cancelledAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'lastSyncedAt': serializer.toJson<DateTime?>(lastSyncedAt),
+    };
+  }
+
+  Appointment copyWith({
+    String? id,
+    String? patientId,
+    Value<String?> doctorId = const Value.absent(),
+    String? doctorName,
+    Value<String?> clinicId = const Value.absent(),
+    Value<String?> clinicName = const Value.absent(),
+    DateTime? appointmentAt,
+    Value<DateTime?> appointmentEndAt = const Value.absent(),
+    String? reason,
+    String? contactPhone,
+    Value<String?> notes = const Value.absent(),
+    String? status,
+    String? source,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> cancelledAt = const Value.absent(),
+    Value<DateTime?> deletedAt = const Value.absent(),
+    Value<DateTime?> lastSyncedAt = const Value.absent(),
+  }) => Appointment(
+    id: id ?? this.id,
+    patientId: patientId ?? this.patientId,
+    doctorId: doctorId.present ? doctorId.value : this.doctorId,
+    doctorName: doctorName ?? this.doctorName,
+    clinicId: clinicId.present ? clinicId.value : this.clinicId,
+    clinicName: clinicName.present ? clinicName.value : this.clinicName,
+    appointmentAt: appointmentAt ?? this.appointmentAt,
+    appointmentEndAt: appointmentEndAt.present
+        ? appointmentEndAt.value
+        : this.appointmentEndAt,
+    reason: reason ?? this.reason,
+    contactPhone: contactPhone ?? this.contactPhone,
+    notes: notes.present ? notes.value : this.notes,
+    status: status ?? this.status,
+    source: source ?? this.source,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    cancelledAt: cancelledAt.present ? cancelledAt.value : this.cancelledAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    lastSyncedAt: lastSyncedAt.present ? lastSyncedAt.value : this.lastSyncedAt,
+  );
+  Appointment copyWithCompanion(AppointmentsCompanion data) {
+    return Appointment(
+      id: data.id.present ? data.id.value : this.id,
+      patientId: data.patientId.present ? data.patientId.value : this.patientId,
+      doctorId: data.doctorId.present ? data.doctorId.value : this.doctorId,
+      doctorName: data.doctorName.present
+          ? data.doctorName.value
+          : this.doctorName,
+      clinicId: data.clinicId.present ? data.clinicId.value : this.clinicId,
+      clinicName: data.clinicName.present
+          ? data.clinicName.value
+          : this.clinicName,
+      appointmentAt: data.appointmentAt.present
+          ? data.appointmentAt.value
+          : this.appointmentAt,
+      appointmentEndAt: data.appointmentEndAt.present
+          ? data.appointmentEndAt.value
+          : this.appointmentEndAt,
+      reason: data.reason.present ? data.reason.value : this.reason,
+      contactPhone: data.contactPhone.present
+          ? data.contactPhone.value
+          : this.contactPhone,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      status: data.status.present ? data.status.value : this.status,
+      source: data.source.present ? data.source.value : this.source,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      cancelledAt: data.cancelledAt.present
+          ? data.cancelledAt.value
+          : this.cancelledAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      lastSyncedAt: data.lastSyncedAt.present
+          ? data.lastSyncedAt.value
+          : this.lastSyncedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Appointment(')
+          ..write('id: $id, ')
+          ..write('patientId: $patientId, ')
+          ..write('doctorId: $doctorId, ')
+          ..write('doctorName: $doctorName, ')
+          ..write('clinicId: $clinicId, ')
+          ..write('clinicName: $clinicName, ')
+          ..write('appointmentAt: $appointmentAt, ')
+          ..write('appointmentEndAt: $appointmentEndAt, ')
+          ..write('reason: $reason, ')
+          ..write('contactPhone: $contactPhone, ')
+          ..write('notes: $notes, ')
+          ..write('status: $status, ')
+          ..write('source: $source, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('cancelledAt: $cancelledAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('lastSyncedAt: $lastSyncedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    patientId,
+    doctorId,
+    doctorName,
+    clinicId,
+    clinicName,
+    appointmentAt,
+    appointmentEndAt,
+    reason,
+    contactPhone,
+    notes,
+    status,
+    source,
+    createdAt,
+    updatedAt,
+    cancelledAt,
+    deletedAt,
+    lastSyncedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Appointment &&
+          other.id == this.id &&
+          other.patientId == this.patientId &&
+          other.doctorId == this.doctorId &&
+          other.doctorName == this.doctorName &&
+          other.clinicId == this.clinicId &&
+          other.clinicName == this.clinicName &&
+          other.appointmentAt == this.appointmentAt &&
+          other.appointmentEndAt == this.appointmentEndAt &&
+          other.reason == this.reason &&
+          other.contactPhone == this.contactPhone &&
+          other.notes == this.notes &&
+          other.status == this.status &&
+          other.source == this.source &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.cancelledAt == this.cancelledAt &&
+          other.deletedAt == this.deletedAt &&
+          other.lastSyncedAt == this.lastSyncedAt);
+}
+
+class AppointmentsCompanion extends UpdateCompanion<Appointment> {
+  final Value<String> id;
+  final Value<String> patientId;
+  final Value<String?> doctorId;
+  final Value<String> doctorName;
+  final Value<String?> clinicId;
+  final Value<String?> clinicName;
+  final Value<DateTime> appointmentAt;
+  final Value<DateTime?> appointmentEndAt;
+  final Value<String> reason;
+  final Value<String> contactPhone;
+  final Value<String?> notes;
+  final Value<String> status;
+  final Value<String> source;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> cancelledAt;
+  final Value<DateTime?> deletedAt;
+  final Value<DateTime?> lastSyncedAt;
+  final Value<int> rowid;
+  const AppointmentsCompanion({
+    this.id = const Value.absent(),
+    this.patientId = const Value.absent(),
+    this.doctorId = const Value.absent(),
+    this.doctorName = const Value.absent(),
+    this.clinicId = const Value.absent(),
+    this.clinicName = const Value.absent(),
+    this.appointmentAt = const Value.absent(),
+    this.appointmentEndAt = const Value.absent(),
+    this.reason = const Value.absent(),
+    this.contactPhone = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.status = const Value.absent(),
+    this.source = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.cancelledAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.lastSyncedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  AppointmentsCompanion.insert({
+    required String id,
+    required String patientId,
+    this.doctorId = const Value.absent(),
+    required String doctorName,
+    this.clinicId = const Value.absent(),
+    this.clinicName = const Value.absent(),
+    required DateTime appointmentAt,
+    this.appointmentEndAt = const Value.absent(),
+    required String reason,
+    required String contactPhone,
+    this.notes = const Value.absent(),
+    required String status,
+    required String source,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.cancelledAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.lastSyncedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       patientId = Value(patientId),
+       doctorName = Value(doctorName),
+       appointmentAt = Value(appointmentAt),
+       reason = Value(reason),
+       contactPhone = Value(contactPhone),
+       status = Value(status),
+       source = Value(source),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<Appointment> custom({
+    Expression<String>? id,
+    Expression<String>? patientId,
+    Expression<String>? doctorId,
+    Expression<String>? doctorName,
+    Expression<String>? clinicId,
+    Expression<String>? clinicName,
+    Expression<DateTime>? appointmentAt,
+    Expression<DateTime>? appointmentEndAt,
+    Expression<String>? reason,
+    Expression<String>? contactPhone,
+    Expression<String>? notes,
+    Expression<String>? status,
+    Expression<String>? source,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? cancelledAt,
+    Expression<DateTime>? deletedAt,
+    Expression<DateTime>? lastSyncedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (patientId != null) 'patient_id': patientId,
+      if (doctorId != null) 'doctor_id': doctorId,
+      if (doctorName != null) 'doctor_name': doctorName,
+      if (clinicId != null) 'clinic_id': clinicId,
+      if (clinicName != null) 'clinic_name': clinicName,
+      if (appointmentAt != null) 'appointment_at': appointmentAt,
+      if (appointmentEndAt != null) 'appointment_end_at': appointmentEndAt,
+      if (reason != null) 'reason': reason,
+      if (contactPhone != null) 'contact_phone': contactPhone,
+      if (notes != null) 'notes': notes,
+      if (status != null) 'status': status,
+      if (source != null) 'source': source,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (cancelledAt != null) 'cancelled_at': cancelledAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (lastSyncedAt != null) 'last_synced_at': lastSyncedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  AppointmentsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? patientId,
+    Value<String?>? doctorId,
+    Value<String>? doctorName,
+    Value<String?>? clinicId,
+    Value<String?>? clinicName,
+    Value<DateTime>? appointmentAt,
+    Value<DateTime?>? appointmentEndAt,
+    Value<String>? reason,
+    Value<String>? contactPhone,
+    Value<String?>? notes,
+    Value<String>? status,
+    Value<String>? source,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? cancelledAt,
+    Value<DateTime?>? deletedAt,
+    Value<DateTime?>? lastSyncedAt,
+    Value<int>? rowid,
+  }) {
+    return AppointmentsCompanion(
+      id: id ?? this.id,
+      patientId: patientId ?? this.patientId,
+      doctorId: doctorId ?? this.doctorId,
+      doctorName: doctorName ?? this.doctorName,
+      clinicId: clinicId ?? this.clinicId,
+      clinicName: clinicName ?? this.clinicName,
+      appointmentAt: appointmentAt ?? this.appointmentAt,
+      appointmentEndAt: appointmentEndAt ?? this.appointmentEndAt,
+      reason: reason ?? this.reason,
+      contactPhone: contactPhone ?? this.contactPhone,
+      notes: notes ?? this.notes,
+      status: status ?? this.status,
+      source: source ?? this.source,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      cancelledAt: cancelledAt ?? this.cancelledAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      lastSyncedAt: lastSyncedAt ?? this.lastSyncedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (patientId.present) {
+      map['patient_id'] = Variable<String>(patientId.value);
+    }
+    if (doctorId.present) {
+      map['doctor_id'] = Variable<String>(doctorId.value);
+    }
+    if (doctorName.present) {
+      map['doctor_name'] = Variable<String>(doctorName.value);
+    }
+    if (clinicId.present) {
+      map['clinic_id'] = Variable<String>(clinicId.value);
+    }
+    if (clinicName.present) {
+      map['clinic_name'] = Variable<String>(clinicName.value);
+    }
+    if (appointmentAt.present) {
+      map['appointment_at'] = Variable<DateTime>(appointmentAt.value);
+    }
+    if (appointmentEndAt.present) {
+      map['appointment_end_at'] = Variable<DateTime>(appointmentEndAt.value);
+    }
+    if (reason.present) {
+      map['reason'] = Variable<String>(reason.value);
+    }
+    if (contactPhone.present) {
+      map['contact_phone'] = Variable<String>(contactPhone.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (source.present) {
+      map['source'] = Variable<String>(source.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (cancelledAt.present) {
+      map['cancelled_at'] = Variable<DateTime>(cancelledAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (lastSyncedAt.present) {
+      map['last_synced_at'] = Variable<DateTime>(lastSyncedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AppointmentsCompanion(')
+          ..write('id: $id, ')
+          ..write('patientId: $patientId, ')
+          ..write('doctorId: $doctorId, ')
+          ..write('doctorName: $doctorName, ')
+          ..write('clinicId: $clinicId, ')
+          ..write('clinicName: $clinicName, ')
+          ..write('appointmentAt: $appointmentAt, ')
+          ..write('appointmentEndAt: $appointmentEndAt, ')
+          ..write('reason: $reason, ')
+          ..write('contactPhone: $contactPhone, ')
+          ..write('notes: $notes, ')
+          ..write('status: $status, ')
+          ..write('source: $source, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('cancelledAt: $cancelledAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('lastSyncedAt: $lastSyncedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CachedUserTable extends CachedUser
+    with TableInfo<$CachedUserTable, CachedUserData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CachedUserTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _firebaseUidMeta = const VerificationMeta(
+    'firebaseUid',
+  );
+  @override
+  late final GeneratedColumn<String> firebaseUid = GeneratedColumn<String>(
+    'firebase_uid',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _emailMeta = const VerificationMeta('email');
+  @override
+  late final GeneratedColumn<String> email = GeneratedColumn<String>(
+    'email',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _emailVerifiedMeta = const VerificationMeta(
+    'emailVerified',
+  );
+  @override
+  late final GeneratedColumn<bool> emailVerified = GeneratedColumn<bool>(
+    'email_verified',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("email_verified" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _authProviderMeta = const VerificationMeta(
+    'authProvider',
+  );
+  @override
+  late final GeneratedColumn<String> authProvider = GeneratedColumn<String>(
+    'auth_provider',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _fullNameMeta = const VerificationMeta(
+    'fullName',
+  );
+  @override
+  late final GeneratedColumn<String> fullName = GeneratedColumn<String>(
+    'full_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _givenNameMeta = const VerificationMeta(
+    'givenName',
+  );
+  @override
+  late final GeneratedColumn<String> givenName = GeneratedColumn<String>(
+    'given_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _familyNameMeta = const VerificationMeta(
+    'familyName',
+  );
+  @override
+  late final GeneratedColumn<String> familyName = GeneratedColumn<String>(
+    'family_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _photoUrlMeta = const VerificationMeta(
+    'photoUrl',
+  );
+  @override
+  late final GeneratedColumn<String> photoUrl = GeneratedColumn<String>(
+    'photo_url',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _phoneMeta = const VerificationMeta('phone');
+  @override
+  late final GeneratedColumn<String> phone = GeneratedColumn<String>(
+    'phone',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _roleMeta = const VerificationMeta('role');
+  @override
+  late final GeneratedColumn<String> role = GeneratedColumn<String>(
+    'role',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _isOnboardedMeta = const VerificationMeta(
+    'isOnboarded',
+  );
+  @override
+  late final GeneratedColumn<bool> isOnboarded = GeneratedColumn<bool>(
+    'is_onboarded',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_onboarded" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lastLoginAtMeta = const VerificationMeta(
+    'lastLoginAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastLoginAt = GeneratedColumn<DateTime>(
+    'last_login_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _lastSyncedAtMeta = const VerificationMeta(
+    'lastSyncedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastSyncedAt = GeneratedColumn<DateTime>(
+    'last_synced_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    firebaseUid,
+    email,
+    emailVerified,
+    authProvider,
+    fullName,
+    givenName,
+    familyName,
+    photoUrl,
+    phone,
+    role,
+    isActive,
+    isOnboarded,
+    createdAt,
+    updatedAt,
+    lastLoginAt,
+    lastSyncedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'cached_user';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CachedUserData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('firebase_uid')) {
+      context.handle(
+        _firebaseUidMeta,
+        firebaseUid.isAcceptableOrUnknown(
+          data['firebase_uid']!,
+          _firebaseUidMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_firebaseUidMeta);
+    }
+    if (data.containsKey('email')) {
+      context.handle(
+        _emailMeta,
+        email.isAcceptableOrUnknown(data['email']!, _emailMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_emailMeta);
+    }
+    if (data.containsKey('email_verified')) {
+      context.handle(
+        _emailVerifiedMeta,
+        emailVerified.isAcceptableOrUnknown(
+          data['email_verified']!,
+          _emailVerifiedMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_emailVerifiedMeta);
+    }
+    if (data.containsKey('auth_provider')) {
+      context.handle(
+        _authProviderMeta,
+        authProvider.isAcceptableOrUnknown(
+          data['auth_provider']!,
+          _authProviderMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_authProviderMeta);
+    }
+    if (data.containsKey('full_name')) {
+      context.handle(
+        _fullNameMeta,
+        fullName.isAcceptableOrUnknown(data['full_name']!, _fullNameMeta),
+      );
+    }
+    if (data.containsKey('given_name')) {
+      context.handle(
+        _givenNameMeta,
+        givenName.isAcceptableOrUnknown(data['given_name']!, _givenNameMeta),
+      );
+    }
+    if (data.containsKey('family_name')) {
+      context.handle(
+        _familyNameMeta,
+        familyName.isAcceptableOrUnknown(data['family_name']!, _familyNameMeta),
+      );
+    }
+    if (data.containsKey('photo_url')) {
+      context.handle(
+        _photoUrlMeta,
+        photoUrl.isAcceptableOrUnknown(data['photo_url']!, _photoUrlMeta),
+      );
+    }
+    if (data.containsKey('phone')) {
+      context.handle(
+        _phoneMeta,
+        phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta),
+      );
+    }
+    if (data.containsKey('role')) {
+      context.handle(
+        _roleMeta,
+        role.isAcceptableOrUnknown(data['role']!, _roleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_roleMeta);
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_isActiveMeta);
+    }
+    if (data.containsKey('is_onboarded')) {
+      context.handle(
+        _isOnboardedMeta,
+        isOnboarded.isAcceptableOrUnknown(
+          data['is_onboarded']!,
+          _isOnboardedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('last_login_at')) {
+      context.handle(
+        _lastLoginAtMeta,
+        lastLoginAt.isAcceptableOrUnknown(
+          data['last_login_at']!,
+          _lastLoginAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('last_synced_at')) {
+      context.handle(
+        _lastSyncedAtMeta,
+        lastSyncedAt.isAcceptableOrUnknown(
+          data['last_synced_at']!,
+          _lastSyncedAtMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CachedUserData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CachedUserData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      firebaseUid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}firebase_uid'],
+      )!,
+      email: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}email'],
+      )!,
+      emailVerified: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}email_verified'],
+      )!,
+      authProvider: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}auth_provider'],
+      )!,
+      fullName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}full_name'],
+      ),
+      givenName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}given_name'],
+      ),
+      familyName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}family_name'],
+      ),
+      photoUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}photo_url'],
+      ),
+      phone: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}phone'],
+      ),
+      role: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}role'],
+      )!,
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
+      isOnboarded: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_onboarded'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      lastLoginAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_login_at'],
+      ),
+      lastSyncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_synced_at'],
+      ),
+    );
+  }
+
+  @override
+  $CachedUserTable createAlias(String alias) {
+    return $CachedUserTable(attachedDatabase, alias);
+  }
+}
+
+class CachedUserData extends DataClass implements Insertable<CachedUserData> {
+  final String id;
+  final String firebaseUid;
+  final String email;
+  final bool emailVerified;
+  final String authProvider;
+  final String? fullName;
+  final String? givenName;
+  final String? familyName;
+  final String? photoUrl;
+  final String? phone;
+  final String role;
+  final bool isActive;
+  final bool isOnboarded;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? lastLoginAt;
+  final DateTime? lastSyncedAt;
+  const CachedUserData({
+    required this.id,
+    required this.firebaseUid,
+    required this.email,
+    required this.emailVerified,
+    required this.authProvider,
+    this.fullName,
+    this.givenName,
+    this.familyName,
+    this.photoUrl,
+    this.phone,
+    required this.role,
+    required this.isActive,
+    required this.isOnboarded,
+    required this.createdAt,
+    required this.updatedAt,
+    this.lastLoginAt,
+    this.lastSyncedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['firebase_uid'] = Variable<String>(firebaseUid);
+    map['email'] = Variable<String>(email);
+    map['email_verified'] = Variable<bool>(emailVerified);
+    map['auth_provider'] = Variable<String>(authProvider);
+    if (!nullToAbsent || fullName != null) {
+      map['full_name'] = Variable<String>(fullName);
+    }
+    if (!nullToAbsent || givenName != null) {
+      map['given_name'] = Variable<String>(givenName);
+    }
+    if (!nullToAbsent || familyName != null) {
+      map['family_name'] = Variable<String>(familyName);
+    }
+    if (!nullToAbsent || photoUrl != null) {
+      map['photo_url'] = Variable<String>(photoUrl);
+    }
+    if (!nullToAbsent || phone != null) {
+      map['phone'] = Variable<String>(phone);
+    }
+    map['role'] = Variable<String>(role);
+    map['is_active'] = Variable<bool>(isActive);
+    map['is_onboarded'] = Variable<bool>(isOnboarded);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || lastLoginAt != null) {
+      map['last_login_at'] = Variable<DateTime>(lastLoginAt);
+    }
+    if (!nullToAbsent || lastSyncedAt != null) {
+      map['last_synced_at'] = Variable<DateTime>(lastSyncedAt);
+    }
+    return map;
+  }
+
+  CachedUserCompanion toCompanion(bool nullToAbsent) {
+    return CachedUserCompanion(
+      id: Value(id),
+      firebaseUid: Value(firebaseUid),
+      email: Value(email),
+      emailVerified: Value(emailVerified),
+      authProvider: Value(authProvider),
+      fullName: fullName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fullName),
+      givenName: givenName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(givenName),
+      familyName: familyName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(familyName),
+      photoUrl: photoUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(photoUrl),
+      phone: phone == null && nullToAbsent
+          ? const Value.absent()
+          : Value(phone),
+      role: Value(role),
+      isActive: Value(isActive),
+      isOnboarded: Value(isOnboarded),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      lastLoginAt: lastLoginAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastLoginAt),
+      lastSyncedAt: lastSyncedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastSyncedAt),
+    );
+  }
+
+  factory CachedUserData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CachedUserData(
+      id: serializer.fromJson<String>(json['id']),
+      firebaseUid: serializer.fromJson<String>(json['firebaseUid']),
+      email: serializer.fromJson<String>(json['email']),
+      emailVerified: serializer.fromJson<bool>(json['emailVerified']),
+      authProvider: serializer.fromJson<String>(json['authProvider']),
+      fullName: serializer.fromJson<String?>(json['fullName']),
+      givenName: serializer.fromJson<String?>(json['givenName']),
+      familyName: serializer.fromJson<String?>(json['familyName']),
+      photoUrl: serializer.fromJson<String?>(json['photoUrl']),
+      phone: serializer.fromJson<String?>(json['phone']),
+      role: serializer.fromJson<String>(json['role']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      isOnboarded: serializer.fromJson<bool>(json['isOnboarded']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      lastLoginAt: serializer.fromJson<DateTime?>(json['lastLoginAt']),
+      lastSyncedAt: serializer.fromJson<DateTime?>(json['lastSyncedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'firebaseUid': serializer.toJson<String>(firebaseUid),
+      'email': serializer.toJson<String>(email),
+      'emailVerified': serializer.toJson<bool>(emailVerified),
+      'authProvider': serializer.toJson<String>(authProvider),
+      'fullName': serializer.toJson<String?>(fullName),
+      'givenName': serializer.toJson<String?>(givenName),
+      'familyName': serializer.toJson<String?>(familyName),
+      'photoUrl': serializer.toJson<String?>(photoUrl),
+      'phone': serializer.toJson<String?>(phone),
+      'role': serializer.toJson<String>(role),
+      'isActive': serializer.toJson<bool>(isActive),
+      'isOnboarded': serializer.toJson<bool>(isOnboarded),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'lastLoginAt': serializer.toJson<DateTime?>(lastLoginAt),
+      'lastSyncedAt': serializer.toJson<DateTime?>(lastSyncedAt),
+    };
+  }
+
+  CachedUserData copyWith({
+    String? id,
+    String? firebaseUid,
+    String? email,
+    bool? emailVerified,
+    String? authProvider,
+    Value<String?> fullName = const Value.absent(),
+    Value<String?> givenName = const Value.absent(),
+    Value<String?> familyName = const Value.absent(),
+    Value<String?> photoUrl = const Value.absent(),
+    Value<String?> phone = const Value.absent(),
+    String? role,
+    bool? isActive,
+    bool? isOnboarded,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> lastLoginAt = const Value.absent(),
+    Value<DateTime?> lastSyncedAt = const Value.absent(),
+  }) => CachedUserData(
+    id: id ?? this.id,
+    firebaseUid: firebaseUid ?? this.firebaseUid,
+    email: email ?? this.email,
+    emailVerified: emailVerified ?? this.emailVerified,
+    authProvider: authProvider ?? this.authProvider,
+    fullName: fullName.present ? fullName.value : this.fullName,
+    givenName: givenName.present ? givenName.value : this.givenName,
+    familyName: familyName.present ? familyName.value : this.familyName,
+    photoUrl: photoUrl.present ? photoUrl.value : this.photoUrl,
+    phone: phone.present ? phone.value : this.phone,
+    role: role ?? this.role,
+    isActive: isActive ?? this.isActive,
+    isOnboarded: isOnboarded ?? this.isOnboarded,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    lastLoginAt: lastLoginAt.present ? lastLoginAt.value : this.lastLoginAt,
+    lastSyncedAt: lastSyncedAt.present ? lastSyncedAt.value : this.lastSyncedAt,
+  );
+  CachedUserData copyWithCompanion(CachedUserCompanion data) {
+    return CachedUserData(
+      id: data.id.present ? data.id.value : this.id,
+      firebaseUid: data.firebaseUid.present
+          ? data.firebaseUid.value
+          : this.firebaseUid,
+      email: data.email.present ? data.email.value : this.email,
+      emailVerified: data.emailVerified.present
+          ? data.emailVerified.value
+          : this.emailVerified,
+      authProvider: data.authProvider.present
+          ? data.authProvider.value
+          : this.authProvider,
+      fullName: data.fullName.present ? data.fullName.value : this.fullName,
+      givenName: data.givenName.present ? data.givenName.value : this.givenName,
+      familyName: data.familyName.present
+          ? data.familyName.value
+          : this.familyName,
+      photoUrl: data.photoUrl.present ? data.photoUrl.value : this.photoUrl,
+      phone: data.phone.present ? data.phone.value : this.phone,
+      role: data.role.present ? data.role.value : this.role,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+      isOnboarded: data.isOnboarded.present
+          ? data.isOnboarded.value
+          : this.isOnboarded,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      lastLoginAt: data.lastLoginAt.present
+          ? data.lastLoginAt.value
+          : this.lastLoginAt,
+      lastSyncedAt: data.lastSyncedAt.present
+          ? data.lastSyncedAt.value
+          : this.lastSyncedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CachedUserData(')
+          ..write('id: $id, ')
+          ..write('firebaseUid: $firebaseUid, ')
+          ..write('email: $email, ')
+          ..write('emailVerified: $emailVerified, ')
+          ..write('authProvider: $authProvider, ')
+          ..write('fullName: $fullName, ')
+          ..write('givenName: $givenName, ')
+          ..write('familyName: $familyName, ')
+          ..write('photoUrl: $photoUrl, ')
+          ..write('phone: $phone, ')
+          ..write('role: $role, ')
+          ..write('isActive: $isActive, ')
+          ..write('isOnboarded: $isOnboarded, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('lastLoginAt: $lastLoginAt, ')
+          ..write('lastSyncedAt: $lastSyncedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    firebaseUid,
+    email,
+    emailVerified,
+    authProvider,
+    fullName,
+    givenName,
+    familyName,
+    photoUrl,
+    phone,
+    role,
+    isActive,
+    isOnboarded,
+    createdAt,
+    updatedAt,
+    lastLoginAt,
+    lastSyncedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CachedUserData &&
+          other.id == this.id &&
+          other.firebaseUid == this.firebaseUid &&
+          other.email == this.email &&
+          other.emailVerified == this.emailVerified &&
+          other.authProvider == this.authProvider &&
+          other.fullName == this.fullName &&
+          other.givenName == this.givenName &&
+          other.familyName == this.familyName &&
+          other.photoUrl == this.photoUrl &&
+          other.phone == this.phone &&
+          other.role == this.role &&
+          other.isActive == this.isActive &&
+          other.isOnboarded == this.isOnboarded &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.lastLoginAt == this.lastLoginAt &&
+          other.lastSyncedAt == this.lastSyncedAt);
+}
+
+class CachedUserCompanion extends UpdateCompanion<CachedUserData> {
+  final Value<String> id;
+  final Value<String> firebaseUid;
+  final Value<String> email;
+  final Value<bool> emailVerified;
+  final Value<String> authProvider;
+  final Value<String?> fullName;
+  final Value<String?> givenName;
+  final Value<String?> familyName;
+  final Value<String?> photoUrl;
+  final Value<String?> phone;
+  final Value<String> role;
+  final Value<bool> isActive;
+  final Value<bool> isOnboarded;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> lastLoginAt;
+  final Value<DateTime?> lastSyncedAt;
+  final Value<int> rowid;
+  const CachedUserCompanion({
+    this.id = const Value.absent(),
+    this.firebaseUid = const Value.absent(),
+    this.email = const Value.absent(),
+    this.emailVerified = const Value.absent(),
+    this.authProvider = const Value.absent(),
+    this.fullName = const Value.absent(),
+    this.givenName = const Value.absent(),
+    this.familyName = const Value.absent(),
+    this.photoUrl = const Value.absent(),
+    this.phone = const Value.absent(),
+    this.role = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.isOnboarded = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.lastLoginAt = const Value.absent(),
+    this.lastSyncedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CachedUserCompanion.insert({
+    required String id,
+    required String firebaseUid,
+    required String email,
+    required bool emailVerified,
+    required String authProvider,
+    this.fullName = const Value.absent(),
+    this.givenName = const Value.absent(),
+    this.familyName = const Value.absent(),
+    this.photoUrl = const Value.absent(),
+    this.phone = const Value.absent(),
+    required String role,
+    required bool isActive,
+    this.isOnboarded = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.lastLoginAt = const Value.absent(),
+    this.lastSyncedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       firebaseUid = Value(firebaseUid),
+       email = Value(email),
+       emailVerified = Value(emailVerified),
+       authProvider = Value(authProvider),
+       role = Value(role),
+       isActive = Value(isActive),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<CachedUserData> custom({
+    Expression<String>? id,
+    Expression<String>? firebaseUid,
+    Expression<String>? email,
+    Expression<bool>? emailVerified,
+    Expression<String>? authProvider,
+    Expression<String>? fullName,
+    Expression<String>? givenName,
+    Expression<String>? familyName,
+    Expression<String>? photoUrl,
+    Expression<String>? phone,
+    Expression<String>? role,
+    Expression<bool>? isActive,
+    Expression<bool>? isOnboarded,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? lastLoginAt,
+    Expression<DateTime>? lastSyncedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (firebaseUid != null) 'firebase_uid': firebaseUid,
+      if (email != null) 'email': email,
+      if (emailVerified != null) 'email_verified': emailVerified,
+      if (authProvider != null) 'auth_provider': authProvider,
+      if (fullName != null) 'full_name': fullName,
+      if (givenName != null) 'given_name': givenName,
+      if (familyName != null) 'family_name': familyName,
+      if (photoUrl != null) 'photo_url': photoUrl,
+      if (phone != null) 'phone': phone,
+      if (role != null) 'role': role,
+      if (isActive != null) 'is_active': isActive,
+      if (isOnboarded != null) 'is_onboarded': isOnboarded,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (lastLoginAt != null) 'last_login_at': lastLoginAt,
+      if (lastSyncedAt != null) 'last_synced_at': lastSyncedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CachedUserCompanion copyWith({
+    Value<String>? id,
+    Value<String>? firebaseUid,
+    Value<String>? email,
+    Value<bool>? emailVerified,
+    Value<String>? authProvider,
+    Value<String?>? fullName,
+    Value<String?>? givenName,
+    Value<String?>? familyName,
+    Value<String?>? photoUrl,
+    Value<String?>? phone,
+    Value<String>? role,
+    Value<bool>? isActive,
+    Value<bool>? isOnboarded,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? lastLoginAt,
+    Value<DateTime?>? lastSyncedAt,
+    Value<int>? rowid,
+  }) {
+    return CachedUserCompanion(
+      id: id ?? this.id,
+      firebaseUid: firebaseUid ?? this.firebaseUid,
+      email: email ?? this.email,
+      emailVerified: emailVerified ?? this.emailVerified,
+      authProvider: authProvider ?? this.authProvider,
+      fullName: fullName ?? this.fullName,
+      givenName: givenName ?? this.givenName,
+      familyName: familyName ?? this.familyName,
+      photoUrl: photoUrl ?? this.photoUrl,
+      phone: phone ?? this.phone,
+      role: role ?? this.role,
+      isActive: isActive ?? this.isActive,
+      isOnboarded: isOnboarded ?? this.isOnboarded,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      lastLoginAt: lastLoginAt ?? this.lastLoginAt,
+      lastSyncedAt: lastSyncedAt ?? this.lastSyncedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (firebaseUid.present) {
+      map['firebase_uid'] = Variable<String>(firebaseUid.value);
+    }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    if (emailVerified.present) {
+      map['email_verified'] = Variable<bool>(emailVerified.value);
+    }
+    if (authProvider.present) {
+      map['auth_provider'] = Variable<String>(authProvider.value);
+    }
+    if (fullName.present) {
+      map['full_name'] = Variable<String>(fullName.value);
+    }
+    if (givenName.present) {
+      map['given_name'] = Variable<String>(givenName.value);
+    }
+    if (familyName.present) {
+      map['family_name'] = Variable<String>(familyName.value);
+    }
+    if (photoUrl.present) {
+      map['photo_url'] = Variable<String>(photoUrl.value);
+    }
+    if (phone.present) {
+      map['phone'] = Variable<String>(phone.value);
+    }
+    if (role.present) {
+      map['role'] = Variable<String>(role.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (isOnboarded.present) {
+      map['is_onboarded'] = Variable<bool>(isOnboarded.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (lastLoginAt.present) {
+      map['last_login_at'] = Variable<DateTime>(lastLoginAt.value);
+    }
+    if (lastSyncedAt.present) {
+      map['last_synced_at'] = Variable<DateTime>(lastSyncedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CachedUserCompanion(')
+          ..write('id: $id, ')
+          ..write('firebaseUid: $firebaseUid, ')
+          ..write('email: $email, ')
+          ..write('emailVerified: $emailVerified, ')
+          ..write('authProvider: $authProvider, ')
+          ..write('fullName: $fullName, ')
+          ..write('givenName: $givenName, ')
+          ..write('familyName: $familyName, ')
+          ..write('photoUrl: $photoUrl, ')
+          ..write('phone: $phone, ')
+          ..write('role: $role, ')
+          ..write('isActive: $isActive, ')
+          ..write('isOnboarded: $isOnboarded, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('lastLoginAt: $lastLoginAt, ')
+          ..write('lastSyncedAt: $lastSyncedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -1788,6 +3799,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $CurrentLocationTable currentLocation = $CurrentLocationTable(
     this,
   );
+  late final $AppointmentsTable appointments = $AppointmentsTable(this);
+  late final $CachedUserTable cachedUser = $CachedUserTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1797,6 +3810,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     savedAddresses,
     recentLocations,
     currentLocation,
+    appointments,
+    cachedUser,
   ];
 }
 
@@ -2760,6 +4775,909 @@ typedef $$CurrentLocationTableProcessedTableManager =
       CurrentLocationData,
       PrefetchHooks Function()
     >;
+typedef $$AppointmentsTableCreateCompanionBuilder =
+    AppointmentsCompanion Function({
+      required String id,
+      required String patientId,
+      Value<String?> doctorId,
+      required String doctorName,
+      Value<String?> clinicId,
+      Value<String?> clinicName,
+      required DateTime appointmentAt,
+      Value<DateTime?> appointmentEndAt,
+      required String reason,
+      required String contactPhone,
+      Value<String?> notes,
+      required String status,
+      required String source,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<DateTime?> cancelledAt,
+      Value<DateTime?> deletedAt,
+      Value<DateTime?> lastSyncedAt,
+      Value<int> rowid,
+    });
+typedef $$AppointmentsTableUpdateCompanionBuilder =
+    AppointmentsCompanion Function({
+      Value<String> id,
+      Value<String> patientId,
+      Value<String?> doctorId,
+      Value<String> doctorName,
+      Value<String?> clinicId,
+      Value<String?> clinicName,
+      Value<DateTime> appointmentAt,
+      Value<DateTime?> appointmentEndAt,
+      Value<String> reason,
+      Value<String> contactPhone,
+      Value<String?> notes,
+      Value<String> status,
+      Value<String> source,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> cancelledAt,
+      Value<DateTime?> deletedAt,
+      Value<DateTime?> lastSyncedAt,
+      Value<int> rowid,
+    });
+
+class $$AppointmentsTableFilterComposer
+    extends Composer<_$AppDatabase, $AppointmentsTable> {
+  $$AppointmentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get patientId => $composableBuilder(
+    column: $table.patientId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get doctorId => $composableBuilder(
+    column: $table.doctorId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get doctorName => $composableBuilder(
+    column: $table.doctorName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get clinicId => $composableBuilder(
+    column: $table.clinicId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get clinicName => $composableBuilder(
+    column: $table.clinicName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get appointmentAt => $composableBuilder(
+    column: $table.appointmentAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get appointmentEndAt => $composableBuilder(
+    column: $table.appointmentEndAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get reason => $composableBuilder(
+    column: $table.reason,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contactPhone => $composableBuilder(
+    column: $table.contactPhone,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get cancelledAt => $composableBuilder(
+    column: $table.cancelledAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastSyncedAt => $composableBuilder(
+    column: $table.lastSyncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$AppointmentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $AppointmentsTable> {
+  $$AppointmentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get patientId => $composableBuilder(
+    column: $table.patientId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get doctorId => $composableBuilder(
+    column: $table.doctorId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get doctorName => $composableBuilder(
+    column: $table.doctorName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get clinicId => $composableBuilder(
+    column: $table.clinicId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get clinicName => $composableBuilder(
+    column: $table.clinicName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get appointmentAt => $composableBuilder(
+    column: $table.appointmentAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get appointmentEndAt => $composableBuilder(
+    column: $table.appointmentEndAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get reason => $composableBuilder(
+    column: $table.reason,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contactPhone => $composableBuilder(
+    column: $table.contactPhone,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get cancelledAt => $composableBuilder(
+    column: $table.cancelledAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastSyncedAt => $composableBuilder(
+    column: $table.lastSyncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$AppointmentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AppointmentsTable> {
+  $$AppointmentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get patientId =>
+      $composableBuilder(column: $table.patientId, builder: (column) => column);
+
+  GeneratedColumn<String> get doctorId =>
+      $composableBuilder(column: $table.doctorId, builder: (column) => column);
+
+  GeneratedColumn<String> get doctorName => $composableBuilder(
+    column: $table.doctorName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get clinicId =>
+      $composableBuilder(column: $table.clinicId, builder: (column) => column);
+
+  GeneratedColumn<String> get clinicName => $composableBuilder(
+    column: $table.clinicName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get appointmentAt => $composableBuilder(
+    column: $table.appointmentAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get appointmentEndAt => $composableBuilder(
+    column: $table.appointmentEndAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get reason =>
+      $composableBuilder(column: $table.reason, builder: (column) => column);
+
+  GeneratedColumn<String> get contactPhone => $composableBuilder(
+    column: $table.contactPhone,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get source =>
+      $composableBuilder(column: $table.source, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get cancelledAt => $composableBuilder(
+    column: $table.cancelledAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastSyncedAt => $composableBuilder(
+    column: $table.lastSyncedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$AppointmentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $AppointmentsTable,
+          Appointment,
+          $$AppointmentsTableFilterComposer,
+          $$AppointmentsTableOrderingComposer,
+          $$AppointmentsTableAnnotationComposer,
+          $$AppointmentsTableCreateCompanionBuilder,
+          $$AppointmentsTableUpdateCompanionBuilder,
+          (
+            Appointment,
+            BaseReferences<_$AppDatabase, $AppointmentsTable, Appointment>,
+          ),
+          Appointment,
+          PrefetchHooks Function()
+        > {
+  $$AppointmentsTableTableManager(_$AppDatabase db, $AppointmentsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AppointmentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AppointmentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AppointmentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> patientId = const Value.absent(),
+                Value<String?> doctorId = const Value.absent(),
+                Value<String> doctorName = const Value.absent(),
+                Value<String?> clinicId = const Value.absent(),
+                Value<String?> clinicName = const Value.absent(),
+                Value<DateTime> appointmentAt = const Value.absent(),
+                Value<DateTime?> appointmentEndAt = const Value.absent(),
+                Value<String> reason = const Value.absent(),
+                Value<String> contactPhone = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String> source = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> cancelledAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<DateTime?> lastSyncedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => AppointmentsCompanion(
+                id: id,
+                patientId: patientId,
+                doctorId: doctorId,
+                doctorName: doctorName,
+                clinicId: clinicId,
+                clinicName: clinicName,
+                appointmentAt: appointmentAt,
+                appointmentEndAt: appointmentEndAt,
+                reason: reason,
+                contactPhone: contactPhone,
+                notes: notes,
+                status: status,
+                source: source,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                cancelledAt: cancelledAt,
+                deletedAt: deletedAt,
+                lastSyncedAt: lastSyncedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String patientId,
+                Value<String?> doctorId = const Value.absent(),
+                required String doctorName,
+                Value<String?> clinicId = const Value.absent(),
+                Value<String?> clinicName = const Value.absent(),
+                required DateTime appointmentAt,
+                Value<DateTime?> appointmentEndAt = const Value.absent(),
+                required String reason,
+                required String contactPhone,
+                Value<String?> notes = const Value.absent(),
+                required String status,
+                required String source,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> cancelledAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<DateTime?> lastSyncedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => AppointmentsCompanion.insert(
+                id: id,
+                patientId: patientId,
+                doctorId: doctorId,
+                doctorName: doctorName,
+                clinicId: clinicId,
+                clinicName: clinicName,
+                appointmentAt: appointmentAt,
+                appointmentEndAt: appointmentEndAt,
+                reason: reason,
+                contactPhone: contactPhone,
+                notes: notes,
+                status: status,
+                source: source,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                cancelledAt: cancelledAt,
+                deletedAt: deletedAt,
+                lastSyncedAt: lastSyncedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$AppointmentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $AppointmentsTable,
+      Appointment,
+      $$AppointmentsTableFilterComposer,
+      $$AppointmentsTableOrderingComposer,
+      $$AppointmentsTableAnnotationComposer,
+      $$AppointmentsTableCreateCompanionBuilder,
+      $$AppointmentsTableUpdateCompanionBuilder,
+      (
+        Appointment,
+        BaseReferences<_$AppDatabase, $AppointmentsTable, Appointment>,
+      ),
+      Appointment,
+      PrefetchHooks Function()
+    >;
+typedef $$CachedUserTableCreateCompanionBuilder =
+    CachedUserCompanion Function({
+      required String id,
+      required String firebaseUid,
+      required String email,
+      required bool emailVerified,
+      required String authProvider,
+      Value<String?> fullName,
+      Value<String?> givenName,
+      Value<String?> familyName,
+      Value<String?> photoUrl,
+      Value<String?> phone,
+      required String role,
+      required bool isActive,
+      Value<bool> isOnboarded,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<DateTime?> lastLoginAt,
+      Value<DateTime?> lastSyncedAt,
+      Value<int> rowid,
+    });
+typedef $$CachedUserTableUpdateCompanionBuilder =
+    CachedUserCompanion Function({
+      Value<String> id,
+      Value<String> firebaseUid,
+      Value<String> email,
+      Value<bool> emailVerified,
+      Value<String> authProvider,
+      Value<String?> fullName,
+      Value<String?> givenName,
+      Value<String?> familyName,
+      Value<String?> photoUrl,
+      Value<String?> phone,
+      Value<String> role,
+      Value<bool> isActive,
+      Value<bool> isOnboarded,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> lastLoginAt,
+      Value<DateTime?> lastSyncedAt,
+      Value<int> rowid,
+    });
+
+class $$CachedUserTableFilterComposer
+    extends Composer<_$AppDatabase, $CachedUserTable> {
+  $$CachedUserTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get firebaseUid => $composableBuilder(
+    column: $table.firebaseUid,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get emailVerified => $composableBuilder(
+    column: $table.emailVerified,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get authProvider => $composableBuilder(
+    column: $table.authProvider,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fullName => $composableBuilder(
+    column: $table.fullName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get givenName => $composableBuilder(
+    column: $table.givenName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get familyName => $composableBuilder(
+    column: $table.familyName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get photoUrl => $composableBuilder(
+    column: $table.photoUrl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get phone => $composableBuilder(
+    column: $table.phone,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get role => $composableBuilder(
+    column: $table.role,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isOnboarded => $composableBuilder(
+    column: $table.isOnboarded,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastLoginAt => $composableBuilder(
+    column: $table.lastLoginAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastSyncedAt => $composableBuilder(
+    column: $table.lastSyncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CachedUserTableOrderingComposer
+    extends Composer<_$AppDatabase, $CachedUserTable> {
+  $$CachedUserTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get firebaseUid => $composableBuilder(
+    column: $table.firebaseUid,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get emailVerified => $composableBuilder(
+    column: $table.emailVerified,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get authProvider => $composableBuilder(
+    column: $table.authProvider,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fullName => $composableBuilder(
+    column: $table.fullName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get givenName => $composableBuilder(
+    column: $table.givenName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get familyName => $composableBuilder(
+    column: $table.familyName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get photoUrl => $composableBuilder(
+    column: $table.photoUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get phone => $composableBuilder(
+    column: $table.phone,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get role => $composableBuilder(
+    column: $table.role,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isOnboarded => $composableBuilder(
+    column: $table.isOnboarded,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastLoginAt => $composableBuilder(
+    column: $table.lastLoginAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastSyncedAt => $composableBuilder(
+    column: $table.lastSyncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CachedUserTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CachedUserTable> {
+  $$CachedUserTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get firebaseUid => $composableBuilder(
+    column: $table.firebaseUid,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get email =>
+      $composableBuilder(column: $table.email, builder: (column) => column);
+
+  GeneratedColumn<bool> get emailVerified => $composableBuilder(
+    column: $table.emailVerified,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get authProvider => $composableBuilder(
+    column: $table.authProvider,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get fullName =>
+      $composableBuilder(column: $table.fullName, builder: (column) => column);
+
+  GeneratedColumn<String> get givenName =>
+      $composableBuilder(column: $table.givenName, builder: (column) => column);
+
+  GeneratedColumn<String> get familyName => $composableBuilder(
+    column: $table.familyName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get photoUrl =>
+      $composableBuilder(column: $table.photoUrl, builder: (column) => column);
+
+  GeneratedColumn<String> get phone =>
+      $composableBuilder(column: $table.phone, builder: (column) => column);
+
+  GeneratedColumn<String> get role =>
+      $composableBuilder(column: $table.role, builder: (column) => column);
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+
+  GeneratedColumn<bool> get isOnboarded => $composableBuilder(
+    column: $table.isOnboarded,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastLoginAt => $composableBuilder(
+    column: $table.lastLoginAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get lastSyncedAt => $composableBuilder(
+    column: $table.lastSyncedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$CachedUserTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CachedUserTable,
+          CachedUserData,
+          $$CachedUserTableFilterComposer,
+          $$CachedUserTableOrderingComposer,
+          $$CachedUserTableAnnotationComposer,
+          $$CachedUserTableCreateCompanionBuilder,
+          $$CachedUserTableUpdateCompanionBuilder,
+          (
+            CachedUserData,
+            BaseReferences<_$AppDatabase, $CachedUserTable, CachedUserData>,
+          ),
+          CachedUserData,
+          PrefetchHooks Function()
+        > {
+  $$CachedUserTableTableManager(_$AppDatabase db, $CachedUserTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CachedUserTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CachedUserTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CachedUserTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> firebaseUid = const Value.absent(),
+                Value<String> email = const Value.absent(),
+                Value<bool> emailVerified = const Value.absent(),
+                Value<String> authProvider = const Value.absent(),
+                Value<String?> fullName = const Value.absent(),
+                Value<String?> givenName = const Value.absent(),
+                Value<String?> familyName = const Value.absent(),
+                Value<String?> photoUrl = const Value.absent(),
+                Value<String?> phone = const Value.absent(),
+                Value<String> role = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<bool> isOnboarded = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> lastLoginAt = const Value.absent(),
+                Value<DateTime?> lastSyncedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CachedUserCompanion(
+                id: id,
+                firebaseUid: firebaseUid,
+                email: email,
+                emailVerified: emailVerified,
+                authProvider: authProvider,
+                fullName: fullName,
+                givenName: givenName,
+                familyName: familyName,
+                photoUrl: photoUrl,
+                phone: phone,
+                role: role,
+                isActive: isActive,
+                isOnboarded: isOnboarded,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                lastLoginAt: lastLoginAt,
+                lastSyncedAt: lastSyncedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String firebaseUid,
+                required String email,
+                required bool emailVerified,
+                required String authProvider,
+                Value<String?> fullName = const Value.absent(),
+                Value<String?> givenName = const Value.absent(),
+                Value<String?> familyName = const Value.absent(),
+                Value<String?> photoUrl = const Value.absent(),
+                Value<String?> phone = const Value.absent(),
+                required String role,
+                required bool isActive,
+                Value<bool> isOnboarded = const Value.absent(),
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> lastLoginAt = const Value.absent(),
+                Value<DateTime?> lastSyncedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CachedUserCompanion.insert(
+                id: id,
+                firebaseUid: firebaseUid,
+                email: email,
+                emailVerified: emailVerified,
+                authProvider: authProvider,
+                fullName: fullName,
+                givenName: givenName,
+                familyName: familyName,
+                photoUrl: photoUrl,
+                phone: phone,
+                role: role,
+                isActive: isActive,
+                isOnboarded: isOnboarded,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                lastLoginAt: lastLoginAt,
+                lastSyncedAt: lastSyncedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CachedUserTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CachedUserTable,
+      CachedUserData,
+      $$CachedUserTableFilterComposer,
+      $$CachedUserTableOrderingComposer,
+      $$CachedUserTableAnnotationComposer,
+      $$CachedUserTableCreateCompanionBuilder,
+      $$CachedUserTableUpdateCompanionBuilder,
+      (
+        CachedUserData,
+        BaseReferences<_$AppDatabase, $CachedUserTable, CachedUserData>,
+      ),
+      CachedUserData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -2772,4 +5690,8 @@ class $AppDatabaseManager {
       $$RecentLocationsTableTableManager(_db, _db.recentLocations);
   $$CurrentLocationTableTableManager get currentLocation =>
       $$CurrentLocationTableTableManager(_db, _db.currentLocation);
+  $$AppointmentsTableTableManager get appointments =>
+      $$AppointmentsTableTableManager(_db, _db.appointments);
+  $$CachedUserTableTableManager get cachedUser =>
+      $$CachedUserTableTableManager(_db, _db.cachedUser);
 }

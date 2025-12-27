@@ -5,54 +5,51 @@ part 'user_model.g.dart';
 @JsonSerializable()
 class UserModel {
   final String id;
+  @JsonKey(name: 'firebase_uid')
+  final String firebaseUid;
   final String email;
-  @JsonKey(name: 'display_name')
-  final String? displayName;
+  @JsonKey(name: 'email_verified')
+  final bool emailVerified;
+  @JsonKey(name: 'auth_provider')
+  final String authProvider;
+  @JsonKey(name: 'full_name')
+  final String? fullName;
+  @JsonKey(name: 'given_name')
+  final String? givenName;
+  @JsonKey(name: 'family_name')
+  final String? familyName;
   @JsonKey(name: 'photo_url')
   final String? photoUrl;
-  @JsonKey(name: 'phone_number')
-  final String? phoneNumber;
-  @JsonKey(name: 'date_of_birth')
-  final String? dateOfBirth;
-  final String? gender;
-  final String? address;
-  final String? city;
-  final String? state;
-  @JsonKey(name: 'postal_code')
-  final String? postalCode;
-  @JsonKey(name: 'emergency_contact')
-  final String? emergencyContact;
-  @JsonKey(name: 'blood_group')
-  final String? bloodGroup;
-  final List<String>? allergies;
-  @JsonKey(name: 'medical_conditions')
-  final List<String>? medicalConditions;
+  final String? phone;
+  final String role;
+  @JsonKey(name: 'is_active')
+  final bool isActive;
   @JsonKey(name: 'is_onboarded')
   final bool isOnboarded;
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
   @JsonKey(name: 'updated_at')
   final DateTime updatedAt;
+  @JsonKey(name: 'last_login_at')
+  final DateTime? lastLoginAt;
 
   UserModel({
     required this.id,
+    required this.firebaseUid,
     required this.email,
-    this.displayName,
+    required this.emailVerified,
+    required this.authProvider,
+    this.fullName,
+    this.givenName,
+    this.familyName,
     this.photoUrl,
-    this.phoneNumber,
-    this.dateOfBirth,
-    this.gender,
-    this.address,
-    this.city,
-    this.state,
-    this.postalCode,
-    this.emergencyContact,
-    this.bloodGroup,
-    this.allergies,
-    this.medicalConditions,
+    this.phone,
+    required this.role,
+    required this.isActive,
     required this.isOnboarded,
     required this.createdAt,
     required this.updatedAt,
+    this.lastLoginAt,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -63,39 +60,22 @@ class UserModel {
 
 @JsonSerializable()
 class UserUpdateRequest {
-  @JsonKey(name: 'display_name')
-  final String? displayName;
-  @JsonKey(name: 'phone_number')
-  final String? phoneNumber;
-  @JsonKey(name: 'date_of_birth')
-  final String? dateOfBirth;
-  final String? gender;
-  final String? address;
-  final String? city;
-  final String? state;
-  @JsonKey(name: 'postal_code')
-  final String? postalCode;
-  @JsonKey(name: 'emergency_contact')
-  final String? emergencyContact;
-  @JsonKey(name: 'blood_group')
-  final String? bloodGroup;
-  final List<String>? allergies;
-  @JsonKey(name: 'medical_conditions')
-  final List<String>? medicalConditions;
+  @JsonKey(name: 'full_name')
+  final String? fullName;
+  @JsonKey(name: 'given_name')
+  final String? givenName;
+  @JsonKey(name: 'family_name')
+  final String? familyName;
+  @JsonKey(name: 'photo_url')
+  final String? photoUrl;
+  final String? phone;
 
   UserUpdateRequest({
-    this.displayName,
-    this.phoneNumber,
-    this.dateOfBirth,
-    this.gender,
-    this.address,
-    this.city,
-    this.state,
-    this.postalCode,
-    this.emergencyContact,
-    this.bloodGroup,
-    this.allergies,
-    this.medicalConditions,
+    this.fullName,
+    this.givenName,
+    this.familyName,
+    this.photoUrl,
+    this.phone,
   });
 
   factory UserUpdateRequest.fromJson(Map<String, dynamic> json) =>

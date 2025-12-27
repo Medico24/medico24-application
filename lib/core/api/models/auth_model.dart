@@ -27,9 +27,10 @@ class LoginResponse {
 
 @JsonSerializable()
 class GoogleAuthRequest {
-  final String code;
+  @JsonKey(name: 'id_token')
+  final String idToken;
 
-  GoogleAuthRequest({required this.code});
+  GoogleAuthRequest({required this.idToken});
 
   factory GoogleAuthRequest.fromJson(Map<String, dynamic> json) =>
       _$GoogleAuthRequestFromJson(json);
