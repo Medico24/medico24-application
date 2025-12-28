@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -17,8 +20,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
     }
 
     defaultConfig {
@@ -30,6 +35,17 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        
+        // Google Maps API Key - read from local.properties
+        val localPropertiesFile = rootProject.file("local.properties")
+        val localProperties = Properties()
+        if (localPropertiesFile.exists()) {
+            FileInputStream(localPropertiesFile).use { stream ->
+                localProperties.load(stream)
+            }
+        }
+        val googleMapsApiKey = localProperties.getProperty("GOOGLE_MAPS_API_KEY", "")
+        manifestPlaceholders["GOOGLE_MAPS_API_KEY"] = googleMapsApiKey
     }
 
     buildTypes {
