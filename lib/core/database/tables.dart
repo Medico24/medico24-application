@@ -39,3 +39,52 @@ class CurrentLocation extends Table {
   RealColumn get longitude => real().nullable()();
   DateTimeColumn get updatedAt => dateTime()();
 }
+
+class Appointments extends Table {
+  TextColumn get id => text()(); // Server-generated UUID
+  TextColumn get patientId => text()();
+  TextColumn get doctorId => text().nullable()();
+  TextColumn get doctorName => text()();
+  TextColumn get clinicId => text().nullable()();
+  TextColumn get clinicName => text().nullable()();
+  DateTimeColumn get appointmentAt => dateTime()();
+  DateTimeColumn get appointmentEndAt => dateTime().nullable()();
+  TextColumn get reason => text()();
+  TextColumn get contactPhone => text()();
+  TextColumn get notes => text().nullable()();
+  TextColumn get status =>
+      text()(); // scheduled, confirmed, rescheduled, cancelled, completed, no_show
+  TextColumn get source =>
+      text()(); // patient_app, doctor_app, admin_panel, api
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+  DateTimeColumn get cancelledAt => dateTime().nullable()();
+  DateTimeColumn get deletedAt => dateTime().nullable()();
+  DateTimeColumn get lastSyncedAt => dateTime().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+class CachedUser extends Table {
+  TextColumn get id => text()();
+  TextColumn get firebaseUid => text()();
+  TextColumn get email => text()();
+  BoolColumn get emailVerified => boolean()();
+  TextColumn get authProvider => text()();
+  TextColumn get fullName => text().nullable()();
+  TextColumn get givenName => text().nullable()();
+  TextColumn get familyName => text().nullable()();
+  TextColumn get photoUrl => text().nullable()();
+  TextColumn get phone => text().nullable()();
+  TextColumn get role => text()();
+  BoolColumn get isActive => boolean()();
+  BoolColumn get isOnboarded => boolean().withDefault(const Constant(false))();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+  DateTimeColumn get lastLoginAt => dateTime().nullable()();
+  DateTimeColumn get lastSyncedAt => dateTime().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
