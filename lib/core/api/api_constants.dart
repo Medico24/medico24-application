@@ -34,6 +34,16 @@ class ApiConstants {
   static String appointmentStatus(String id) =>
       '$apiVersion/appointments/$id/status';
 
+  // Pharmacies
+  static const String pharmacies = '$apiVersion/pharmacies';
+  static String pharmacy(String id) => '$apiVersion/pharmacies/$id';
+  static const String pharmaciesNearby = '$apiVersion/pharmacies/search/nearby';
+  static String pharmacyLocation(String id) =>
+      '$apiVersion/pharmacies/$id/location';
+  static String pharmacyHours(String id) => '$apiVersion/pharmacies/$id/hours';
+  static String pharmacyHoursDay(String id, int day) =>
+      '$apiVersion/pharmacies/$id/hours/$day';
+
   // Headers
   static const String contentType = 'application/json';
   static const String authorization = 'Authorization';

@@ -2,9 +2,11 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'api/dio_client.dart';
 import 'api/services/appointment_api_service.dart';
 import 'api/services/auth_api_service.dart';
+import 'api/services/pharmacy_api_service.dart';
 import 'api/services/user_api_service.dart';
 import 'database/database.dart';
 import 'repositories/appointment_repository.dart';
+import 'repositories/pharmacy_repository.dart';
 import 'repositories/user_repository.dart';
 
 class ServiceLocator {
@@ -18,8 +20,10 @@ class ServiceLocator {
   late final AuthApiService _authApiService;
   late final UserApiService _userApiService;
   late final AppointmentApiService _appointmentApiService;
+  late final PharmacyApiService _pharmacyApiService;
   late final UserRepository _userRepository;
   late final AppointmentRepository _appointmentRepository;
+  late final PharmacyRepository _pharmacyRepository;
 
   void init() {
     _secureStorage = const FlutterSecureStorage();
@@ -29,12 +33,14 @@ class ServiceLocator {
     _authApiService = AuthApiService(dio);
     _userApiService = UserApiService(dio);
     _appointmentApiService = AppointmentApiService(dio);
+    _pharmacyApiService = PharmacyApiService();
 
     _userRepository = UserRepository(_userApiService, _database);
     _appointmentRepository = AppointmentRepository(
       _appointmentApiService,
       _database,
     );
+    _pharmacyRepository = PharmacyRepository(_pharmacyApiService);
   }
 
   FlutterSecureStorage get secureStorage => _secureStorage;
@@ -42,8 +48,10 @@ class ServiceLocator {
   AuthApiService get authApi => _authApiService;
   UserApiService get userApi => _userApiService;
   AppointmentApiService get appointmentApi => _appointmentApiService;
+  PharmacyApiService get pharmacyApi => _pharmacyApiService;
   UserRepository get userRepository => _userRepository;
   AppointmentRepository get appointmentRepository => _appointmentRepository;
+  PharmacyRepository get pharmacyRepository => _pharmacyRepository;
 }
 
 // Global instance
