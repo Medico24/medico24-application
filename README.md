@@ -56,6 +56,11 @@ Medico24 is a modern healthcare application that brings medical services to your
 - **Flutter SVG** 2.0.14
 - Material 3 Design System
 
+### Maps & Location
+- **Google Maps Flutter** 2.6.0 - Interactive maps with enterprise patterns
+- **Geolocator** 10.1.0 - Device location services
+- **HTTP** 1.2.0 - Google Maps API integration
+
 ### Utilities
 - **Permission Handler** 11.3.1 - Location and other permissions
 - **Flutter Dotenv** 5.2.1 - Environment variable management
@@ -96,8 +101,9 @@ For detailed setup instructions, please see [CONTRIBUTING.md](CONTRIBUTING.md).
    dart run build_runner build
    ```
 
-4. **Configure Firebase**
-   - Create `.env` file with Firebase credentials
+4. **Configure Firebase & Google Maps**
+   - Create `.env` file with Firebase credentials and Google Maps API key
+   - See [GOOGLE_MAPS_SETUP.md](GOOGLE_MAPS_SETUP.md) for detailed Google Maps setup
    - Add your `google-services.json` (Android) and `GoogleService-Info.plist` (iOS)
 
 5. **Run the app**
