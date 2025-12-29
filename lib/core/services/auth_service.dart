@@ -98,6 +98,22 @@ class AuthService {
     }
   }
 
+  // Get current Firebase ID token (useful for manual refresh or debugging)
+  Future<String?> getCurrentFirebaseToken({bool forceRefresh = false}) async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        _logger.w('No current user, cannot get Firebase token');
+        return null;
+      }
+
+      return await user.getIdToken(forceRefresh);
+    } catch (e) {
+      _logger.e('Error getting Firebase ID token', error: e);
+      return null;
+    }
+  }
+
   // Sign out
   Future<void> signOut() async {
     try {
