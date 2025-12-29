@@ -4,6 +4,7 @@ import 'package:medico24/core/database/database.dart';
 import 'package:medico24/core/theme/app_colors.dart';
 import 'tabs/appointments_tab.dart';
 import 'tabs/default_tab_content.dart';
+import 'tabs/pharmacy_tab.dart';
 import 'widgets/home_top_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -214,6 +215,11 @@ class _HomeScreenState extends State<HomeScreen> {
     // Appointments tab
     if (index == 1) {
       return AppointmentsTab(scrollController: scrollController);
+    }
+
+    // Pharmacy tab
+    if (index == 3) {
+      return PharmacyTabContent(scrollController: scrollController);
     }
 
     // Default content for other tabs
