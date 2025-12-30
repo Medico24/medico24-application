@@ -60,11 +60,12 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
           'Fetched current location: lat=$_userLatitude, lng=$_userLongitude',
         );
 
-        // Save to database for future use
+        // Save to database for future use, preserving existing location details
+        final existingLocation = await _database.getCurrentLocation();
         await _database.updateCurrentLocation(
-          title: 'Current Location',
-          address: 'Current Location',
-          city: '',
+          title: existingLocation?.title ?? 'Current Location',
+          address: existingLocation?.address ?? 'Current Location',
+          city: existingLocation?.city ?? '',
           latitude: _userLatitude!,
           longitude: _userLongitude!,
         );

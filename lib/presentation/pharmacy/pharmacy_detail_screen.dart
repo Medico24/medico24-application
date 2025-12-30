@@ -438,16 +438,46 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
       return const SizedBox.shrink();
     }
 
+    final openingMessage = _getOpeningMessage();
+    final currentDay = DateTime.now().weekday;
+    final nextOpeningDay = _getNextOpeningDay();
+
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Opening Time',
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Opening Time',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              if (openingMessage != null)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: _pharmacy!.isOpen
+                        ? AppColors.teal.withValues(alpha: 0.1)
+                        : AppColors.red.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    openingMessage,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: _pharmacy!.isOpen ? AppColors.teal : AppColors.red,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+            ],
           ),
           const SizedBox(height: 12),
           Container(
@@ -459,9 +489,29 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
             ),
             child: Column(
               children: _pharmacy!.hours!.map((hours) {
-                final isToday = hours.dayOfWeek == DateTime.now().weekday;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                final isToday = hours.dayOfWeek == currentDay;
+                final isNextOpeningDay = hours.dayOfWeek == nextOpeningDay;
+                final shouldHighlight = isToday || isNextOpeningDay;
+
+                Color bgColor = Colors.transparent;
+                if (isToday && _pharmacy!.isOpen) {
+                  bgColor = AppColors.teal.withValues(alpha: 0.05);
+                } else if (isToday && !_pharmacy!.isOpen) {
+                  bgColor = AppColors.grey.withValues(alpha: 0.05);
+                } else if (isNextOpeningDay) {
+                  bgColor = AppColors.red.withValues(alpha: 0.05);
+                }
+
+                return Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 8,
+                  ),
+                  margin: const EdgeInsets.only(bottom: 4),
+                  decoration: BoxDecoration(
+                    color: bgColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   child: Row(
                     children: [
                       SizedBox(
@@ -470,10 +520,12 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
                           hours.dayName,
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
-                                fontWeight: isToday
+                                fontWeight: shouldHighlight
                                     ? FontWeight.bold
                                     : FontWeight.normal,
-                                color: isToday ? AppColors.red : AppColors.coal,
+                                color: shouldHighlight
+                                    ? AppColors.coal
+                                    : AppColors.coal,
                               ),
                         ),
                       ),
@@ -485,14 +537,12 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
                               : '${_formatTime(hours.openTime)} - ${_formatTime(hours.closeTime)}',
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
-                                fontWeight: isToday
+                                fontWeight: shouldHighlight
                                     ? FontWeight.bold
                                     : FontWeight.normal,
                                 color: hours.isClosed
                                     ? AppColors.grey
-                                    : (isToday
-                                          ? AppColors.red
-                                          : AppColors.coal),
+                                    : AppColors.coal,
                               ),
                         ),
                       ),
@@ -514,6 +564,156 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
     final period = hour >= 12 ? 'PM' : 'AM';
     final displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
     return '$displayHour:$minute $period';
+  }
+
+  String? _getOpeningMessage() {
+    if (_pharmacy!.hours == null || _pharmacy!.hours!.isEmpty) return null;
+
+    final now = DateTime.now();
+    final currentDay = now.weekday;
+    final currentTime = TimeOfDay.now();
+
+    // Check if open today
+    final todayHours = _pharmacy!.hours!.firstWhere(
+      (h) => h.dayOfWeek == currentDay,
+      orElse: () => PharmacyHoursModel(
+        id: '',
+        pharmacyId: '',
+        dayOfWeek: currentDay,
+        openTime: '00:00:00',
+        closeTime: '00:00:00',
+        isClosed: true,
+      ),
+    );
+
+    if (!todayHours.isClosed) {
+      final openParts = todayHours.openTime.split(':');
+      final closeParts = todayHours.closeTime.split(':');
+      final openTime = TimeOfDay(
+        hour: int.parse(openParts[0]),
+        minute: int.parse(openParts[1]),
+      );
+      final closeTime = TimeOfDay(
+        hour: int.parse(closeParts[0]),
+        minute: int.parse(closeParts[1]),
+      );
+
+      final currentMinutes = currentTime.hour * 60 + currentTime.minute;
+      final openMinutes = openTime.hour * 60 + openTime.minute;
+      final closeMinutes = closeTime.hour * 60 + closeTime.minute;
+
+      if (currentMinutes >= openMinutes && currentMinutes < closeMinutes) {
+        // Currently open - show closing time
+        final minutesUntilClose = closeMinutes - currentMinutes;
+        final hours = minutesUntilClose ~/ 60;
+        final minutes = minutesUntilClose % 60;
+        if (hours > 0) {
+          return 'Closes in $hours hour${hours > 1 ? 's' : ''} ${minutes > 0 ? '$minutes min' : ''}';
+        } else {
+          return 'Closes in $minutes minute${minutes > 1 ? 's' : ''}';
+        }
+      } else if (currentMinutes < openMinutes) {
+        // Opens later today
+        final minutesUntilOpen = openMinutes - currentMinutes;
+        final hours = minutesUntilOpen ~/ 60;
+        final minutes = minutesUntilOpen % 60;
+        if (hours > 0) {
+          return 'Opens in $hours hour${hours > 1 ? 's' : ''} ${minutes > 0 ? '$minutes min' : ''}';
+        } else {
+          return 'Opens in $minutes minute${minutes > 1 ? 's' : ''}';
+        }
+      }
+    }
+
+    // Find next opening day
+    for (int i = 1; i <= 7; i++) {
+      final nextDay = ((currentDay - 1 + i) % 7) + 1;
+      final nextDayHours = _pharmacy!.hours!.firstWhere(
+        (h) => h.dayOfWeek == nextDay,
+        orElse: () => PharmacyHoursModel(
+          id: '',
+          pharmacyId: '',
+          dayOfWeek: nextDay,
+          openTime: '00:00:00',
+          closeTime: '00:00:00',
+          isClosed: true,
+        ),
+      );
+
+      if (!nextDayHours.isClosed) {
+        final openParts = nextDayHours.openTime.split(':');
+        final openTime = TimeOfDay(
+          hour: int.parse(openParts[0]),
+          minute: int.parse(openParts[1]),
+        );
+
+        if (i == 1) {
+          return 'Opens tomorrow at ${_formatTime(nextDayHours.openTime)}';
+        } else {
+          return 'Opens on ${nextDayHours.dayName} at ${_formatTime(nextDayHours.openTime)}';
+        }
+      }
+    }
+
+    return null;
+  }
+
+  int? _getNextOpeningDay() {
+    if (_pharmacy!.hours == null || _pharmacy!.hours!.isEmpty) return null;
+
+    final now = DateTime.now();
+    final currentDay = now.weekday;
+    final currentTime = TimeOfDay.now();
+
+    // Check if open today
+    final todayHours = _pharmacy!.hours!.firstWhere(
+      (h) => h.dayOfWeek == currentDay,
+      orElse: () => PharmacyHoursModel(
+        id: '',
+        pharmacyId: '',
+        dayOfWeek: currentDay,
+        openTime: '00:00:00',
+        closeTime: '00:00:00',
+        isClosed: true,
+      ),
+    );
+
+    if (!todayHours.isClosed) {
+      final openParts = todayHours.openTime.split(':');
+      final openTime = TimeOfDay(
+        hour: int.parse(openParts[0]),
+        minute: int.parse(openParts[1]),
+      );
+
+      final currentMinutes = currentTime.hour * 60 + currentTime.minute;
+      final openMinutes = openTime.hour * 60 + openTime.minute;
+
+      if (currentMinutes < openMinutes) {
+        return null; // Opens later today, no need to highlight next day
+      }
+    }
+
+    // Find next opening day
+    for (int i = 1; i <= 7; i++) {
+      final nextDay = ((currentDay - 1 + i) % 7) + 1;
+      final nextDayHours = _pharmacy!.hours!.firstWhere(
+        (h) => h.dayOfWeek == nextDay,
+        orElse: () => PharmacyHoursModel(
+          id: '',
+          pharmacyId: '',
+          dayOfWeek: nextDay,
+          openTime: '00:00:00',
+          closeTime: '00:00:00',
+          isClosed: true,
+        ),
+      );
+
+      if (!nextDayHours.isClosed) {
+        return nextDay;
+      }
+    }
+
+    return null;
   }
 
   Widget _buildFeatureChip({
