@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:medico24/core/api/models/pharmacy_model.dart';
 import 'package:medico24/core/api/services/pharmacy_api_service.dart';
 import 'package:medico24/core/database/database.dart';
 import 'package:medico24/core/repositories/pharmacy_repository.dart';
+import 'package:medico24/core/services/location_service.dart';
 import 'package:medico24/core/theme/app_colors.dart';
 import 'package:medico24/presentation/pharmacy/pharmacy_detail_screen.dart';
 import 'package:medico24/presentation/pharmacy/pharmacy_list_screen.dart';
@@ -17,6 +19,7 @@ class PharmacyTabContent extends StatefulWidget {
 }
 
 class _PharmacyTabContentState extends State<PharmacyTabContent> {
+  final Logger _logger = Logger();
   final PharmacyRepository _pharmacyRepository = PharmacyRepository(
     PharmacyApiService(),
   );
@@ -26,6 +29,8 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
   bool _isLoading = true;
   String? _errorMessage;
   CurrentLocationData? _currentLocation;
+  double? _userLatitude;
+  double? _userLongitude;
 
   @override
   void initState() {
@@ -46,40 +51,47 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
     });
 
     try {
-      // Load current location
-      final location = await _database.getCurrentLocation();
-      setState(() {
-        _currentLocation = location;
-      });
-
-      // Load nearby pharmacies if location is available
-      if (location != null &&
-          location.latitude != null &&
-          location.longitude != null) {
-        final pharmacies = await _pharmacyRepository.searchNearbyPharmacies(
-          latitude: location.latitude!,
-          longitude: location.longitude!,
-          radiusKm: 10,
-          limit: 5,
-          isActive: true,
+      // Try to get current location from device
+      try {
+        final position = await LocationService.getCurrentLocation();
+        _userLatitude = position.latitude;
+        _userLongitude = position.longitude;
+        _logger.d(
+          'Fetched current location: lat=$_userLatitude, lng=$_userLongitude',
         );
 
-        setState(() {
-          _nearbyPharmacies = pharmacies;
-          _isLoading = false;
-        });
-      } else {
-        // Load general pharmacies if no location
-        final pharmacies = await _pharmacyRepository.getPharmacies(
-          limit: 5,
-          isActive: true,
+        // Save to database for future use
+        await _database.updateCurrentLocation(
+          title: 'Current Location',
+          address: 'Current Location',
+          city: '',
+          latitude: _userLatitude!,
+          longitude: _userLongitude!,
         );
-
-        setState(() {
-          _nearbyPharmacies = pharmacies;
-          _isLoading = false;
-        });
+      } catch (e) {
+        _logger.w('Failed to get current location: $e');
+        // Fallback to database location
+        final location = await _database.getCurrentLocation();
+        _userLatitude = location?.latitude;
+        _userLongitude = location?.longitude;
+        _logger.d(
+          'Using saved location from database: lat=$_userLatitude, lng=$_userLongitude',
+        );
       }
+
+      // Load pharmacies (nearby if location is available, otherwise general list)
+      final pharmacies = await _pharmacyRepository.getPharmacies(
+        limit: 5,
+        latitude: _userLatitude,
+        longitude: _userLongitude,
+        radiusKm: 10,
+        isActive: true,
+      );
+
+      setState(() {
+        _nearbyPharmacies = pharmacies;
+        _isLoading = false;
+      });
     } catch (e) {
       setState(() {
         _errorMessage = 'Failed to load pharmacies';
@@ -89,13 +101,28 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
   }
 
   void _navigateToPharmacyList() {
+    _logger.d('Navigating to pharmacy list - View All (no location filter)');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            PharmacyListScreen(pharmacyRepository: _pharmacyRepository),
+      ),
+    );
+  }
+
+  void _navigateToNearbyPharmacies() {
+    _logger.d(
+      'Navigating to nearby pharmacies with location: lat=$_userLatitude, lng=$_userLongitude',
+    );
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => PharmacyListScreen(
           pharmacyRepository: _pharmacyRepository,
-          userLatitude: _currentLocation?.latitude,
-          userLongitude: _currentLocation?.longitude,
+          userLatitude: _userLatitude,
+          userLongitude: _userLongitude,
+          initialNearbySearch: true,
         ),
       ),
     );
@@ -139,9 +166,9 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
           child: _buildActionCard(
             icon: Icons.near_me,
             title: 'Nearby',
-            subtitle: 'Find close by',
+            subtitle: 'Within <5 km',
             color: AppColors.red,
-            onTap: _navigateToPharmacyList,
+            onTap: _navigateToNearbyPharmacies,
           ),
         ),
         const SizedBox(width: 12),
@@ -157,8 +184,8 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
                 MaterialPageRoute(
                   builder: (context) => PharmacyListScreen(
                     pharmacyRepository: _pharmacyRepository,
-                    userLatitude: _currentLocation?.latitude,
-                    userLongitude: _currentLocation?.longitude,
+                    userLatitude: _userLatitude,
+                    userLongitude: _userLongitude,
                     initialDeliveryFilter: true,
                   ),
                 ),
@@ -223,16 +250,8 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text(
-              _currentLocation != null
-                  ? 'Nearby Pharmacies'
-                  : 'Featured Pharmacies',
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-            ),
             TextButton(
               onPressed: _navigateToPharmacyList,
               child: Text(

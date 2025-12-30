@@ -9,19 +9,27 @@ class PharmacyApiService {
   final Logger _logger = Logger();
 
   /// Get list of pharmacies with optional filters
+  /// If latitude and longitude are provided, returns nearby pharmacies sorted by distance
   Future<List<PharmacyModel>> getPharmacies({
     int skip = 0,
     int limit = 20,
+    double? latitude,
+    double? longitude,
+    double radiusKm = 10.0,
     bool? isActive,
     bool? isVerified,
     bool? supportsDelivery,
     bool? supportsPickup,
   }) async {
     try {
-      final queryParams = <String, dynamic>{
-        'skip': skip,
-        'limit': limit,
-      };
+      final queryParams = <String, dynamic>{'skip': skip, 'limit': limit};
+
+      // Add location parameters if provided (for nearby search)
+      if (latitude != null) queryParams['latitude'] = latitude;
+      if (longitude != null) queryParams['longitude'] = longitude;
+      if (latitude != null && longitude != null) {
+        queryParams['radius_km'] = radiusKm;
+      }
 
       if (isActive != null) queryParams['is_active'] = isActive;
       if (isVerified != null) queryParams['is_verified'] = isVerified;
@@ -122,8 +130,7 @@ class PharmacyApiService {
   }
 
   /// Create a new pharmacy
-  Future<PharmacyModel> createPharmacy(
-      PharmacyCreateRequest pharmacy) async {
+  Future<PharmacyModel> createPharmacy(PharmacyCreateRequest pharmacy) async {
     try {
       _logger.d('Creating pharmacy: ${pharmacy.toJson()}');
 

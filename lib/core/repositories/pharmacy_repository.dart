@@ -9,9 +9,13 @@ class PharmacyRepository {
   PharmacyRepository(this._apiService);
 
   /// Get list of pharmacies with optional filters
+  /// If latitude and longitude are provided, returns nearby pharmacies sorted by distance
   Future<List<PharmacyModel>> getPharmacies({
     int skip = 0,
     int limit = 20,
+    double? latitude,
+    double? longitude,
+    double radiusKm = 10.0,
     bool? isActive,
     bool? isVerified,
     bool? supportsDelivery,
@@ -21,6 +25,9 @@ class PharmacyRepository {
       return await _apiService.getPharmacies(
         skip: skip,
         limit: limit,
+        latitude: latitude,
+        longitude: longitude,
+        radiusKm: radiusKm,
         isActive: isActive,
         isVerified: isVerified,
         supportsDelivery: supportsDelivery,

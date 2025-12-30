@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:medico24/core/api/models/pharmacy_model.dart';
 import 'package:medico24/core/repositories/pharmacy_repository.dart';
 import 'package:medico24/core/theme/app_colors.dart';
@@ -11,6 +12,7 @@ class PharmacyListScreen extends StatefulWidget {
   final bool initialDeliveryFilter;
   final bool initialPickupFilter;
   final bool initialVerifiedFilter;
+  final bool initialNearbySearch;
 
   const PharmacyListScreen({
     super.key,
@@ -20,6 +22,7 @@ class PharmacyListScreen extends StatefulWidget {
     this.initialDeliveryFilter = false,
     this.initialPickupFilter = false,
     this.initialVerifiedFilter = false,
+    this.initialNearbySearch = false,
   });
 
   @override
@@ -27,7 +30,10 @@ class PharmacyListScreen extends StatefulWidget {
 }
 
 class _PharmacyListScreenState extends State<PharmacyListScreen> {
+  final Logger _logger = Logger();
+  final TextEditingController _searchController = TextEditingController();
   List<PharmacyModel> _pharmacies = [];
+  List<PharmacyModel> _filteredPharmacies = [];
   bool _isLoading = true;
   bool _isLoadingMore = false;
   String? _errorMessage;
@@ -37,11 +43,11 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
   late bool _showVerifiedOnly;
   late bool _showDeliveryOnly;
   late bool _showPickupOnly;
-  bool _useNearbySearch = false;
-  double _radiusKm = 10.0;
+  late bool _useNearbySearch;
+  double _radiusKm = 5.0;
 
   int _skip = 0;
-  final int _limit = 20;
+  final int _limit = 100;
 
   @override
   void initState() {
@@ -50,6 +56,14 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
     _showVerifiedOnly = widget.initialVerifiedFilter;
     _showDeliveryOnly = widget.initialDeliveryFilter;
     _showPickupOnly = widget.initialPickupFilter;
+    _useNearbySearch = widget.initialNearbySearch;
+
+    // Debug log location data
+    _logger.d('PharmacyListScreen initialized with:');
+    _logger.d('  userLatitude: ${widget.userLatitude}');
+    _logger.d('  userLongitude: ${widget.userLongitude}');
+    _logger.d('  initialNearbySearch: ${widget.initialNearbySearch}');
+
     _loadPharmacies();
     _scrollController.addListener(_onScroll);
   }
@@ -57,6 +71,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -77,35 +92,22 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
     });
 
     try {
-      List<PharmacyModel> pharmacies;
-
-      if (_useNearbySearch &&
-          widget.userLatitude != null &&
-          widget.userLongitude != null) {
-        pharmacies = await widget.pharmacyRepository.searchNearbyPharmacies(
-          latitude: widget.userLatitude!,
-          longitude: widget.userLongitude!,
-          radiusKm: _radiusKm,
-          skip: _skip,
-          limit: _limit,
-          isActive: true,
-          isVerified: _showVerifiedOnly ? true : null,
-          supportsDelivery: _showDeliveryOnly ? true : null,
-          supportsPickup: _showPickupOnly ? true : null,
-        );
-      } else {
-        pharmacies = await widget.pharmacyRepository.getPharmacies(
-          skip: _skip,
-          limit: _limit,
-          isActive: true,
-          isVerified: _showVerifiedOnly ? true : null,
-          supportsDelivery: _showDeliveryOnly ? true : null,
-          supportsPickup: _showPickupOnly ? true : null,
-        );
-      }
+      // Use getPharmacies with optional lat/long
+      final pharmacies = await widget.pharmacyRepository.getPharmacies(
+        skip: _skip,
+        limit: _limit,
+        latitude: widget.userLatitude,
+        longitude: widget.userLongitude,
+        radiusKm: _radiusKm,
+        isActive: true,
+        isVerified: _showVerifiedOnly ? true : null,
+        supportsDelivery: _showDeliveryOnly ? true : null,
+        supportsPickup: _showPickupOnly ? true : null,
+      );
 
       setState(() {
         _pharmacies = pharmacies;
+        _filteredPharmacies = pharmacies;
         _isLoading = false;
       });
     } catch (e) {
@@ -123,32 +125,19 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
 
     try {
       _skip += _limit;
-      List<PharmacyModel> morePharmacies;
 
-      if (_useNearbySearch &&
-          widget.userLatitude != null &&
-          widget.userLongitude != null) {
-        morePharmacies = await widget.pharmacyRepository.searchNearbyPharmacies(
-          latitude: widget.userLatitude!,
-          longitude: widget.userLongitude!,
-          radiusKm: _radiusKm,
-          skip: _skip,
-          limit: _limit,
-          isActive: true,
-          isVerified: _showVerifiedOnly ? true : null,
-          supportsDelivery: _showDeliveryOnly ? true : null,
-          supportsPickup: _showPickupOnly ? true : null,
-        );
-      } else {
-        morePharmacies = await widget.pharmacyRepository.getPharmacies(
-          skip: _skip,
-          limit: _limit,
-          isActive: true,
-          isVerified: _showVerifiedOnly ? true : null,
-          supportsDelivery: _showDeliveryOnly ? true : null,
-          supportsPickup: _showPickupOnly ? true : null,
-        );
-      }
+      // Use getPharmacies with lat/long for nearby search
+      final morePharmacies = await widget.pharmacyRepository.getPharmacies(
+        skip: _skip,
+        limit: _limit,
+        latitude: widget.userLatitude,
+        longitude: widget.userLongitude,
+        radiusKm: _radiusKm,
+        isActive: true,
+        isVerified: _showVerifiedOnly ? true : null,
+        supportsDelivery: _showDeliveryOnly ? true : null,
+        supportsPickup: _showPickupOnly ? true : null,
+      );
 
       setState(() {
         _pharmacies.addAll(morePharmacies);
@@ -159,6 +148,22 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
         _isLoadingMore = false;
       });
     }
+  }
+
+  void _filterPharmacies(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        _filteredPharmacies = _pharmacies;
+      } else {
+        _filteredPharmacies = _pharmacies.where((pharmacy) {
+          final nameLower = pharmacy.name.toLowerCase();
+          final addressLower = pharmacy.fullAddress.toLowerCase();
+          final searchLower = query.toLowerCase();
+          return nameLower.contains(searchLower) ||
+              addressLower.contains(searchLower);
+        }).toList();
+      }
+    });
   }
 
   void _showFiltersBottomSheet() {
@@ -331,26 +336,47 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
     }
 
     if (_errorMessage != null) {
+      final isLocationError = _errorMessage!.contains('Location is required');
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, size: 64, color: AppColors.grey),
-            const SizedBox(height: 16),
-            Text(
-              _errorMessage!,
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
+            Icon(
+              isLocationError ? Icons.location_off : Icons.error_outline,
+              size: 64,
+              color: AppColors.grey,
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _loadPharmacies,
-              style: ElevatedButton.styleFrom(backgroundColor: AppColors.red),
-              child: const Text(
-                'Retry',
-                style: TextStyle(color: AppColors.white),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Text(
+                _errorMessage!,
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
               ),
             ),
+            const SizedBox(height: 16),
+            if (isLocationError)
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: AppColors.red),
+                icon: const Icon(Icons.settings, color: AppColors.white),
+                label: const Text(
+                  'Go Back',
+                  style: TextStyle(color: AppColors.white),
+                ),
+              )
+            else
+              ElevatedButton(
+                onPressed: _loadPharmacies,
+                style: ElevatedButton.styleFrom(backgroundColor: AppColors.red),
+                child: const Text(
+                  'Retry',
+                  style: TextStyle(color: AppColors.white),
+                ),
+              ),
           ],
         ),
       );
@@ -383,27 +409,73 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
       );
     }
 
-    return RefreshIndicator(
-      onRefresh: _loadPharmacies,
-      color: AppColors.red,
-      child: ListView.builder(
-        controller: _scrollController,
-        padding: const EdgeInsets.all(16),
-        itemCount: _pharmacies.length + (_isLoadingMore ? 1 : 0),
-        itemBuilder: (context, index) {
-          if (index == _pharmacies.length) {
-            return const Padding(
-              padding: EdgeInsets.all(16),
-              child: Center(
-                child: CircularProgressIndicator(color: AppColors.red),
+    return Column(
+      children: [
+        // Search bar
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: TextField(
+            controller: _searchController,
+            onChanged: _filterPharmacies,
+            decoration: InputDecoration(
+              hintText: 'Search pharmacies...',
+              prefixIcon: Icon(Icons.search, color: AppColors.grey),
+              suffixIcon: _searchController.text.isNotEmpty
+                  ? IconButton(
+                      icon: Icon(Icons.clear, color: AppColors.grey),
+                      onPressed: () {
+                        _searchController.clear();
+                        _filterPharmacies('');
+                      },
+                    )
+                  : null,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  color: AppColors.grey.withValues(alpha: 0.3),
+                ),
               ),
-            );
-          }
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  color: AppColors.grey.withValues(alpha: 0.3),
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: AppColors.red),
+              ),
+              filled: true,
+              fillColor: AppColors.white,
+            ),
+          ),
+        ),
+        // Pharmacy list
+        Expanded(
+          child: RefreshIndicator(
+            onRefresh: _loadPharmacies,
+            color: AppColors.red,
+            child: ListView.builder(
+              controller: _scrollController,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: _filteredPharmacies.length + (_isLoadingMore ? 1 : 0),
+              itemBuilder: (context, index) {
+                if (index == _filteredPharmacies.length) {
+                  return const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Center(
+                      child: CircularProgressIndicator(color: AppColors.red),
+                    ),
+                  );
+                }
 
-          final pharmacy = _pharmacies[index];
-          return _buildPharmacyCard(pharmacy);
-        },
-      ),
+                final pharmacy = _filteredPharmacies[index];
+                return _buildPharmacyCard(pharmacy);
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 
