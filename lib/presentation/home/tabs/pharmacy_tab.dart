@@ -10,18 +10,16 @@ import 'package:medico24/presentation/pharmacy/pharmacy_list_screen.dart';
 class PharmacyTabContent extends StatefulWidget {
   final ScrollController scrollController;
 
-  const PharmacyTabContent({
-    super.key,
-    required this.scrollController,
-  });
+  const PharmacyTabContent({super.key, required this.scrollController});
 
   @override
   State<PharmacyTabContent> createState() => _PharmacyTabContentState();
 }
 
 class _PharmacyTabContentState extends State<PharmacyTabContent> {
-  final PharmacyRepository _pharmacyRepository =
-      PharmacyRepository(PharmacyApiService());
+  final PharmacyRepository _pharmacyRepository = PharmacyRepository(
+    PharmacyApiService(),
+  );
   final AppDatabase _database = AppDatabase();
 
   List<PharmacyModel> _nearbyPharmacies = [];
@@ -55,7 +53,9 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
       });
 
       // Load nearby pharmacies if location is available
-      if (location != null && location.latitude != null && location.longitude != null) {
+      if (location != null &&
+          location.latitude != null &&
+          location.longitude != null) {
         final pharmacies = await _pharmacyRepository.searchNearbyPharmacies(
           latitude: location.latitude!,
           longitude: location.longitude!,
@@ -159,6 +159,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
                     pharmacyRepository: _pharmacyRepository,
                     userLatitude: _currentLocation?.latitude,
                     userLongitude: _currentLocation?.longitude,
+                    initialDeliveryFilter: true,
                   ),
                 ),
               );
@@ -182,11 +183,9 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: color.withOpacity(0.3),
-          ),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,25 +196,21 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
                 color: color,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
-                icon,
-                color: AppColors.white,
-                size: 24,
-              ),
+              child: Icon(icon, color: AppColors.white, size: 24),
             ),
             const SizedBox(height: 12),
             Text(
               title,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 4),
             Text(
               subtitle,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppColors.grey,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: AppColors.grey),
             ),
           ],
         ),
@@ -234,9 +229,9 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
               _currentLocation != null
                   ? 'Nearby Pharmacies'
                   : 'Featured Pharmacies',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             TextButton(
               onPressed: _navigateToPharmacyList,
@@ -255,9 +250,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
           const Center(
             child: Padding(
               padding: EdgeInsets.all(32),
-              child: CircularProgressIndicator(
-                color: AppColors.red,
-              ),
+              child: CircularProgressIndicator(color: AppColors.red),
             ),
           )
         else if (_errorMessage != null)
@@ -266,11 +259,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
               padding: const EdgeInsets.all(32),
               child: Column(
                 children: [
-                  Icon(
-                    Icons.error_outline,
-                    size: 48,
-                    color: AppColors.grey,
-                  ),
+                  Icon(Icons.error_outline, size: 48, color: AppColors.grey),
                   const SizedBox(height: 16),
                   Text(
                     _errorMessage!,
@@ -310,9 +299,9 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
                   const SizedBox(height: 8),
                   Text(
                     'Try adjusting your location',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppColors.grey,
-                        ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: AppColors.grey),
                   ),
                 ],
               ),
@@ -336,9 +325,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: () => _navigateToPharmacyDetail(pharmacy.id),
         borderRadius: BorderRadius.circular(12),
@@ -353,8 +340,8 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
                     child: Text(
                       pharmacy.name,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   if (pharmacy.isVerified)
@@ -364,16 +351,12 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.blue.withOpacity(0.1),
+                        color: AppColors.blue.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Row(
                         children: [
-                          Icon(
-                            Icons.verified,
-                            size: 14,
-                            color: AppColors.blue,
-                          ),
+                          Icon(Icons.verified, size: 14, color: AppColors.blue),
                           const SizedBox(width: 4),
                           Text(
                             'Verified',
@@ -429,11 +412,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
               Row(
                 children: [
                   if (pharmacy.rating > 0) ...[
-                    Icon(
-                      Icons.star,
-                      size: 16,
-                      color: AppColors.yellow,
-                    ),
+                    Icon(Icons.star, size: 16, color: AppColors.yellow),
                     const SizedBox(width: 4),
                     Text(
                       pharmacy.rating.toStringAsFixed(1),
@@ -448,31 +427,37 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
                     ),
                     decoration: BoxDecoration(
                       color: pharmacy.isOpen
-                          ? AppColors.teal.withOpacity(0.1)
-                          : AppColors.grey.withOpacity(0.1),
+                          ? AppColors.teal.withValues(alpha: 0.1)
+                          : AppColors.grey.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
                       pharmacy.isOpen ? 'Open' : 'Closed',
                       style: TextStyle(
                         fontSize: 12,
-                        color: pharmacy.isOpen ? AppColors.teal : AppColors.grey,
+                        color: pharmacy.isOpen
+                            ? AppColors.teal
+                            : AppColors.grey,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                   const Spacer(),
-                    Icon(
-                      Icons.delivery_dining,
-                      size: 20,
-                      color: pharmacy.supportsDelivery ? AppColors.red : AppColors.grey,
-                    ),
+                  Icon(
+                    Icons.delivery_dining,
+                    size: 20,
+                    color: pharmacy.supportsDelivery
+                        ? AppColors.red
+                        : AppColors.grey,
+                  ),
                   const SizedBox(width: 8),
-                    Icon(
-                      Icons.store,
-                      size: 20,
-                      color: pharmacy.supportsPickup ? AppColors.red : AppColors.grey,
-                    ),
+                  Icon(
+                    Icons.store,
+                    size: 20,
+                    color: pharmacy.supportsPickup
+                        ? AppColors.red
+                        : AppColors.grey,
+                  ),
                 ],
               ),
             ],

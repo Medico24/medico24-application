@@ -8,12 +8,18 @@ class PharmacyListScreen extends StatefulWidget {
   final PharmacyRepository pharmacyRepository;
   final double? userLatitude;
   final double? userLongitude;
+  final bool initialDeliveryFilter;
+  final bool initialPickupFilter;
+  final bool initialVerifiedFilter;
 
   const PharmacyListScreen({
     super.key,
     required this.pharmacyRepository,
     this.userLatitude,
     this.userLongitude,
+    this.initialDeliveryFilter = false,
+    this.initialPickupFilter = false,
+    this.initialVerifiedFilter = false,
   });
 
   @override
@@ -28,9 +34,9 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
   final ScrollController _scrollController = ScrollController();
 
   // Filter states
-  bool _showVerifiedOnly = false;
-  bool _showDeliveryOnly = false;
-  bool _showPickupOnly = false;
+  late bool _showVerifiedOnly;
+  late bool _showDeliveryOnly;
+  late bool _showPickupOnly;
   bool _useNearbySearch = false;
   double _radiusKm = 10.0;
 
@@ -40,6 +46,10 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
   @override
   void initState() {
     super.initState();
+    // Initialize filters from widget parameters
+    _showVerifiedOnly = widget.initialVerifiedFilter;
+    _showDeliveryOnly = widget.initialDeliveryFilter;
+    _showPickupOnly = widget.initialPickupFilter;
     _loadPharmacies();
     _scrollController.addListener(_onScroll);
   }
@@ -316,9 +326,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
   Widget _buildBody() {
     if (_isLoading) {
       return const Center(
-        child: CircularProgressIndicator(
-          color: AppColors.red,
-        ),
+        child: CircularProgressIndicator(color: AppColors.red),
       );
     }
 
@@ -327,11 +335,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: AppColors.grey,
-            ),
+            Icon(Icons.error_outline, size: 64, color: AppColors.grey),
             const SizedBox(height: 16),
             Text(
               _errorMessage!,
@@ -341,9 +345,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _loadPharmacies,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.red,
-              ),
+              style: ElevatedButton.styleFrom(backgroundColor: AppColors.red),
               child: const Text(
                 'Retry',
                 style: TextStyle(color: AppColors.white),
@@ -372,9 +374,9 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
             const SizedBox(height: 8),
             Text(
               'Try adjusting your filters',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.grey,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: AppColors.grey),
             ),
           ],
         ),
@@ -393,9 +395,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
             return const Padding(
               padding: EdgeInsets.all(16),
               child: Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.red,
-                ),
+                child: CircularProgressIndicator(color: AppColors.red),
               ),
             );
           }
@@ -411,9 +411,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -438,8 +436,8 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
                     child: Text(
                       pharmacy.name,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   if (pharmacy.isVerified)
@@ -449,16 +447,12 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.blue.withOpacity(0.1),
+                        color: AppColors.blue.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Row(
                         children: [
-                          Icon(
-                            Icons.verified,
-                            size: 14,
-                            color: AppColors.blue,
-                          ),
+                          Icon(Icons.verified, size: 14, color: AppColors.blue),
                           const SizedBox(width: 4),
                           Text(
                             'Verified',
@@ -514,11 +508,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
               Row(
                 children: [
                   if (pharmacy.rating > 0) ...[
-                    Icon(
-                      Icons.star,
-                      size: 16,
-                      color: AppColors.yellow,
-                    ),
+                    Icon(Icons.star, size: 16, color: AppColors.yellow),
                     const SizedBox(width: 4),
                     Text(
                       '${pharmacy.rating.toStringAsFixed(1)} (${pharmacy.ratingCount})',
@@ -533,15 +523,17 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
                     ),
                     decoration: BoxDecoration(
                       color: pharmacy.isOpen
-                          ? AppColors.teal.withOpacity(0.1)
-                          : AppColors.grey.withOpacity(0.1),
+                          ? AppColors.teal.withValues(alpha: 0.1)
+                          : AppColors.grey.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
                       pharmacy.isOpen ? 'Open' : 'Closed',
                       style: TextStyle(
                         fontSize: 12,
-                        color: pharmacy.isOpen ? AppColors.teal : AppColors.grey,
+                        color: pharmacy.isOpen
+                            ? AppColors.teal
+                            : AppColors.grey,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -570,24 +562,14 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.red.withOpacity(0.1),
+        color: AppColors.red.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Row(
         children: [
-          Icon(
-            icon,
-            size: 14,
-            color: AppColors.red,
-          ),
+          Icon(icon, size: 14, color: AppColors.red),
           const SizedBox(width: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: AppColors.red,
-            ),
-          ),
+          Text(label, style: TextStyle(fontSize: 12, color: AppColors.red)),
         ],
       ),
     );

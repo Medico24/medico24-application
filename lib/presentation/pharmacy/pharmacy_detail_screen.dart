@@ -36,8 +36,9 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
     });
 
     try {
-      final pharmacy =
-          await widget.pharmacyRepository.getPharmacyById(widget.pharmacyId);
+      final pharmacy = await widget.pharmacyRepository.getPharmacyById(
+        widget.pharmacyId,
+      );
       setState(() {
         _pharmacy = pharmacy;
         _isLoading = false;
@@ -64,13 +65,19 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
   }
 
   Future<void> _sendEmail(String email) async {
-    final Uri emailUri = Uri(
-      scheme: 'mailto',
-      path: email,
-    );
-    if (await canLaunchUrl(emailUri)) {
-      await launchUrl(emailUri);
-    } else {
+    final Uri emailUri = Uri.parse('mailto:$email');
+    try {
+      final canLaunch = await canLaunchUrl(emailUri);
+      if (canLaunch) {
+        await launchUrl(emailUri, mode: LaunchMode.externalApplication);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not launch email client')),
+          );
+        }
+      }
+    } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Could not launch email client')),
@@ -92,9 +99,9 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
       await launchUrl(mapsUri, mode: LaunchMode.externalApplication);
     } else {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not open maps')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Could not open maps')));
       }
     }
   }
@@ -103,9 +110,7 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: AppBar(
-        title: const Text('Pharmacy Details'),
-      ),
+      appBar: AppBar(title: const Text('Pharmacy Details')),
       body: _buildBody(),
     );
   }
@@ -113,9 +118,7 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
   Widget _buildBody() {
     if (_isLoading) {
       return const Center(
-        child: CircularProgressIndicator(
-          color: AppColors.red,
-        ),
+        child: CircularProgressIndicator(color: AppColors.red),
       );
     }
 
@@ -124,11 +127,7 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: AppColors.grey,
-            ),
+            Icon(Icons.error_outline, size: 64, color: AppColors.grey),
             const SizedBox(height: 16),
             Text(
               _errorMessage!,
@@ -138,9 +137,7 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _loadPharmacyDetails,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.red,
-              ),
+              style: ElevatedButton.styleFrom(backgroundColor: AppColors.red),
               child: const Text(
                 'Retry',
                 style: TextStyle(color: AppColors.white),
@@ -152,9 +149,7 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
     }
 
     if (_pharmacy == null) {
-      return const Center(
-        child: Text('Pharmacy not found'),
-      );
+      return const Center(child: Text('Pharmacy not found'));
     }
 
     return SingleChildScrollView(
@@ -165,7 +160,6 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
           _buildContactSection(),
           _buildLocationSection(),
           _buildOperatingHours(),
-          _buildFeaturesSection(),
           const SizedBox(height: 20),
         ],
       ),
@@ -175,9 +169,7 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
   Widget _buildHeader() {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.red.withOpacity(0.05),
-      ),
+      decoration: BoxDecoration(color: AppColors.red.withValues(alpha: 0.05)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -187,8 +179,8 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
                 child: Text(
                   _pharmacy!.name,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               if (_pharmacy!.isVerified)
@@ -203,11 +195,7 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
                   ),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.verified,
-                        size: 16,
-                        color: AppColors.white,
-                      ),
+                      Icon(Icons.verified, size: 16, color: AppColors.white),
                       const SizedBox(width: 4),
                       Text(
                         'Verified',
@@ -226,53 +214,56 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
             const SizedBox(height: 12),
             Text(
               _pharmacy!.description!,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.grey,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: AppColors.grey),
             ),
           ],
-          const SizedBox(height: 16),
-          Row(
+          const SizedBox(height: 8),
+          Column(
             children: [
-              if (_pharmacy!.rating > 0) ...[
-                Icon(
-                  Icons.star,
-                  size: 20,
-                  color: AppColors.yellow,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  '${_pharmacy!.rating.toStringAsFixed(1)}',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              if (_pharmacy!.rating > 0)
+                Row(
+                  children: [
+                    Icon(Icons.star, size: 20, color: AppColors.yellow),
+                    const SizedBox(width: 4),
+                    Text(
+                      _pharmacy!.rating.toStringAsFixed(1),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      '(${_pharmacy!.ratingCount} reviews)',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const SizedBox(width: 16),
+                  ],
                 ),
-                const SizedBox(width: 4),
-                Text(
-                  '(${_pharmacy!.ratingCount} reviews)',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                const SizedBox(width: 16),
-              ],
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: _pharmacy!.isOpen
-                      ? AppColors.teal
-                      : AppColors.grey.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  _pharmacy!.isOpen ? 'Open Now' : 'Closed',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: _pharmacy!.isOpen ? AppColors.white : AppColors.grey,
-                    fontWeight: FontWeight.w500,
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  _buildFeatureChip(
+                    icon: Icons.access_time,
+                    label: _pharmacy!.isOpen ? 'Open Now' : 'Closed',
+                    color: _pharmacy!.isOpen ? AppColors.green : AppColors.grey,
                   ),
-                ),
+                  const SizedBox(width: 4),
+                  if (_pharmacy!.supportsDelivery)
+                    _buildFeatureChip(
+                      icon: Icons.delivery_dining,
+                      label: 'Home Delivery',
+                      color: AppColors.teal,
+                    ),
+                  const SizedBox(width: 4),
+                  if (_pharmacy!.supportsPickup)
+                    _buildFeatureChip(
+                      icon: Icons.store,
+                      label: 'In-Store Pickup',
+                      color: AppColors.blue,
+                    ),
+                ],
               ),
             ],
           ),
@@ -293,9 +284,9 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
         children: [
           Text(
             'Contact Information',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           if (_pharmacy!.phone != null)
@@ -332,37 +323,27 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppColors.red.withOpacity(0.1),
+                color: AppColors.red.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(
-                icon,
-                color: AppColors.red,
-                size: 20,
-              ),
+              child: Icon(icon, color: AppColors.red, size: 20),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
+                  Text(title, style: Theme.of(context).textTheme.bodySmall),
                   Text(
                     value,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
             ),
-            Icon(
-              Icons.chevron_right,
-              color: AppColors.grey,
-            ),
+            Icon(Icons.chevron_right, color: AppColors.grey),
           ],
         ),
       ),
@@ -381,9 +362,9 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
         children: [
           Text(
             'Location',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           InkWell(
@@ -391,11 +372,9 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.red.withOpacity(0.05),
+                color: AppColors.red.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: AppColors.red.withOpacity(0.2),
-                ),
+                border: Border.all(color: AppColors.red.withValues(alpha: 0.2)),
               ),
               child: Row(
                 children: [
@@ -418,27 +397,20 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
                       children: [
                         Text(
                           _pharmacy!.fullAddress,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Tap to open in maps',
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: AppColors.red,
-                                  ),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(color: AppColors.red),
                         ),
                       ],
                     ),
                   ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: AppColors.red,
-                    size: 16,
-                  ),
+                  Icon(Icons.arrow_forward_ios, color: AppColors.red, size: 16),
                 ],
               ),
             ),
@@ -447,11 +419,7 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
             const SizedBox(height: 12),
             Row(
               children: [
-                Icon(
-                  Icons.directions_walk,
-                  size: 16,
-                  color: AppColors.grey,
-                ),
+                Icon(Icons.directions_walk, size: 16, color: AppColors.grey),
                 const SizedBox(width: 4),
                 Text(
                   '${_pharmacy!.distanceKm!.toStringAsFixed(1)} km away from you',
@@ -476,10 +444,10 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Operating Hours',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            'Opening Time',
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           Container(
@@ -487,9 +455,7 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: AppColors.grey.withOpacity(0.2),
-              ),
+              border: Border.all(color: AppColors.grey.withValues(alpha: 0.2)),
             ),
             child: Column(
               children: _pharmacy!.hours!.map((hours) {
@@ -502,14 +468,13 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
                         width: 100,
                         child: Text(
                           hours.dayName,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    fontWeight: isToday
-                                        ? FontWeight.bold
-                                        : FontWeight.normal,
-                                    color:
-                                        isToday ? AppColors.red : AppColors.coal,
-                                  ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                fontWeight: isToday
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                color: isToday ? AppColors.red : AppColors.coal,
+                              ),
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -518,17 +483,17 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
                           hours.isClosed
                               ? 'Closed'
                               : '${_formatTime(hours.openTime)} - ${_formatTime(hours.closeTime)}',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    fontWeight: isToday
-                                        ? FontWeight.bold
-                                        : FontWeight.normal,
-                                    color: hours.isClosed
-                                        ? AppColors.grey
-                                        : (isToday
-                                            ? AppColors.red
-                                            : AppColors.coal),
-                                  ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                fontWeight: isToday
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                color: hours.isClosed
+                                    ? AppColors.grey
+                                    : (isToday
+                                          ? AppColors.red
+                                          : AppColors.coal),
+                              ),
                         ),
                       ),
                     ],
@@ -551,69 +516,27 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
     return '$displayHour:$minute $period';
   }
 
-  Widget _buildFeaturesSection() {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Features',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 12,
-            runSpacing: 12,
-            children: [
-              if (_pharmacy!.supportsDelivery)
-                _buildFeatureChip(
-                  icon: Icons.delivery_dining,
-                  label: 'Home Delivery',
-                  color: AppColors.teal,
-                ),
-              if (_pharmacy!.supportsPickup)
-                _buildFeatureChip(
-                  icon: Icons.store,
-                  label: 'In-Store Pickup',
-                  color: AppColors.blue,
-                ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildFeatureChip({
     required IconData icon,
     required String label,
     required Color color,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: color.withOpacity(0.3),
-        ),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 20,
-            color: color,
-          ),
-          const SizedBox(width: 8),
+          Icon(icon, size: 16, color: color),
+          const SizedBox(width: 6),
           Text(
             label,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 12,
               color: color,
               fontWeight: FontWeight.w500,
             ),
