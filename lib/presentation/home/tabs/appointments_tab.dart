@@ -75,7 +75,7 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const AppointmentsCalendar(),
+              AppointmentsCalendar(appointments: _appointments),
               const SizedBox(height: 24),
 
               // Error message if any

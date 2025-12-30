@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:medico24/core/theme/app_colors.dart';
+import 'package:medico24/core/api/models/appointment_model.dart';
 
 class AppointmentsCalendar extends StatefulWidget {
-  const AppointmentsCalendar({super.key});
+  final List<AppointmentModel> appointments;
+
+  const AppointmentsCalendar({super.key, required this.appointments});
 
   @override
   State<AppointmentsCalendar> createState() => _AppointmentsCalendarState();
@@ -11,22 +14,63 @@ class AppointmentsCalendar extends StatefulWidget {
 class _AppointmentsCalendarState extends State<AppointmentsCalendar> {
   late DateTime _currentMonth;
   late DateTime _selectedDate;
-
-  // Hardcoded appointment dates with colors
-  final Map<DateTime, Color> _appointmentDates = {
-    DateTime(2025, 12, 28): AppColors.blue,
-    DateTime(2025, 12, 30): AppColors.red,
-    DateTime(2026, 1, 5): AppColors.yellow,
-    DateTime(2026, 1, 10): const Color(0xFF4CAF50), // Green
-    DateTime(2026, 1, 15): AppColors.teal,
-    DateTime(2025, 12, 25): AppColors.red,
-  };
+  Map<DateTime, Color> _appointmentDates = {};
 
   @override
   void initState() {
     super.initState();
     _currentMonth = DateTime.now();
     _selectedDate = DateTime.now();
+    _buildAppointmentDates();
+  }
+
+  @override
+  void didUpdateWidget(AppointmentsCalendar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.appointments != widget.appointments) {
+      _buildAppointmentDates();
+    }
+  }
+
+  void _buildAppointmentDates() {
+    final Map<DateTime, Color> dates = {};
+
+    for (var appointment in widget.appointments) {
+      final date = DateTime(
+        appointment.appointmentAt.year,
+        appointment.appointmentAt.month,
+        appointment.appointmentAt.day,
+      );
+
+      // Assign color based on appointment status
+      Color color;
+      switch (appointment.status) {
+        case AppointmentStatus.scheduled:
+          color = AppColors.blue;
+          break;
+        case AppointmentStatus.confirmed:
+          color = const Color(0xFF4CAF50); // Green
+          break;
+        case AppointmentStatus.rescheduled:
+          color = AppColors.yellow;
+          break;
+        case AppointmentStatus.cancelled:
+          color = AppColors.grey;
+          break;
+        case AppointmentStatus.completed:
+          color = AppColors.teal;
+          break;
+        case AppointmentStatus.noShow:
+          color = AppColors.red;
+          break;
+      }
+
+      dates[date] = color;
+    }
+
+    setState(() {
+      _appointmentDates = dates;
+    });
   }
 
   void _previousMonth() {
