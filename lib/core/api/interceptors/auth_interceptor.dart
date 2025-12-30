@@ -9,6 +9,9 @@ class AuthInterceptor extends Interceptor {
   final Logger _logger = Logger();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  // Prevent multiple simultaneous refresh attempts
+  bool _isRefreshing = false;
+
   @override
   Future<void> onRequest(
     RequestOptions options,
@@ -39,6 +42,52 @@ class AuthInterceptor extends Interceptor {
     // Handle 401 Unauthorized - attempt token refresh
     if (err.response?.statusCode == 401) {
       _logger.w('Received 401 Unauthorized - refreshing Firebase token');
+
+      // Prevent multiple simultaneous refresh attempts
+      if (_isRefreshing) {
+        _logger.i('Token refresh already in progress, waiting...');
+        await Future.delayed(const Duration(milliseconds: 500));
+
+        // Try reading the potentially updated token
+        final newToken = await _storage.read(key: 'access_token');
+        if (newToken != null) {
+          _logger.i('Using refreshed token from ongoing refresh');
+          try {
+            final dio = Dio(
+              BaseOptions(
+                baseUrl: err.requestOptions.baseUrl,
+                connectTimeout: err.requestOptions.connectTimeout,
+                receiveTimeout: err.requestOptions.receiveTimeout,
+                sendTimeout: err.requestOptions.sendTimeout,
+              ),
+            );
+
+            final requestOptions = Options(
+              method: err.requestOptions.method,
+              headers: {
+                ...err.requestOptions.headers,
+                'Authorization': 'Bearer $newToken',
+              },
+            );
+
+            final retryResponse = await dio.request(
+              err.requestOptions.path,
+              data: err.requestOptions.data,
+              queryParameters: err.requestOptions.queryParameters,
+              options: requestOptions,
+            );
+
+            handler.resolve(retryResponse);
+            return;
+          } catch (e) {
+            _logger.e('Retry with refreshed token failed', error: e);
+          }
+        }
+        handler.next(err);
+        return;
+      }
+
+      _isRefreshing = true;
 
       try {
         // Get current Firebase user
@@ -91,15 +140,32 @@ class AuthInterceptor extends Interceptor {
         _logger.i('Backend tokens refreshed successfully');
 
         // Retry the original request with new token
-        final requestOptions = err.requestOptions;
-        requestOptions.headers['Authorization'] =
-            'Bearer ${loginResponse.accessToken}';
+        // Clone the request options and update the authorization header
+        final requestOptions = Options(
+          method: err.requestOptions.method,
+          headers: {
+            ...err.requestOptions.headers,
+            'Authorization': 'Bearer ${loginResponse.accessToken}',
+          },
+        );
 
-        final retryResponse = await dio.fetch(requestOptions);
+        _logger.i('Retrying original request with new token...');
+
+        // Retry using the same Dio instance to maintain consistency
+        final retryResponse = await dio.request(
+          err.requestOptions.path,
+          data: err.requestOptions.data,
+          queryParameters: err.requestOptions.queryParameters,
+          options: requestOptions,
+        );
+
+        _logger.i('✅ Retry successful after token refresh');
         handler.resolve(retryResponse);
       } catch (e) {
         _logger.e('Error during token refresh', error: e);
         handler.next(err);
+      } finally {
+        _isRefreshing = false;
       }
     } else {
       handler.next(err);
