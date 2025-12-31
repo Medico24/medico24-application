@@ -16,6 +16,8 @@ class AppointmentsTab extends StatefulWidget {
 
 class _AppointmentsTabState extends State<AppointmentsTab> {
   List<AppointmentModel> _appointments = [];
+  List<AppointmentModel> _upcomingAppointments = [];
+  List<AppointmentModel> _pastAppointments = [];
   bool _isLoading = false;
   String? _error;
 
@@ -36,8 +38,27 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
           .fetchAndCacheAppointments(pageSize: 100);
 
       if (mounted) {
+        final now = DateTime.now();
+        final upcoming = <AppointmentModel>[];
+        final past = <AppointmentModel>[];
+
+        for (final appointment in appointments) {
+          if (appointment.appointmentAt.isAfter(now)) {
+            upcoming.add(appointment);
+          } else {
+            past.add(appointment);
+          }
+        }
+
+        // Sort upcoming ascending (earliest first)
+        upcoming.sort((a, b) => a.appointmentAt.compareTo(b.appointmentAt));
+        // Sort past descending (most recent first)
+        past.sort((a, b) => b.appointmentAt.compareTo(a.appointmentAt));
+
         setState(() {
           _appointments = appointments;
+          _upcomingAppointments = upcoming;
+          _pastAppointments = past;
           _isLoading = false;
         });
       }
@@ -47,8 +68,25 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
             .getCachedAppointments();
 
         if (mounted) {
+          final now = DateTime.now();
+          final upcoming = <AppointmentModel>[];
+          final past = <AppointmentModel>[];
+
+          for (final appointment in cached) {
+            if (appointment.appointmentAt.isAfter(now)) {
+              upcoming.add(appointment);
+            } else {
+              past.add(appointment);
+            }
+          }
+
+          upcoming.sort((a, b) => a.appointmentAt.compareTo(b.appointmentAt));
+          past.sort((a, b) => b.appointmentAt.compareTo(a.appointmentAt));
+
           setState(() {
             _appointments = cached;
+            _upcomingAppointments = upcoming;
+            _pastAppointments = past;
             _error = 'Showing cached data';
             _isLoading = false;
           });
@@ -116,8 +154,9 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
                     child: CircularProgressIndicator(),
                   ),
                 )
-              // Appointments list
-              else if (_appointments.isEmpty)
+              // Upcoming Appointments list
+              else if (_upcomingAppointments.isEmpty &&
+                  _pastAppointments.isEmpty)
                 Padding(
                   padding: const EdgeInsets.all(32),
                   child: Center(
@@ -128,9 +167,43 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
                   ),
                 )
               else
-                ..._appointments.map(
-                  (appointment) => _buildAppointmentCard(appointment),
+                ..._upcomingAppointments.map(
+                  (appointment) =>
+                      _buildAppointmentCard(appointment, isPast: false),
                 ),
+
+              if (!_isLoading &&
+                  _upcomingAppointments.isEmpty &&
+                  _pastAppointments.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(32),
+                  child: Center(
+                    child: Text(
+                      'No upcoming appointments',
+                      style: TextStyle(color: AppColors.grey),
+                    ),
+                  ),
+                ),
+
+              // Past Appointments Section
+              if (_pastAppointments.isNotEmpty) ...[
+                const SizedBox(height: 24),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Past Appointments',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: AppColors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ..._pastAppointments.map(
+                  (appointment) =>
+                      _buildAppointmentCard(appointment, isPast: true),
+                ),
+              ],
 
               const SizedBox(height: 40),
             ],
@@ -140,12 +213,25 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
     );
   }
 
-  Widget _buildAppointmentCard(AppointmentModel appointment) {
+  Widget _buildAppointmentCard(
+    AppointmentModel appointment, {
+    required bool isPast,
+  }) {
+    final cardColor = isPast
+        ? AppColors.grey.withValues(alpha: 0.05)
+        : AppColors.white;
+    final iconBgColor = isPast
+        ? AppColors.grey.withValues(alpha: 0.1)
+        : AppColors.blue.withValues(alpha: 0.1);
+    final iconColor = isPast ? AppColors.grey : AppColors.blue;
+    final textColor = isPast ? AppColors.grey : AppColors.coal;
+    final accentColor = isPast ? AppColors.grey : AppColors.blue;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: cardColor,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.grey.withValues(alpha: 0.2)),
       ),
@@ -155,10 +241,10 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppColors.blue.withValues(alpha: 0.1),
+              color: iconBgColor,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(Icons.medical_services, color: AppColors.blue),
+            child: Icon(Icons.medical_services, color: iconColor),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -168,7 +254,7 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
                 Text(
                   appointment.doctorName,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: AppColors.coal,
+                    color: textColor,
                     fontWeight: FontWeight.w600,
                   ),
                   maxLines: 1,
@@ -192,7 +278,7 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
               Text(
                 _formatTime(appointment.appointmentAt),
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: AppColors.blue,
+                  color: accentColor,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -213,25 +299,29 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
           ),
           const SizedBox(width: 8),
           IconButton(
-            onPressed: () async {
-              final phoneNumber = appointment.contactPhone;
-              final uri = Uri.parse('tel:$phoneNumber');
-              final messenger = ScaffoldMessenger.of(context);
-              try {
-                await launchUrl(uri);
-              } catch (e) {
-                if (mounted) {
-                  messenger.showSnackBar(
-                    SnackBar(
-                      content: const Text('Could not launch phone dialer'),
-                      backgroundColor: AppColors.red,
-                    ),
-                  );
-                }
-              }
-            },
-            icon: Icon(Icons.phone, color: AppColors.blue, size: 24),
-            tooltip: 'Call Doctor',
+            onPressed: isPast
+                ? null
+                : () async {
+                    final phoneNumber = appointment.contactPhone;
+                    final uri = Uri.parse('tel:$phoneNumber');
+                    final messenger = ScaffoldMessenger.of(context);
+                    try {
+                      await launchUrl(uri);
+                    } catch (e) {
+                      if (mounted) {
+                        messenger.showSnackBar(
+                          SnackBar(
+                            content: const Text(
+                              'Could not launch phone dialer',
+                            ),
+                            backgroundColor: AppColors.red,
+                          ),
+                        );
+                      }
+                    }
+                  },
+            icon: Icon(Icons.phone, color: accentColor, size: 24),
+            tooltip: isPast ? null : 'Call Doctor',
           ),
         ],
       ),
