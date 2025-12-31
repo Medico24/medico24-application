@@ -62,10 +62,7 @@ class AddressBottomSheet extends StatelessWidget {
 
           // Use current location button
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: OutlinedButton.icon(
               onPressed: onUseCurrentLocation,
               style: OutlinedButton.styleFrom(
@@ -78,11 +75,7 @@ class AddressBottomSheet extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              icon: Icon(
-                Icons.my_location,
-                color: AppColors.red,
-                size: 20,
-              ),
+              icon: Icon(Icons.my_location, color: AppColors.red, size: 20),
               label: Text(
                 'Use current location',
                 style: TextStyle(
@@ -95,18 +88,15 @@ class AddressBottomSheet extends StatelessWidget {
 
           // Delivery details
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Delivery details',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: AppColors.grey,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  color: AppColors.grey,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
@@ -147,24 +137,24 @@ class AddressBottomSheet extends StatelessWidget {
                               children: [
                                 Text(
                                   selectedLocation,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
+                                  style: Theme.of(context).textTheme.titleMedium
                                       ?.copyWith(
                                         color: AppColors.coal,
                                         fontWeight: FontWeight.w600,
                                       ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                                 if (selectedCity.isNotEmpty)
                                   Text(
                                     selectedCity,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
+                                    style: Theme.of(context).textTheme.bodySmall
                                         ?.copyWith(color: AppColors.grey),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 if (address != 'Fetching address...' &&
-                                    address != 'Could not fetch address')
+                                    address != 'Unable to fetch address')
                                   Padding(
                                     padding: const EdgeInsets.only(top: 4),
                                     child: Text(
@@ -234,11 +224,10 @@ class AddressBottomSheet extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                       'Receiver details for this address',
-                      style:
-                          Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: AppColors.grey,
-                                fontWeight: FontWeight.w600,
-                              ),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: AppColors.grey,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
 
@@ -284,11 +273,10 @@ class AddressBottomSheet extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                       'Save address as',
-                      style:
-                          Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: AppColors.grey,
-                                fontWeight: FontWeight.w600,
-                              ),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: AppColors.grey,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
 

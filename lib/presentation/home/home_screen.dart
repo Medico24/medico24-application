@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   int _selectedTabIndex = 0;
   late PageController _pageController;
   final List<ScrollController> _scrollControllers = [];
@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _currentUser = FirebaseAuth.instance.currentUser;
     _pageController = PageController(initialPage: 0);
     for (int i = 0; i < _navTabs.length; i++) {
@@ -44,6 +45,14 @@ class _HomeScreenState extends State<HomeScreen> {
       _scrollControllers.add(controller);
     }
     _loadCurrentLocation();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // Reload location when app resumes (e.g., returning from another screen)
+      _loadCurrentLocation();
+    }
   }
 
   Future<void> _loadCurrentLocation() async {
@@ -57,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _pageController.dispose();
     for (var controller in _scrollControllers) {
       controller.dispose();

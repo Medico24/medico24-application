@@ -75,9 +75,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
         _isLoadingLocation = false;
       });
       // Move camera to current location when map is ready
-      _mapController?.animateCamera(
-        CameraUpdate.newLatLngZoom(_center, 16),
-      );
+      _mapController?.animateCamera(CameraUpdate.newLatLngZoom(_center, 16));
     } catch (e) {
       setState(() => _isLoadingLocation = false);
       if (mounted) {
@@ -116,7 +114,11 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
   /// Calculate distance between two points (simple approximation)
   double _calculateDistance(
-      double lat1, double lon1, double lat2, double lon2) {
+    double lat1,
+    double lon1,
+    double lat2,
+    double lon2,
+  ) {
     return ((lat1 - lat2).abs() + (lon1 - lon2).abs());
   }
 
@@ -129,21 +131,40 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
         _center.longitude,
       );
 
+      final formattedAddress = addressComponents['formatted_address'];
+      final locality = addressComponents['locality'];
+      final city = addressComponents['city'];
+      final state = addressComponents['state'];
+
+      if (formattedAddress == null || formattedAddress.isEmpty) {
+        throw Exception('No address found');
+      }
+
       setState(() {
-        _address =
-            addressComponents['formatted_address'] ?? 'Unknown location';
-        _selectedLocation = addressComponents['locality'] ??
-            addressComponents['city'] ??
-            'Unknown';
-        _selectedCity =
-            '${addressComponents['city']}, ${addressComponents['state']}';
+        _address = formattedAddress;
+        _selectedLocation = locality ?? city ?? 'Select location';
+        _selectedCity = city != null && state != null ? '$city, $state' : '';
         _isLoadingAddress = false;
       });
     } catch (e) {
-      setState(() {
-        _address = 'Could not fetch address';
-        _isLoadingAddress = false;
-      });
+      if (mounted) {
+        setState(() {
+          _address = 'Unable to fetch address';
+          _selectedLocation = 'Select location';
+          _selectedCity = '';
+          _isLoadingAddress = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text(
+              'Could not fetch address. Try moving the pin or use search.',
+            ),
+            backgroundColor: AppColors.red,
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
     }
   }
 
@@ -186,9 +207,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     try {
       final latLng = await PlaceDetailsService.getLatLng(suggestion.placeId);
 
-      _mapController?.animateCamera(
-        CameraUpdate.newLatLngZoom(latLng, 16),
-      );
+      _mapController?.animateCamera(CameraUpdate.newLatLngZoom(latLng, 16));
 
       setState(() => _center = latLng);
     } catch (e) {
@@ -205,8 +224,23 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
   /// Handle location selection confirmation
   void _onSelectLocation() {
+    // Don't confirm if address fetch failed
+    if (_address == 'Could not fetch address' ||
+        _address == 'Fetching address...') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Please wait for address to load or move the pin',
+          ),
+          backgroundColor: AppColors.red,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+
     setState(() {
-      _selectedLocation = _address.split(',').first;
+      _selectedLocation = _address.split(',').first.trim();
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -219,10 +253,14 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
   Future<void> _saveAddress() async {
     if (_selectedLocation == 'Select location' ||
+        _address == 'Unable to fetch address' ||
+        _address == 'Fetching address...' ||
         _addressDetailsController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Please fill all required fields'),
+          content: const Text(
+            'Please confirm location and fill all required fields',
+          ),
           backgroundColor: AppColors.red,
         ),
       );
@@ -258,9 +296,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
         _isLoadingLocation = false;
       });
 
-      _mapController?.animateCamera(
-        CameraUpdate.newLatLngZoom(latLng, 16),
-      );
+      _mapController?.animateCamera(CameraUpdate.newLatLngZoom(latLng, 16));
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -362,29 +398,32 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                   // Bottom draggable sheet
                   DraggableScrollableSheet(
-                    initialChildSize: 0.5, // Start at 50% of screen
-                    minChildSize: 0.3, // Can collapse to 30%
-                    maxChildSize: 0.85, // Can expand to 85%
+                    initialChildSize: 0.45, // Start at 45% of screen
+                    minChildSize: 0.35, // Can collapse to 35%
+                    maxChildSize: 0.75, // Can expand to 75% to prevent overflow
                     builder:
-                        (BuildContext context, ScrollController scrollController) {
-                      return AddressBottomSheet(
-                        scrollController: scrollController,
-                        onUseCurrentLocation: _requestLocationPermission,
-                        onSelectLocation: _onSelectLocation,
-                        selectedLocation: _selectedLocation,
-                        selectedCity: _selectedCity,
-                        address: _address,
-                        addressDetailsController: _addressDetailsController,
-                        phoneController: _phoneController,
-                        selectedAddressType: _selectedAddressType,
-                        onAddressTypeChanged: (type) {
-                          setState(() {
-                            _selectedAddressType = type;
-                          });
+                        (
+                          BuildContext context,
+                          ScrollController scrollController,
+                        ) {
+                          return AddressBottomSheet(
+                            scrollController: scrollController,
+                            onUseCurrentLocation: _requestLocationPermission,
+                            onSelectLocation: _onSelectLocation,
+                            selectedLocation: _selectedLocation,
+                            selectedCity: _selectedCity,
+                            address: _address,
+                            addressDetailsController: _addressDetailsController,
+                            phoneController: _phoneController,
+                            selectedAddressType: _selectedAddressType,
+                            onAddressTypeChanged: (type) {
+                              setState(() {
+                                _selectedAddressType = type;
+                              });
+                            },
+                            onSaveAddress: _saveAddress,
+                          );
                         },
-                        onSaveAddress: _saveAddress,
-                      );
-                    },
                   ),
                 ],
               ),

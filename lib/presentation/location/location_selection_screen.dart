@@ -30,10 +30,17 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
     final recent = await _database.getRecentLocations(limit: 5);
     final current = await _database.getCurrentLocation();
 
+    // Filter out invalid addresses from recent locations
+    final validRecent = recent.where((location) {
+      return location.address.isNotEmpty &&
+          !location.address.contains('Could not fetch') &&
+          !location.address.contains('Unable to fetch');
+    }).toList();
+
     if (mounted) {
       setState(() {
         _savedAddresses = saved;
-        _recentLocations = recent;
+        _recentLocations = validRecent;
         _currentLocation = current;
       });
     }
@@ -51,57 +58,63 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        child: CustomScrollView(
+          slivers: [
             // Header with back button and title
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: GestureDetector(
-                onTap: () => context.pop(),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.keyboard_arrow_down,
-                      size: 32,
-                      color: AppColors.coal,
-                    ),
-
-                    const SizedBox(width: 12),
-                    Text(
-                      'Select a location',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: GestureDetector(
+                  onTap: () => context.pop(),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 32,
                         color: AppColors.coal,
-                        fontWeight: FontWeight.w600,
                       ),
-                    ),
-                  ],
+
+                      const SizedBox(width: 12),
+                      Text(
+                        'Select a location',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: AppColors.coal,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
 
             // Search bar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: AppColors.grey.withValues(alpha: 0.3),
-                  ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
                 ),
-                child: TextField(
-                  controller: _searchController,
-                  style: TextStyle(color: AppColors.coal),
-                  decoration: InputDecoration(
-                    hintText: 'Search for area, street name...',
-                    hintStyle: TextStyle(color: AppColors.grey),
-                    prefixIcon: Icon(Icons.search, color: AppColors.red),
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: AppColors.grey.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: TextField(
+                    controller: _searchController,
+                    style: TextStyle(color: AppColors.coal),
+                    decoration: InputDecoration(
+                      hintText: 'Search for area, street name...',
+                      hintStyle: TextStyle(color: AppColors.grey),
+                      prefixIcon: Icon(Icons.search, color: AppColors.red),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                     ),
                   ),
                 ),
@@ -109,149 +122,159 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
             ),
 
             // Use current location
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: AppColors.grey.withValues(alpha: 0.2),
-                ),
-              ),
-              child: ListTile(
-                leading: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: AppColors.red.withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.my_location,
-                    color: AppColors.red,
-                    size: 24,
+            SliverToBoxAdapter(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: AppColors.grey.withValues(alpha: 0.2),
                   ),
                 ),
-                title: Text(
-                  'Use current location',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: AppColors.red,
-                    fontWeight: FontWeight.w600,
+                child: ListTile(
+                  leading: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColors.red.withValues(alpha: 0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.my_location,
+                      color: AppColors.red,
+                      size: 24,
+                    ),
                   ),
+                  title: Text(
+                    'Use current location',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppColors.red,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  subtitle: Text(
+                    _currentLocation != null
+                        ? '${_currentLocation!.title}, ${_currentLocation!.city}'
+                        : 'Enable location services',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: AppColors.coal),
+                  ),
+                  trailing: Icon(Icons.chevron_right, color: AppColors.grey),
                 ),
-                subtitle: Text(
-                  _currentLocation != null
-                      ? '${_currentLocation!.title}, ${_currentLocation!.city}'
-                      : 'Enable location services',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: AppColors.coal),
-                ),
-                trailing: Icon(Icons.chevron_right, color: AppColors.grey),
               ),
             ),
 
             // Add Address
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: AppColors.grey.withValues(alpha: 0.2),
-                ),
-              ),
-              child: ListTile(
-                onTap: () async {
-                  final result = await context.push(AppRouter.addAddress);
-                  if (result == true) {
-                    _loadData(); // Reload data when returning from add address
-                  }
-                },
-                leading: Icon(
-                  Icons.add_circle_outline,
-                  color: AppColors.red,
-                  size: 28,
-                ),
-                title: Text(
-                  'Add Address',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: AppColors.red,
-                    fontWeight: FontWeight.w600,
+            SliverToBoxAdapter(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: AppColors.grey.withValues(alpha: 0.2),
                   ),
                 ),
-                trailing: Icon(Icons.chevron_right, color: AppColors.grey),
+                child: ListTile(
+                  onTap: () async {
+                    final result = await context.push(AppRouter.addAddress);
+                    if (result == true) {
+                      _loadData(); // Reload data when returning from add address
+                    }
+                  },
+                  leading: Icon(
+                    Icons.add_circle_outline,
+                    color: AppColors.red,
+                    size: 28,
+                  ),
+                  title: Text(
+                    'Add Address',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppColors.red,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  trailing: Icon(Icons.chevron_right, color: AppColors.grey),
+                ),
               ),
             ),
 
             // Import from Map
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: AppColors.grey.withValues(alpha: 0.2),
-                ),
-              ),
-              child: ListTile(
-                leading: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.blue,
-                    borderRadius: BorderRadius.circular(8),
+            SliverToBoxAdapter(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: AppColors.grey.withValues(alpha: 0.2),
                   ),
-                  child: Center(
-                    child: Text(
-                      'Map',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.white,
+                ),
+                child: ListTile(
+                  leading: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: AppColors.blue,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Map',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.white,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                title: Text(
-                  'Import addresses from Map',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: AppColors.red,
-                    fontWeight: FontWeight.w600,
+                  title: Text(
+                    'Import addresses from Map',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppColors.red,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
+                  trailing: Icon(Icons.chevron_right, color: AppColors.grey),
                 ),
-                trailing: Icon(Icons.chevron_right, color: AppColors.grey),
               ),
             ),
 
-            const SizedBox(height: 16),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
-            // Saved Addresses Section
+            // Saved Addresses Section Header
             if (_savedAddresses.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'SAVED ADDRESSES',
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: AppColors.grey,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.5,
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'SAVED ADDRESSES',
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: AppColors.grey,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5,
+                    ),
                   ),
                 ),
               ),
 
-            if (_savedAddresses.isNotEmpty) const SizedBox(height: 12),
+            if (_savedAddresses.isNotEmpty)
+              const SliverToBoxAdapter(child: SizedBox(height: 12)),
 
             // Saved Addresses List
             if (_savedAddresses.isNotEmpty)
-              Expanded(
-                child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: _savedAddresses.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 12),
-                  itemBuilder: (context, index) {
-                    final address = _savedAddresses[index];
-                    return _buildSavedAddressItem(
+              SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final address = _savedAddresses[index];
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      bottom: index == _savedAddresses.length - 1 ? 0 : 12,
+                    ),
+                    child: _buildSavedAddressItem(
                       context,
                       icon: address.isDefault
                           ? Icons.home_outlined
@@ -281,80 +304,80 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                         await _database.deleteSavedAddress(address.id);
                         _loadData();
                       },
-                    );
-                  },
-                ),
-              )
-            else
-              const Padding(
-                padding: EdgeInsets.all(32),
-                child: Center(child: Text('No saved addresses yet')),
+                    ),
+                  );
+                }, childCount: _savedAddresses.length),
               ),
 
-            const SizedBox(height: 16),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
-            // Recent Locations Section
+            // Recent Locations Section Header
             if (_recentLocations.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'RECENT LOCATIONS',
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: AppColors.grey,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.5,
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'RECENT LOCATIONS',
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: AppColors.grey,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5,
+                    ),
                   ),
                 ),
               ),
 
-            if (_recentLocations.isNotEmpty) const SizedBox(height: 12),
+            if (_recentLocations.isNotEmpty)
+              const SliverToBoxAdapter(child: SizedBox(height: 12)),
 
             // Recent Locations List
             if (_recentLocations.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: _recentLocations.map((location) {
-                    final now = DateTime.now();
-                    final diff = now.difference(location.accessedAt);
-                    final timeAgo = diff.inDays > 0
-                        ? '${diff.inDays} d'
-                        : diff.inHours > 0
-                        ? '${diff.inHours} h'
-                        : '${diff.inMinutes} m';
+              SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final location = _recentLocations[index];
+                  final now = DateTime.now();
+                  final diff = now.difference(location.accessedAt);
+                  final timeAgo = diff.inDays > 0
+                      ? '${diff.inDays} d'
+                      : diff.inHours > 0
+                      ? '${diff.inHours} h'
+                      : '${diff.inMinutes} m';
 
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: _buildRecentLocationItem(
-                        context,
-                        location: location.city.split(',').first,
-                        time: timeAgo,
-                        address: location.address,
-                        onTap: () async {
-                          await _database.updateCurrentLocation(
-                            title: location.city.split(',').first,
-                            address: location.address,
-                            city: location.city,
-                            latitude: location.latitude,
-                            longitude: location.longitude,
-                          );
-                          await _database.addRecentLocation(
-                            address: location.address,
-                            city: location.city,
-                            latitude: location.latitude,
-                            longitude: location.longitude,
-                          );
-                          if (mounted) {
-                            context.pop();
-                          }
-                        },
-                      ),
-                    );
-                  }).toList(),
-                ),
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      bottom: index == _recentLocations.length - 1 ? 0 : 12,
+                    ),
+                    child: _buildRecentLocationItem(
+                      context,
+                      location: location.city.split(',').first,
+                      time: timeAgo,
+                      address: location.address,
+                      onTap: () async {
+                        await _database.updateCurrentLocation(
+                          title: location.city.split(',').first,
+                          address: location.address,
+                          city: location.city,
+                          latitude: location.latitude,
+                          longitude: location.longitude,
+                        );
+                        await _database.addRecentLocation(
+                          address: location.address,
+                          city: location.city,
+                          latitude: location.latitude,
+                          longitude: location.longitude,
+                        );
+                        if (mounted) {
+                          context.pop();
+                        }
+                      },
+                    ),
+                  );
+                }, childCount: _recentLocations.length),
               ),
 
-            const SizedBox(height: 16),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
           ],
         ),
       ),

@@ -21,6 +21,17 @@ class HomeTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Clean up invalid address text
+    final locationTitle = currentLocation?.title ?? 'Select location';
+    final locationAddress = currentLocation?.address;
+
+    // Don't show error messages in the navbar
+    final shouldShowAddress =
+        locationAddress != null &&
+        locationAddress.isNotEmpty &&
+        !locationAddress.contains('Could not fetch') &&
+        !locationAddress.contains('Unable to fetch');
+
     return ClipRect(
       child: AnimatedAlign(
         duration: const Duration(milliseconds: 200),
@@ -53,7 +64,7 @@ class HomeTopBar extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    currentLocation?.title ?? 'Select location',
+                                    locationTitle,
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleMedium
@@ -71,7 +82,9 @@ class HomeTopBar extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                currentLocation?.address ?? 'Tap to select',
+                                shouldShowAddress
+                                    ? locationAddress!
+                                    : 'Tap to select',
                                 style: Theme.of(context).textTheme.bodySmall
                                     ?.copyWith(color: AppColors.grey),
                                 overflow: TextOverflow.ellipsis,
