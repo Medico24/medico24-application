@@ -56,6 +56,9 @@ dependencies:
   google_maps_flutter: ^2.6.0
   geolocator: ^10.1.0
   http: ^1.2.0
+  # Firebase Cloud Messaging
+  firebase_messaging: ^16.1.0
+  flutter_local_notifications: ^18.0.1
 
 dev_dependencies:
   flutter_test:
