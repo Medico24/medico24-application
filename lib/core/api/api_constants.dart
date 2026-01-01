@@ -44,6 +44,14 @@ class ApiConstants {
   static String pharmacyHoursDay(String id, int day) =>
       '$apiVersion/pharmacies/$id/hours/$day';
 
+  // Notifications
+  static const String notificationRegisterToken =
+      '$apiVersion/notifications/register-token';
+  static const String notificationDeactivateToken =
+      '$apiVersion/notifications/deactivate-token';
+  static const String notificationDeactivateAll =
+      '$apiVersion/notifications/deactivate-all';
+
   // Headers
   static const String contentType = 'application/json';
   static const String authorization = 'Authorization';

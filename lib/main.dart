@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:medico24/core/router/app_router.dart';
 import 'package:medico24/core/service_locator.dart';
+import 'package:medico24/core/services/notification_service.dart';
 import 'package:medico24/core/theme/app_theme.dart';
 
 void main() async {
@@ -13,6 +14,9 @@ void main() async {
 
   // Initialize Firebase
   await Firebase.initializeApp();
+
+  // Initialize Firebase Cloud Messaging
+  await NotificationService().initialize();
 
   // Initialize service locator
   serviceLocator.init();
