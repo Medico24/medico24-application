@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:medico24/core/api/services/notification_api_service.dart';
 
@@ -104,7 +104,7 @@ class NotificationService {
   /// Initialize local notifications for foreground display
   Future<void> _initializeLocalNotifications() async {
     const androidSettings = AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
+      '@drawable/ic_notification',
     );
 
     const iosSettings = DarwinInitializationSettings(
@@ -123,13 +123,15 @@ class NotificationService {
       onDidReceiveNotificationResponse: _handleNotificationTap,
     );
 
-    // Create Android notification channel
+    // Create Android notification channel matching AndroidManifest
     if (Platform.isAndroid) {
       const channel = AndroidNotificationChannel(
-        'medico24_default', // id
-        'Default Notifications', // name
-        description: 'Default notification channel for Medico24',
+        'medico24_notifications', // id matching AndroidManifest
+        'Medico24 Notifications', // name
+        description: 'Appointment and health notifications from Medico24',
         importance: Importance.high,
+        enableVibration: true,
+        playSound: true,
       );
 
       await _localNotifications
@@ -201,12 +203,14 @@ class NotificationService {
     String? payload,
   }) async {
     const androidDetails = AndroidNotificationDetails(
-      'medico24_default',
-      'Default Notifications',
-      channelDescription: 'Default notification channel for Medico24',
+      'medico24_notifications', // matching AndroidManifest and channel
+      'Medico24 Notifications',
+      channelDescription: 'Appointment and health notifications from Medico24',
       importance: Importance.high,
       priority: Priority.high,
       showWhen: true,
+      icon: '@drawable/ic_notification', // Use custom notification icon
+      color: Color(0xFF00BCD4), // Teal color matching colors.xml
     );
 
     const iosDetails = DarwinNotificationDetails(
