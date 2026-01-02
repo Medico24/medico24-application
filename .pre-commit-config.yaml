@@ -1,0 +1,299 @@
+# Pre-commit hooks configuration for Flutter/Dart
+# See https://pre-commit.com for more information
+
+default_language_version:
+  python: python3.11
+
+repos:
+  # ============================================================================
+  # File Hygiene Checks
+  # ============================================================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      # Remove trailing whitespace (preserves Markdown line breaks)
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+        stages: [commit]
+
+      # Ensure files end with a newline
+      - id: end-of-file-fixer
+        stages: [commit]
+
+      # Validate YAML syntax
+      - id: check-yaml
+        stages: [commit]
+        exclude: ^(pubspec\.yaml|.*\.freezed\.yaml)$  # Skip generated files
+
+      # Prevent large files from being committed (1MB limit)
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+        stages: [commit]
+
+      # Validate JSON syntax
+      - id: check-json
+        stages: [commit]
+
+      # Detect merge conflict markers
+      - id: check-merge-conflict
+        stages: [commit]
+
+      # Detect files with case-conflicting names
+      - id: check-case-conflict
+        stages: [commit]
+
+      # Standardize line endings to LF (Unix-style)
+      - id: mixed-line-ending
+        args: [--fix=lf]
+        stages: [commit]
+
+  # ============================================================================
+  # Dart Code Formatting
+  # ============================================================================
+  - repo: local
+    hooks:
+      # Dart format - Official Dart code formatter
+      - id: dart-format
+        name: Dart Format
+        description: Format Dart code using dart format
+        entry: dart
+        args: [format, --set-exit-if-changed, --line-length=100]
+        language: system
+        files: \.dart$
+        stages: [commit]
+
+      # Dart fix - Apply automated fixes
+      - id: dart-fix
+        name: Dart Fix
+        description: Apply automated fixes to Dart code
+        entry: dart
+        args: [fix, --apply]
+        language: system
+        files: \.dart$
+        stages: [commit]
+
+  # ============================================================================
+  # Dart Linting and Analysis
+  # ============================================================================
+  - repo: local
+    hooks:
+      # Dart analyze - Static analysis
+      - id: dart-analyze
+        name: Dart Analyze
+        description: Run static analysis on Dart code
+        entry: dart
+        args: [analyze, --fatal-infos, --fatal-warnings]
+        language: system
+        files: \.dart$
+        pass_filenames: false
+        stages: [commit]
+
+      # Flutter analyze - Flutter-specific static analysis
+      - id: flutter-analyze
+        name: Flutter Analyze
+        description: Run Flutter static analysis
+        entry: flutter
+        args: [analyze, --fatal-infos, --fatal-warnings]
+        language: system
+        files: \.dart$
+        pass_filenames: false
+        stages: [commit]
+
+  # ============================================================================
+  # Flutter Tests
+  # ============================================================================
+  - repo: local
+    hooks:
+      # Run Flutter tests
+      - id: flutter-test
+        name: Flutter Test
+        description: Run Flutter unit and widget tests
+        entry: flutter
+        args: [test, --no-pub, --coverage]
+        language: system
+        files: \.dart$
+        pass_filenames: false
+        stages: [push]  # Run only on push to save time
+
+  # ============================================================================
+  # Import Sorting
+  # ============================================================================
+  - repo: local
+    hooks:
+      # Sort imports in Dart files
+      - id: dart-import-sorter
+        name: Dart Import Sorter
+        description: Sort and organize Dart imports
+        entry: bash
+        args:
+          - -c
+          - |
+            for file in "$@"; do
+              # Sort imports using dart format (it handles imports)
+              dart format "$file" > /dev/null
+            done
+        language: system
+        files: \.dart$
+        stages: [commit]
+
+  # ============================================================================
+  # Security and Secrets Detection
+  # ============================================================================
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args:
+          - --baseline
+          - .secrets.baseline
+        exclude: |
+          (?x)^(
+            .*\.lock$|
+            .*\.freezed\.dart$|
+            .*\.g\.dart$|
+            .*\.gr\.dart$|
+            android/app/google-services\.json$|
+            ios/Runner/GoogleService-Info\.plist$
+          )$
+        stages: [commit]
+
+  # ============================================================================
+  # File Formatting (YAML, JSON, Markdown)
+  # ============================================================================
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        args: [--write, --prose-wrap=always, --print-width=100]
+        types_or: [yaml, json, markdown]
+        exclude: |
+          (?x)^(
+            pubspec\.lock$|
+            .*\.freezed\.yaml$|
+            .*\.g\.yaml$
+          )$
+        stages: [commit]
+
+  # ============================================================================
+  # Dart/Flutter Specific Checks
+  # ============================================================================
+  - repo: local
+    hooks:
+      # Check for debug statements
+      - id: check-debug-statements
+        name: Check Debug Statements
+        description: Detect debug print statements and debugger calls
+        entry: bash
+        args:
+          - -c
+          - |
+            if grep -rn --include="*.dart" -E "(print\(|debugPrint\(.*TODO|debugger\(\))" --exclude-dir=test "$@"; then
+              echo "Error: Found debug statements. Remove them before committing."
+              exit 1
+            fi
+        language: system
+        files: \.dart$
+        pass_filenames: false
+        stages: [commit]
+
+      # Check pubspec.yaml and pubspec.lock are in sync
+      - id: check-pubspec-sync
+        name: Check Pubspec Sync
+        description: Ensure pubspec.lock is in sync with pubspec.yaml
+        entry: bash
+        args:
+          - -c
+          - |
+            if [ pubspec.yaml -nt pubspec.lock ]; then
+              echo "Error: pubspec.lock is outdated. Run 'flutter pub get'"
+              exit 1
+            fi
+        language: system
+        files: ^pubspec\.(yaml|lock)$
+        pass_filenames: false
+        stages: [commit]
+
+      # Validate that generated files are up to date
+      - id: check-generated-files
+        name: Check Generated Files
+        description: Ensure generated files (.g.dart, .freezed.dart) are up to date
+        entry: bash
+        args:
+          - -c
+          - |
+            # Check if any .dart files are newer than their .g.dart counterparts
+            needs_generation=false
+            for dart_file in $(find lib -name "*.dart" -not -name "*.g.dart" -not -name "*.freezed.dart"); do
+              base_name="${dart_file%.dart}"
+              if [ -f "${base_name}.g.dart" ]; then
+                if [ "$dart_file" -nt "${base_name}.g.dart" ]; then
+                  echo "Warning: $dart_file is newer than ${base_name}.g.dart"
+                  needs_generation=true
+                fi
+              fi
+              if [ -f "${base_name}.freezed.dart" ]; then
+                if [ "$dart_file" -nt "${base_name}.freezed.dart" ]; then
+                  echo "Warning: $dart_file is newer than ${base_name}.freezed.dart"
+                  needs_generation=true
+                fi
+              fi
+            done
+            if [ "$needs_generation" = true ]; then
+              echo "Run: flutter pub run build_runner build --delete-conflicting-outputs"
+              exit 1
+            fi
+        language: system
+        files: \.dart$
+        pass_filenames: false
+        stages: [commit]
+
+  # ============================================================================
+  # Code Metrics and Complexity
+  # ============================================================================
+  - repo: local
+    hooks:
+      # Check for overly complex functions (basic check)
+      - id: check-code-complexity
+        name: Check Code Complexity
+        description: Warn about potentially complex functions
+        entry: bash
+        args:
+          - -c
+          - |
+            # Simple check for very long functions (>200 lines)
+            for file in "$@"; do
+              awk '
+                /^[[:space:]]*(void|Future|Stream|int|String|bool|double|dynamic|Widget|[A-Z][a-zA-Z0-9_<>]*)[[:space:]]+[a-zA-Z_][a-zA-Z0-9_]*[[:space:]]*\(/ {
+                  start=NR
+                  func_name=$0
+                }
+                /^[[:space:]]*\}[[:space:]]*$/ && start > 0 {
+                  if (NR - start > 200) {
+                    print FILENAME ":" start ": Function too long (" (NR-start) " lines): " func_name
+                    exit_code=1
+                  }
+                  start=0
+                }
+                END {
+                  exit exit_code
+                }
+              ' "$file" || exit 1
+            done
+        language: system
+        files: \.dart$
+        stages: [commit]
+
+# ============================================================================
+# CI Configuration
+# ============================================================================
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: [flutter-test, check-generated-files]  # Skip expensive hooks in CI
+  submodules: false
