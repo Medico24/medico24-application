@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 /// Debouncer utility to prevent excessive API calls
 /// Used to delay execution until user stops typing or moving the map
 class Debouncer {
+  Debouncer(this.milliseconds);
   final int milliseconds;
   Timer? _timer;
-
-  Debouncer(this.milliseconds);
 
   /// Execute the action after the debounce delay
   /// Cancels any previous pending execution

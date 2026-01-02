@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'app_colors.dart';
+import 'package:medico24/core/theme/app_colors.dart';
 
 class AppTheme {
+  // Prevent instantiation
+  AppTheme._();
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
       fontFamily: GoogleFonts.outfit().fontFamily,
 
       // Color scheme
-      colorScheme: ColorScheme.light(
+      colorScheme: const ColorScheme.light(
         primary: AppColors.red,
         secondary: AppColors.yellow,
         tertiary: AppColors.blue,
@@ -155,7 +157,4 @@ class AppTheme {
       ),
     );
   }
-
-  // Prevent instantiation
-  AppTheme._();
 }

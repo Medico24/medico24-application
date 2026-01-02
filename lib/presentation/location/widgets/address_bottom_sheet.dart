@@ -3,6 +3,20 @@ import 'package:medico24/core/theme/app_colors.dart';
 
 /// Draggable bottom sheet containing address form
 class AddressBottomSheet extends StatelessWidget {
+  const AddressBottomSheet({
+    required this.scrollController,
+    required this.onUseCurrentLocation,
+    required this.onSelectLocation,
+    required this.selectedLocation,
+    required this.selectedCity,
+    required this.address,
+    required this.addressDetailsController,
+    required this.phoneController,
+    required this.selectedAddressType,
+    required this.onAddressTypeChanged,
+    required this.onSaveAddress,
+    super.key,
+  });
   final ScrollController scrollController;
   final VoidCallback onUseCurrentLocation;
   final VoidCallback onSelectLocation;
@@ -15,24 +29,9 @@ class AddressBottomSheet extends StatelessWidget {
   final Function(String) onAddressTypeChanged;
   final VoidCallback onSaveAddress;
 
-  const AddressBottomSheet({
-    super.key,
-    required this.scrollController,
-    required this.onUseCurrentLocation,
-    required this.onSelectLocation,
-    required this.selectedLocation,
-    required this.selectedCity,
-    required this.address,
-    required this.addressDetailsController,
-    required this.phoneController,
-    required this.selectedAddressType,
-    required this.onAddressTypeChanged,
-    required this.onSaveAddress,
-  });
-
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: const BorderRadius.only(
@@ -70,13 +69,17 @@ class AddressBottomSheet extends StatelessWidget {
                   vertical: 12,
                   horizontal: 16,
                 ),
-                side: BorderSide(color: AppColors.red),
+                side: const BorderSide(color: AppColors.red),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              icon: Icon(Icons.my_location, color: AppColors.red, size: 20),
-              label: Text(
+              icon: const Icon(
+                Icons.my_location,
+                color: AppColors.red,
+                size: 20,
+              ),
+              label: const Text(
                 'Use current location',
                 style: TextStyle(
                   color: AppColors.red,
@@ -125,7 +128,7 @@ class AddressBottomSheet extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.location_on,
                             color: AppColors.red,
                             size: 24,
@@ -173,7 +176,10 @@ class AddressBottomSheet extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Icon(Icons.chevron_right, color: AppColors.grey),
+                          const Icon(
+                            Icons.chevron_right,
+                            color: AppColors.grey,
+                          ),
                         ],
                       ),
                     ),
@@ -187,12 +193,12 @@ class AddressBottomSheet extends StatelessWidget {
                     child: TextField(
                       controller: addressDetailsController,
                       maxLines: 3,
-                      style: TextStyle(color: AppColors.coal),
+                      style: const TextStyle(color: AppColors.coal),
                       decoration: InputDecoration(
                         hintText: 'Address details*',
-                        hintStyle: TextStyle(color: AppColors.grey),
+                        hintStyle: const TextStyle(color: AppColors.grey),
                         helperText: 'E.g. Floor, House no.',
-                        helperStyle: TextStyle(
+                        helperStyle: const TextStyle(
                           color: AppColors.grey,
                           fontSize: 12,
                         ),
@@ -210,7 +216,7 @@ class AddressBottomSheet extends StatelessWidget {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppColors.red),
+                          borderSide: const BorderSide(color: AppColors.red),
                         ),
                         contentPadding: const EdgeInsets.all(16),
                       ),
@@ -246,14 +252,18 @@ class AddressBottomSheet extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.phone, color: AppColors.coal, size: 24),
+                        const Icon(
+                          Icons.phone,
+                          color: AppColors.coal,
+                          size: 24,
+                        ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: TextField(
                             controller: phoneController,
                             keyboardType: TextInputType.phone,
-                            style: TextStyle(color: AppColors.coal),
-                            decoration: InputDecoration(
+                            style: const TextStyle(color: AppColors.coal),
+                            decoration: const InputDecoration(
                               hintText: 'Phone number',
                               hintStyle: TextStyle(color: AppColors.grey),
                               border: InputBorder.none,
@@ -261,7 +271,7 @@ class AddressBottomSheet extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Icon(Icons.chevron_right, color: AppColors.grey),
+                        const Icon(Icons.chevron_right, color: AppColors.grey),
                       ],
                     ),
                   ),
@@ -352,17 +362,16 @@ class AddressBottomSheet extends StatelessWidget {
 
 /// Address type chip widget
 class _AddressTypeChip extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final bool isSelected;
-  final VoidCallback onTap;
-
   const _AddressTypeChip({
     required this.label,
     required this.icon,
     required this.isSelected,
     required this.onTap,
   });
+  final String label;
+  final IconData icon;
+  final bool isSelected;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {

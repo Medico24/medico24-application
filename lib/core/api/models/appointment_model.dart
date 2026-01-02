@@ -30,6 +30,28 @@ enum AppointmentSource {
 
 @JsonSerializable()
 class AppointmentModel {
+  AppointmentModel({
+    required this.id,
+    required this.patientId,
+    required this.doctorName,
+    required this.appointmentAt,
+    required this.reason,
+    required this.contactPhone,
+    required this.status,
+    required this.source,
+    required this.createdAt,
+    required this.updatedAt,
+    this.doctorId,
+    this.clinicId,
+    this.clinicName,
+    this.appointmentEndAt,
+    this.notes,
+    this.cancelledAt,
+    this.deletedAt,
+  });
+
+  factory AppointmentModel.fromJson(Map<String, dynamic> json) =>
+      _$AppointmentModelFromJson(json);
   final String id;
   @JsonKey(name: 'patient_id')
   final String patientId;
@@ -60,34 +82,26 @@ class AppointmentModel {
   @JsonKey(name: 'deleted_at')
   final DateTime? deletedAt;
 
-  AppointmentModel({
-    required this.id,
-    required this.patientId,
-    this.doctorId,
-    required this.doctorName,
-    this.clinicId,
-    this.clinicName,
-    required this.appointmentAt,
-    this.appointmentEndAt,
-    required this.reason,
-    required this.contactPhone,
-    this.notes,
-    required this.status,
-    required this.source,
-    required this.createdAt,
-    required this.updatedAt,
-    this.cancelledAt,
-    this.deletedAt,
-  });
-
-  factory AppointmentModel.fromJson(Map<String, dynamic> json) =>
-      _$AppointmentModelFromJson(json);
-
   Map<String, dynamic> toJson() => _$AppointmentModelToJson(this);
 }
 
 @JsonSerializable()
 class AppointmentCreateRequest {
+  AppointmentCreateRequest({
+    required this.doctorName,
+    required this.appointmentAt,
+    required this.reason,
+    required this.contactPhone,
+    this.clinicName,
+    this.appointmentEndAt,
+    this.notes,
+    this.doctorId,
+    this.clinicId,
+    this.source,
+  });
+
+  factory AppointmentCreateRequest.fromJson(Map<String, dynamic> json) =>
+      _$AppointmentCreateRequestFromJson(json);
   @JsonKey(name: 'doctor_name')
   final String doctorName;
   @JsonKey(name: 'clinic_name')
@@ -106,33 +120,11 @@ class AppointmentCreateRequest {
   final String? clinicId;
   final AppointmentSource? source;
 
-  AppointmentCreateRequest({
-    required this.doctorName,
-    this.clinicName,
-    required this.appointmentAt,
-    this.appointmentEndAt,
-    required this.reason,
-    required this.contactPhone,
-    this.notes,
-    this.doctorId,
-    this.clinicId,
-    this.source,
-  });
-
-  factory AppointmentCreateRequest.fromJson(Map<String, dynamic> json) =>
-      _$AppointmentCreateRequestFromJson(json);
-
   Map<String, dynamic> toJson() => _$AppointmentCreateRequestToJson(this);
 }
 
 @JsonSerializable()
 class AppointmentListResponse {
-  final List<AppointmentModel> items;
-  final int total;
-  final int page;
-  @JsonKey(name: 'page_size')
-  final int pageSize;
-
   AppointmentListResponse({
     required this.items,
     required this.total,
@@ -142,6 +134,11 @@ class AppointmentListResponse {
 
   factory AppointmentListResponse.fromJson(Map<String, dynamic> json) =>
       _$AppointmentListResponseFromJson(json);
+  final List<AppointmentModel> items;
+  final int total;
+  final int page;
+  @JsonKey(name: 'page_size')
+  final int pageSize;
 
   Map<String, dynamic> toJson() => _$AppointmentListResponseToJson(this);
 }

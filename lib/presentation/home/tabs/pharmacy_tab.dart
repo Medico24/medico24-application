@@ -10,9 +10,8 @@ import 'package:medico24/presentation/pharmacy/pharmacy_detail_screen.dart';
 import 'package:medico24/presentation/pharmacy/pharmacy_list_screen.dart';
 
 class PharmacyTabContent extends StatefulWidget {
+  const PharmacyTabContent({required this.scrollController, super.key});
   final ScrollController scrollController;
-
-  const PharmacyTabContent({super.key, required this.scrollController});
 
   @override
   State<PharmacyTabContent> createState() => _PharmacyTabContentState();
@@ -66,8 +65,8 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
           title: existingLocation?.title ?? 'Current Location',
           address: existingLocation?.address ?? 'Current Location',
           city: existingLocation?.city ?? '',
-          latitude: _userLatitude!,
-          longitude: _userLongitude!,
+          latitude: _userLatitude,
+          longitude: _userLongitude,
         );
       } catch (e) {
         _logger.w('Failed to get current location: $e');
@@ -255,7 +254,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
           children: [
             TextButton(
               onPressed: _navigateToPharmacyList,
-              child: Text(
+              child: const Text(
                 'View All',
                 style: TextStyle(
                   color: AppColors.red,
@@ -279,7 +278,11 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
               padding: const EdgeInsets.all(32),
               child: Column(
                 children: [
-                  Icon(Icons.error_outline, size: 48, color: AppColors.grey),
+                  const Icon(
+                    Icons.error_outline,
+                    size: 48,
+                    color: AppColors.grey,
+                  ),
                   const SizedBox(height: 16),
                   Text(
                     _errorMessage!,
@@ -306,7 +309,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
               padding: const EdgeInsets.all(32),
               child: Column(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.local_pharmacy_outlined,
                     size: 48,
                     color: AppColors.grey,
@@ -374,10 +377,10 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
                         color: AppColors.blue.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      child: Row(
+                      child: const Row(
                         children: [
                           Icon(Icons.verified, size: 14, color: AppColors.blue),
-                          const SizedBox(width: 4),
+                          SizedBox(width: 4),
                           Text(
                             'Verified',
                             style: TextStyle(
@@ -395,7 +398,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
               if (pharmacy.location != null)
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.location_on_outlined,
                       size: 16,
                       color: AppColors.grey,
@@ -415,7 +418,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.directions_walk,
                       size: 16,
                       color: AppColors.grey,
@@ -432,7 +435,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
               Row(
                 children: [
                   if (pharmacy.rating > 0) ...[
-                    Icon(Icons.star, size: 16, color: AppColors.yellow),
+                    const Icon(Icons.star, size: 16, color: AppColors.yellow),
                     const SizedBox(width: 4),
                     Text(
                       pharmacy.rating.toStringAsFixed(1),

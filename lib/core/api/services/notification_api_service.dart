@@ -4,11 +4,10 @@ import 'package:medico24/core/api/dio_client.dart';
 
 /// API service for notification-related endpoints
 class NotificationApiService {
-  late final Dio _dio;
-
   NotificationApiService() {
     _dio = DioClient.instance;
   }
+  late final Dio _dio;
 
   /// Register FCM token with backend
   Future<Map<String, dynamic>> registerToken(

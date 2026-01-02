@@ -56,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: AppColors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColors.coal),
+          icon: const Icon(Icons.arrow_back, color: AppColors.coal),
           onPressed: () => context.pop(),
         ),
         title: Text(
@@ -125,7 +125,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   // Edit icon
                   IconButton(
-                    icon: Icon(Icons.edit_outlined, color: AppColors.grey),
+                    icon: const Icon(
+                      Icons.edit_outlined,
+                      color: AppColors.grey,
+                    ),
                     onPressed: () {
                       // TODO: Navigate to edit profile
                     },
@@ -292,7 +295,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           TextButton(
                             onPressed: () => Navigator.pop(context, true),
-                            child: Text(
+                            child: const Text(
                               'Sign Out',
                               style: TextStyle(color: AppColors.red),
                             ),
@@ -358,8 +361,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     BuildContext context, {
     required IconData icon,
     required String title,
-    Widget? trailing,
     required VoidCallback onTap,
+    Widget? trailing,
   }) {
     return ListTile(
       leading: Icon(icon, color: AppColors.coal, size: 24),
@@ -371,7 +374,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       trailing:
           trailing ??
-          Icon(Icons.chevron_right, color: AppColors.grey, size: 24),
+          const Icon(Icons.chevron_right, color: AppColors.grey, size: 24),
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
     );

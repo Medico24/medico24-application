@@ -1,12 +1,11 @@
 import 'package:logger/logger.dart';
-import '../api/models/pharmacy_model.dart';
-import '../api/services/pharmacy_api_service.dart';
+import 'package:medico24/core/api/models/pharmacy_model.dart';
+import 'package:medico24/core/api/services/pharmacy_api_service.dart';
 
 class PharmacyRepository {
+  PharmacyRepository(this._apiService);
   final PharmacyApiService _apiService;
   final Logger _logger = Logger();
-
-  PharmacyRepository(this._apiService);
 
   /// Get list of pharmacies with optional filters
   /// If latitude and longitude are provided, returns nearby pharmacies sorted by distance

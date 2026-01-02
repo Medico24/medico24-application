@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   elevation: 0,
                 ),
                 icon: _isLoading
-                    ? SizedBox(
+                    ? const SizedBox(
                         width: 24,
                         height: 24,
                         child: CircularProgressIndicator(

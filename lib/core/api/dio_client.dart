@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'api_constants.dart';
-import 'interceptors/auth_interceptor.dart';
-import 'interceptors/error_interceptor.dart';
+import 'package:medico24/core/api/api_constants.dart';
+import 'package:medico24/core/api/interceptors/auth_interceptor.dart';
+import 'package:medico24/core/api/interceptors/error_interceptor.dart';
 
 class DioClient {
   static Dio? _dio;

@@ -4,14 +4,13 @@ import 'package:medico24/core/theme/app_colors.dart';
 
 /// Dropdown overlay showing autocomplete suggestions
 class SearchSuggestionsOverlay extends StatelessWidget {
-  final List<PlaceSuggestion> suggestions;
-  final Function(PlaceSuggestion) onSuggestionTap;
-
   const SearchSuggestionsOverlay({
-    super.key,
     required this.suggestions,
     required this.onSuggestionTap,
+    super.key,
   });
+  final List<PlaceSuggestion> suggestions;
+  final Function(PlaceSuggestion) onSuggestionTap;
 
   @override
   Widget build(BuildContext context) {
@@ -38,17 +37,15 @@ class SearchSuggestionsOverlay extends StatelessWidget {
         child: ListView.separated(
           shrinkWrap: true,
           itemCount: suggestions.length,
-          separatorBuilder: (_, __) => Divider(
-            height: 1,
-            color: AppColors.grey.withValues(alpha: 0.2),
-          ),
+          separatorBuilder: (_, __) =>
+              Divider(height: 1, color: AppColors.grey.withValues(alpha: 0.2)),
           itemBuilder: (context, index) {
             final suggestion = suggestions[index];
             return ListTile(
-              leading: Icon(Icons.location_on, color: AppColors.red),
+              leading: const Icon(Icons.location_on, color: AppColors.red),
               title: Text(
                 suggestion.description,
-                style: TextStyle(color: AppColors.coal),
+                style: const TextStyle(color: AppColors.coal),
               ),
               onTap: () => onSuggestionTap(suggestion),
             );

@@ -40,7 +40,7 @@ class AppRouter {
                   const end = Offset.zero;
                   const curve = Curves.easeInOut;
 
-                  var tween = Tween(
+                  final tween = Tween(
                     begin: begin,
                     end: end,
                   ).chain(CurveTween(curve: curve));
@@ -63,7 +63,7 @@ class AppRouter {
                   const end = Offset.zero;
                   const curve = Curves.easeInOut;
 
-                  var tween = Tween(
+                  final tween = Tween(
                     begin: begin,
                     end: end,
                   ).chain(CurveTween(curve: curve));

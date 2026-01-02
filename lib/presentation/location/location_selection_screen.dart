@@ -68,7 +68,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                   onTap: () => context.pop(),
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.keyboard_arrow_down,
                         size: 32,
                         color: AppColors.coal,
@@ -95,7 +95,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -105,13 +105,13 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                   ),
                   child: TextField(
                     controller: _searchController,
-                    style: TextStyle(color: AppColors.coal),
-                    decoration: InputDecoration(
+                    style: const TextStyle(color: AppColors.coal),
+                    decoration: const InputDecoration(
                       hintText: 'Search for area, street name...',
                       hintStyle: TextStyle(color: AppColors.grey),
                       prefixIcon: Icon(Icons.search, color: AppColors.red),
                       border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(
+                      contentPadding: EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 14,
                       ),
@@ -139,7 +139,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                       color: AppColors.red.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.my_location,
                       color: AppColors.red,
                       size: 24,
@@ -160,7 +160,10 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                       context,
                     ).textTheme.bodyMedium?.copyWith(color: AppColors.coal),
                   ),
-                  trailing: Icon(Icons.chevron_right, color: AppColors.grey),
+                  trailing: const Icon(
+                    Icons.chevron_right,
+                    color: AppColors.grey,
+                  ),
                 ),
               ),
             ),
@@ -183,7 +186,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                       _loadData(); // Reload data when returning from add address
                     }
                   },
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.add_circle_outline,
                     color: AppColors.red,
                     size: 28,
@@ -195,7 +198,10 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  trailing: Icon(Icons.chevron_right, color: AppColors.grey),
+                  trailing: const Icon(
+                    Icons.chevron_right,
+                    color: AppColors.grey,
+                  ),
                 ),
               ),
             ),
@@ -219,7 +225,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                       color: AppColors.blue,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         'Map',
                         style: TextStyle(
@@ -237,7 +243,10 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  trailing: Icon(Icons.chevron_right, color: AppColors.grey),
+                  trailing: const Icon(
+                    Icons.chevron_right,
+                    color: AppColors.grey,
+                  ),
                 ),
               ),
             ),
@@ -494,7 +503,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
           children: [
             Column(
               children: [
-                Icon(Icons.access_time, color: AppColors.grey, size: 24),
+                const Icon(Icons.access_time, color: AppColors.grey, size: 24),
                 const SizedBox(height: 4),
                 Text(
                   time,

@@ -1,18 +1,18 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'api/dio_client.dart';
-import 'api/services/appointment_api_service.dart';
-import 'api/services/auth_api_service.dart';
-import 'api/services/pharmacy_api_service.dart';
-import 'api/services/user_api_service.dart';
-import 'database/database.dart';
-import 'repositories/appointment_repository.dart';
-import 'repositories/pharmacy_repository.dart';
-import 'repositories/user_repository.dart';
+import 'package:medico24/core/api/dio_client.dart';
+import 'package:medico24/core/api/services/appointment_api_service.dart';
+import 'package:medico24/core/api/services/auth_api_service.dart';
+import 'package:medico24/core/api/services/pharmacy_api_service.dart';
+import 'package:medico24/core/api/services/user_api_service.dart';
+import 'package:medico24/core/database/database.dart';
+import 'package:medico24/core/repositories/appointment_repository.dart';
+import 'package:medico24/core/repositories/pharmacy_repository.dart';
+import 'package:medico24/core/repositories/user_repository.dart';
 
 class ServiceLocator {
-  static final ServiceLocator _instance = ServiceLocator._internal();
   factory ServiceLocator() => _instance;
   ServiceLocator._internal();
+  static final ServiceLocator _instance = ServiceLocator._internal();
 
   // Lazy initialization
   late final FlutterSecureStorage _secureStorage;

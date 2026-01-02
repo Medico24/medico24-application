@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
-import '../api_constants.dart';
-import '../dio_client.dart';
-import '../models/pharmacy_model.dart';
+import 'package:medico24/core/api/api_constants.dart';
+import 'package:medico24/core/api/dio_client.dart';
+import 'package:medico24/core/api/models/pharmacy_model.dart';
 
 class PharmacyApiService {
   final Dio _dio = DioClient.instance;
@@ -42,15 +42,17 @@ class PharmacyApiService {
 
       _logger.d('Fetching pharmacies with params: $queryParams');
 
-      final response = await _dio.get(
+      final response = await _dio.get<List<dynamic>>(
         ApiConstants.pharmacies,
         queryParameters: queryParams,
       );
 
       _logger.d('Pharmacies response: ${response.data}');
 
-      final List<dynamic> data = response.data as List<dynamic>;
-      return data.map((json) => PharmacyModel.fromJson(json)).toList();
+      final List<dynamic> data = response.data!;
+      return data
+          .map((json) => PharmacyModel.fromJson(json as Map<String, dynamic>))
+          .toList();
     } on DioException catch (e) {
       _logger.e('Error fetching pharmacies: ${e.message}');
       rethrow;
@@ -92,15 +94,17 @@ class PharmacyApiService {
 
       _logger.d('Searching nearby pharmacies with params: $queryParams');
 
-      final response = await _dio.get(
+      final response = await _dio.get<List<dynamic>>(
         ApiConstants.pharmaciesNearby,
         queryParameters: queryParams,
       );
 
       _logger.d('Nearby pharmacies response: ${response.data}');
 
-      final List<dynamic> data = response.data as List<dynamic>;
-      return data.map((json) => PharmacyModel.fromJson(json)).toList();
+      final List<dynamic> data = response.data!;
+      return data
+          .map((json) => PharmacyModel.fromJson(json as Map<String, dynamic>))
+          .toList();
     } on DioException catch (e) {
       _logger.e('Error searching nearby pharmacies: ${e.message}');
       rethrow;
@@ -115,11 +119,13 @@ class PharmacyApiService {
     try {
       _logger.d('Fetching pharmacy details for ID: $id');
 
-      final response = await _dio.get(ApiConstants.pharmacy(id));
+      final response = await _dio.get<Map<String, dynamic>>(
+        ApiConstants.pharmacy(id),
+      );
 
       _logger.d('Pharmacy details response: ${response.data}');
 
-      return PharmacyModel.fromJson(response.data);
+      return PharmacyModel.fromJson(response.data!);
     } on DioException catch (e) {
       _logger.e('Error fetching pharmacy details: ${e.message}');
       rethrow;
@@ -134,14 +140,14 @@ class PharmacyApiService {
     try {
       _logger.d('Creating pharmacy: ${pharmacy.toJson()}');
 
-      final response = await _dio.post(
+      final response = await _dio.post<Map<String, dynamic>>(
         ApiConstants.pharmacies,
         data: pharmacy.toJson(),
       );
 
       _logger.d('Created pharmacy response: ${response.data}');
 
-      return PharmacyModel.fromJson(response.data);
+      return PharmacyModel.fromJson(response.data!);
     } on DioException catch (e) {
       _logger.e('Error creating pharmacy: ${e.message}');
       rethrow;
@@ -159,14 +165,14 @@ class PharmacyApiService {
     try {
       _logger.d('Updating pharmacy $id with: $updates');
 
-      final response = await _dio.patch(
+      final response = await _dio.patch<Map<String, dynamic>>(
         ApiConstants.pharmacy(id),
         data: updates,
       );
 
       _logger.d('Updated pharmacy response: ${response.data}');
 
-      return PharmacyModel.fromJson(response.data);
+      return PharmacyModel.fromJson(response.data!);
     } on DioException catch (e) {
       _logger.e('Error updating pharmacy: ${e.message}');
       rethrow;
@@ -181,7 +187,7 @@ class PharmacyApiService {
     try {
       _logger.d('Deleting pharmacy: $id');
 
-      await _dio.delete(ApiConstants.pharmacy(id));
+      await _dio.delete<void>(ApiConstants.pharmacy(id));
 
       _logger.d('Pharmacy deleted successfully');
     } on DioException catch (e) {
@@ -198,12 +204,18 @@ class PharmacyApiService {
     try {
       _logger.d('Fetching pharmacy hours for: $pharmacyId');
 
-      final response = await _dio.get(ApiConstants.pharmacyHours(pharmacyId));
+      final response = await _dio.get<List<dynamic>>(
+        ApiConstants.pharmacyHours(pharmacyId),
+      );
 
       _logger.d('Pharmacy hours response: ${response.data}');
 
-      final List<dynamic> data = response.data as List<dynamic>;
-      return data.map((json) => PharmacyHoursModel.fromJson(json)).toList();
+      final List<dynamic> data = response.data!;
+      return data
+          .map(
+            (json) => PharmacyHoursModel.fromJson(json as Map<String, dynamic>),
+          )
+          .toList();
     } on DioException catch (e) {
       _logger.e('Error fetching pharmacy hours: ${e.message}');
       rethrow;
@@ -221,14 +233,14 @@ class PharmacyApiService {
     try {
       _logger.d('Adding pharmacy hours for $pharmacyId: ${hours.toJson()}');
 
-      final response = await _dio.post(
+      final response = await _dio.post<Map<String, dynamic>>(
         ApiConstants.pharmacyHours(pharmacyId),
         data: hours.toJson(),
       );
 
       _logger.d('Added pharmacy hours response: ${response.data}');
 
-      return PharmacyHoursModel.fromJson(response.data);
+      return PharmacyHoursModel.fromJson(response.data!);
     } on DioException catch (e) {
       _logger.e('Error adding pharmacy hours: ${e.message}');
       rethrow;
@@ -243,7 +255,9 @@ class PharmacyApiService {
     try {
       _logger.d('Deleting pharmacy hours for $pharmacyId, day: $dayOfWeek');
 
-      await _dio.delete(ApiConstants.pharmacyHoursDay(pharmacyId, dayOfWeek));
+      await _dio.delete<void>(
+        ApiConstants.pharmacyHoursDay(pharmacyId, dayOfWeek),
+      );
 
       _logger.d('Pharmacy hours deleted successfully');
     } on DioException catch (e) {

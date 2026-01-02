@@ -6,18 +6,17 @@ import 'package:medico24/core/router/app_router.dart';
 import 'package:medico24/core/theme/app_colors.dart';
 
 class HomeTopBar extends StatelessWidget {
-  final bool isVisible;
-  final double opacity;
-  final CurrentLocationData? currentLocation;
-  final User? currentUser;
-
   const HomeTopBar({
-    super.key,
     required this.isVisible,
     required this.opacity,
     required this.currentLocation,
     required this.currentUser,
+    super.key,
   });
+  final bool isVisible;
+  final double opacity;
+  final CurrentLocationData? currentLocation;
+  final User? currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,7 @@ class HomeTopBar extends StatelessWidget {
                     onTap: () => context.push(AppRouter.locationSelection),
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.location_on,
                           color: AppColors.grey,
                           size: 24,
@@ -74,7 +73,7 @@ class HomeTopBar extends StatelessWidget {
                                         ),
                                   ),
                                   const SizedBox(width: 4),
-                                  Icon(
+                                  const Icon(
                                     Icons.keyboard_arrow_down,
                                     color: AppColors.coal,
                                     size: 20,
@@ -83,7 +82,7 @@ class HomeTopBar extends StatelessWidget {
                               ),
                               Text(
                                 shouldShowAddress
-                                    ? locationAddress!
+                                    ? locationAddress
                                     : 'Tap to select',
                                 style: Theme.of(context).textTheme.bodySmall
                                     ?.copyWith(color: AppColors.grey),
@@ -99,7 +98,7 @@ class HomeTopBar extends StatelessWidget {
                 // Bookmark icon
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.bookmark_border,
                     color: AppColors.coal,
                     size: 28,

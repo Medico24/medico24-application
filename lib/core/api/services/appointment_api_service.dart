@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
-import '../models/appointment_model.dart';
+import 'package:medico24/core/api/models/appointment_model.dart';
 
 class AppointmentApiService {
-  final Dio _dio;
-
   AppointmentApiService(this._dio);
+  final Dio _dio;
 
   Future<AppointmentListResponse> getAppointments({
     String? status,
@@ -15,7 +14,7 @@ class AppointmentApiService {
     int? page,
     int? pageSize,
   }) async {
-    final response = await _dio.get(
+    final response = await _dio.get<Map<String, dynamic>>(
       '/api/v1/appointments/',
       queryParameters: {
         if (status != null) 'status': status,
@@ -27,47 +26,49 @@ class AppointmentApiService {
         if (pageSize != null) 'page_size': pageSize,
       },
     );
-    return AppointmentListResponse.fromJson(response.data);
+    return AppointmentListResponse.fromJson(response.data!);
   }
 
   Future<AppointmentModel> createAppointment(
     AppointmentCreateRequest request,
   ) async {
-    final response = await _dio.post(
+    final response = await _dio.post<Map<String, dynamic>>(
       '/api/v1/appointments/',
       data: request.toJson(),
     );
-    return AppointmentModel.fromJson(response.data);
+    return AppointmentModel.fromJson(response.data!);
   }
 
   Future<AppointmentModel> getAppointment(String appointmentId) async {
-    final response = await _dio.get('/api/v1/appointments/$appointmentId');
-    return AppointmentModel.fromJson(response.data);
+    final response = await _dio.get<Map<String, dynamic>>(
+      '/api/v1/appointments/$appointmentId',
+    );
+    return AppointmentModel.fromJson(response.data!);
   }
 
   Future<AppointmentModel> updateAppointment(
     String appointmentId,
     AppointmentCreateRequest request,
   ) async {
-    final response = await _dio.put(
+    final response = await _dio.put<Map<String, dynamic>>(
       '/api/v1/appointments/$appointmentId',
       data: request.toJson(),
     );
-    return AppointmentModel.fromJson(response.data);
+    return AppointmentModel.fromJson(response.data!);
   }
 
   Future<void> deleteAppointment(String appointmentId) async {
-    await _dio.delete('/api/v1/appointments/$appointmentId');
+    await _dio.delete<void>('/api/v1/appointments/$appointmentId');
   }
 
   Future<AppointmentModel> updateAppointmentStatus(
     String appointmentId,
     Map<String, dynamic> statusUpdate,
   ) async {
-    final response = await _dio.patch(
+    final response = await _dio.patch<Map<String, dynamic>>(
       '/api/v1/appointments/$appointmentId/status',
       data: statusUpdate,
     );
-    return AppointmentModel.fromJson(response.data);
+    return AppointmentModel.fromJson(response.data!);
   }
 }

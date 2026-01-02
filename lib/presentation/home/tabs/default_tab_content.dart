@@ -3,18 +3,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medico24/core/theme/app_colors.dart';
 
 class DefaultTabContent extends StatelessWidget {
-  final ScrollController scrollController;
-  final int tabIndex;
-  final String tabLabel;
-  final IconData tabIcon;
-
   const DefaultTabContent({
-    super.key,
     required this.scrollController,
     required this.tabIndex,
     required this.tabLabel,
     required this.tabIcon,
+    super.key,
   });
+  final ScrollController scrollController;
+  final int tabIndex;
+  final String tabLabel;
+  final IconData tabIcon;
 
   @override
   Widget build(BuildContext context) {

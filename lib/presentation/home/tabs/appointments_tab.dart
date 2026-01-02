@@ -6,9 +6,8 @@ import 'package:medico24/core/theme/app_colors.dart';
 import 'package:medico24/presentation/appointments/appointments_calendar.dart';
 
 class AppointmentsTab extends StatefulWidget {
+  const AppointmentsTab({required this.scrollController, super.key});
   final ScrollController scrollController;
-
-  const AppointmentsTab({super.key, required this.scrollController});
 
   @override
   State<AppointmentsTab> createState() => _AppointmentsTabState();
@@ -128,7 +127,7 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
                     ),
                     child: Text(
                       _error!,
-                      style: TextStyle(color: AppColors.coal),
+                      style: const TextStyle(color: AppColors.coal),
                     ),
                   ),
                 ),
@@ -157,8 +156,8 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
               // Upcoming Appointments list
               else if (_upcomingAppointments.isEmpty &&
                   _pastAppointments.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.all(32),
+                const Padding(
+                  padding: EdgeInsets.all(32),
                   child: Center(
                     child: Text(
                       'No appointments found',
@@ -175,8 +174,8 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
               if (!_isLoading &&
                   _upcomingAppointments.isEmpty &&
                   _pastAppointments.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.all(32),
+                const Padding(
+                  padding: EdgeInsets.all(32),
                   child: Center(
                     child: Text(
                       'No upcoming appointments',
@@ -310,10 +309,8 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
                     } catch (e) {
                       if (mounted) {
                         messenger.showSnackBar(
-                          SnackBar(
-                            content: const Text(
-                              'Could not launch phone dialer',
-                            ),
+                          const SnackBar(
+                            content: Text('Could not launch phone dialer'),
                             backgroundColor: AppColors.red,
                           ),
                         );

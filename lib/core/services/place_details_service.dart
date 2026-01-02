@@ -5,31 +5,29 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class PlaceDetailsService {
   static const _baseUrl =
-      "https://maps.googleapis.com/maps/api/place/details/json";
+      'https://maps.googleapis.com/maps/api/place/details/json';
 
   /// Get latitude and longitude from a place ID
   static Future<LatLng> getLatLng(String placeId) async {
     final apiKey = dotenv.env['GOOGLE_MAPS_API_KEY'] ?? '';
     if (apiKey.isEmpty) {
-      throw Exception("Google Maps API key not configured");
+      throw Exception('Google Maps API key not configured');
     }
 
-    final uri = Uri.parse(
-      "$_baseUrl?place_id=$placeId&key=$apiKey",
-    );
+    final uri = Uri.parse('$_baseUrl?place_id=$placeId&key=$apiKey');
 
     try {
       final res = await http.get(uri);
       final data = jsonDecode(res.body);
 
-      if (data["status"] != "OK") {
+      if (data['status'] != 'OK') {
         throw Exception("Place details failed: ${data["status"]}");
       }
 
-      final loc = data["result"]["geometry"]["location"];
-      return LatLng(loc["lat"], loc["lng"]);
+      final loc = data['result']['geometry']['location'];
+      return LatLng(loc['lat'] as double, loc['lng'] as double);
     } catch (e) {
-      throw Exception("Failed to get place details: $e");
+      throw Exception('Failed to get place details: $e');
     }
   }
 
@@ -37,24 +35,22 @@ class PlaceDetailsService {
   static Future<Map<String, dynamic>> getPlaceDetails(String placeId) async {
     final apiKey = dotenv.env['GOOGLE_MAPS_API_KEY'] ?? '';
     if (apiKey.isEmpty) {
-      throw Exception("Google Maps API key not configured");
+      throw Exception('Google Maps API key not configured');
     }
 
-    final uri = Uri.parse(
-      "$_baseUrl?place_id=$placeId&key=$apiKey",
-    );
+    final uri = Uri.parse('$_baseUrl?place_id=$placeId&key=$apiKey');
 
     try {
       final res = await http.get(uri);
       final data = jsonDecode(res.body);
 
-      if (data["status"] != "OK") {
+      if (data['status'] != 'OK') {
         throw Exception("Place details failed: ${data["status"]}");
       }
 
-      return data["result"];
+      return data['result'] as Map<String, dynamic>;
     } catch (e) {
-      throw Exception("Failed to get place details: $e");
+      throw Exception('Failed to get place details: $e');
     }
   }
 }

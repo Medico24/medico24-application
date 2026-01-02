@@ -6,11 +6,10 @@ import 'package:medico24/core/api/services/user_api_service.dart';
 import 'package:medico24/core/database/database.dart';
 
 class UserRepository {
+  UserRepository(this._apiService, this._database);
   final UserApiService _apiService;
   final AppDatabase _database;
   final Logger _logger = Logger();
-
-  UserRepository(this._apiService, this._database);
 
   /// Fetch user from API and cache
   Future<UserModel> fetchAndCacheUser() async {

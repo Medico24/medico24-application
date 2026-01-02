@@ -6,11 +6,10 @@ import 'package:medico24/core/api/services/appointment_api_service.dart';
 import 'package:medico24/core/database/database.dart';
 
 class AppointmentRepository {
+  AppointmentRepository(this._apiService, this._database);
   final AppointmentApiService _apiService;
   final AppDatabase _database;
   final Logger _logger = Logger();
-
-  AppointmentRepository(this._apiService, this._database);
 
   /// Fetch appointments from API and cache them
   Future<List<AppointmentModel>> fetchAndCacheAppointments({

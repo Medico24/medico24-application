@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medico24/core/database/database.dart';
 import 'package:medico24/core/theme/app_colors.dart';
-import 'tabs/appointments_tab.dart';
-import 'tabs/default_tab_content.dart';
-import 'tabs/pharmacy_tab.dart';
-import 'widgets/home_top_bar.dart';
+import 'package:medico24/presentation/home/tabs/appointments_tab.dart';
+import 'package:medico24/presentation/home/tabs/default_tab_content.dart';
+import 'package:medico24/presentation/home/tabs/pharmacy_tab.dart';
+import 'package:medico24/presentation/home/widgets/home_top_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _pageController.dispose();
-    for (var controller in _scrollControllers) {
+    for (final controller in _scrollControllers) {
       controller.dispose();
     }
     _database.close();
@@ -129,19 +129,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             // Search bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
+              child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: const Color(0xFFF5F5F5),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: TextField(
+                child: const TextField(
                   style: TextStyle(color: AppColors.coal),
                   decoration: InputDecoration(
                     hintText: 'Search for \'Cardiac Specialist\'',
                     hintStyle: TextStyle(color: AppColors.grey),
                     prefixIcon: Icon(Icons.search, color: AppColors.grey),
                     border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(
+                    contentPadding: EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 14,
                     ),
@@ -171,13 +171,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            tab['icon'],
+                            tab['icon'] as IconData?,
                             color: isSelected ? AppColors.blue : AppColors.grey,
                             size: 28,
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            tab['label'],
+                            tab['label'] as String,
                             style: Theme.of(context).textTheme.labelSmall
                                 ?.copyWith(
                                   color: isSelected
@@ -236,8 +236,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return DefaultTabContent(
       scrollController: scrollController,
       tabIndex: index,
-      tabLabel: _navTabs[index]['label'],
-      tabIcon: _navTabs[index]['icon'],
+      tabLabel: _navTabs[index]['label'] as String,
+      tabIcon: _navTabs[index]['icon'] as IconData,
     );
   }
 }

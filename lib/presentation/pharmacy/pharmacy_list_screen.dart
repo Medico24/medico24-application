@@ -6,17 +6,9 @@ import 'package:medico24/core/theme/app_colors.dart';
 import 'package:medico24/presentation/pharmacy/pharmacy_detail_screen.dart';
 
 class PharmacyListScreen extends StatefulWidget {
-  final PharmacyRepository pharmacyRepository;
-  final double? userLatitude;
-  final double? userLongitude;
-  final bool initialDeliveryFilter;
-  final bool initialPickupFilter;
-  final bool initialVerifiedFilter;
-  final bool initialNearbySearch;
-
   const PharmacyListScreen({
-    super.key,
     required this.pharmacyRepository,
+    super.key,
     this.userLatitude,
     this.userLongitude,
     this.initialDeliveryFilter = false,
@@ -24,6 +16,13 @@ class PharmacyListScreen extends StatefulWidget {
     this.initialVerifiedFilter = false,
     this.initialNearbySearch = false,
   });
+  final PharmacyRepository pharmacyRepository;
+  final double? userLatitude;
+  final double? userLongitude;
+  final bool initialDeliveryFilter;
+  final bool initialPickupFilter;
+  final bool initialVerifiedFilter;
+  final bool initialNearbySearch;
 
   @override
   State<PharmacyListScreen> createState() => _PharmacyListScreenState();
@@ -211,7 +210,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
               SwitchListTile(
                 title: const Text('Verified Only'),
                 value: tempVerified,
-                activeColor: AppColors.red,
+                activeThumbColor: AppColors.red,
                 onChanged: (value) {
                   setModalState(() {
                     tempVerified = value;
@@ -221,7 +220,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
               SwitchListTile(
                 title: const Text('Supports Delivery'),
                 value: tempDelivery,
-                activeColor: AppColors.red,
+                activeThumbColor: AppColors.red,
                 onChanged: (value) {
                   setModalState(() {
                     tempDelivery = value;
@@ -231,7 +230,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
               SwitchListTile(
                 title: const Text('Supports Pickup'),
                 value: tempPickup,
-                activeColor: AppColors.red,
+                activeThumbColor: AppColors.red,
                 onChanged: (value) {
                   setModalState(() {
                     tempPickup = value;
@@ -244,7 +243,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
                     SwitchListTile(
                       title: const Text('Search Nearby'),
                       value: tempNearby,
-                      activeColor: AppColors.red,
+                      activeThumbColor: AppColors.red,
                       onChanged: (value) {
                         setModalState(() {
                           tempNearby = value;
@@ -387,7 +386,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.local_pharmacy_outlined,
               size: 64,
               color: AppColors.grey,
@@ -419,10 +418,10 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
             onChanged: _filterPharmacies,
             decoration: InputDecoration(
               hintText: 'Search pharmacies...',
-              prefixIcon: Icon(Icons.search, color: AppColors.grey),
+              prefixIcon: const Icon(Icons.search, color: AppColors.grey),
               suffixIcon: _searchController.text.isNotEmpty
                   ? IconButton(
-                      icon: Icon(Icons.clear, color: AppColors.grey),
+                      icon: const Icon(Icons.clear, color: AppColors.grey),
                       onPressed: () {
                         _searchController.clear();
                         _filterPharmacies('');
@@ -443,7 +442,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: AppColors.red),
+                borderSide: const BorderSide(color: AppColors.red),
               ),
               filled: true,
               fillColor: AppColors.white,
@@ -522,10 +521,10 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
                         color: AppColors.blue.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      child: Row(
+                      child: const Row(
                         children: [
                           Icon(Icons.verified, size: 14, color: AppColors.blue),
-                          const SizedBox(width: 4),
+                          SizedBox(width: 4),
                           Text(
                             'Verified',
                             style: TextStyle(
@@ -543,7 +542,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
               if (pharmacy.location != null)
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.location_on_outlined,
                       size: 16,
                       color: AppColors.grey,
@@ -563,7 +562,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.directions_walk,
                       size: 16,
                       color: AppColors.grey,
@@ -580,7 +579,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
               Row(
                 children: [
                   if (pharmacy.rating > 0) ...[
-                    Icon(Icons.star, size: 16, color: AppColors.yellow),
+                    const Icon(Icons.star, size: 16, color: AppColors.yellow),
                     const SizedBox(width: 4),
                     Text(
                       '${pharmacy.rating.toStringAsFixed(1)} (${pharmacy.ratingCount})',
@@ -641,7 +640,10 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
         children: [
           Icon(icon, size: 14, color: AppColors.red),
           const SizedBox(width: 4),
-          Text(label, style: TextStyle(fontSize: 12, color: AppColors.red)),
+          Text(
+            label,
+            style: const TextStyle(fontSize: 12, color: AppColors.red),
+          ),
         ],
       ),
     );

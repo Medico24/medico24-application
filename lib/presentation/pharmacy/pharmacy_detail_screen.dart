@@ -5,14 +5,13 @@ import 'package:medico24/core/theme/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PharmacyDetailScreen extends StatefulWidget {
-  final String pharmacyId;
-  final PharmacyRepository pharmacyRepository;
-
   const PharmacyDetailScreen({
-    super.key,
     required this.pharmacyId,
     required this.pharmacyRepository,
+    super.key,
   });
+  final String pharmacyId;
+  final PharmacyRepository pharmacyRepository;
 
   @override
   State<PharmacyDetailScreen> createState() => _PharmacyDetailScreenState();
@@ -127,7 +126,7 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, size: 64, color: AppColors.grey),
+            const Icon(Icons.error_outline, size: 64, color: AppColors.grey),
             const SizedBox(height: 16),
             Text(
               _errorMessage!,
@@ -193,10 +192,10 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
                     color: AppColors.blue,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.verified, size: 16, color: AppColors.white),
-                      const SizedBox(width: 4),
+                      SizedBox(width: 4),
                       Text(
                         'Verified',
                         style: TextStyle(
@@ -225,7 +224,7 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
               if (_pharmacy!.rating > 0)
                 Row(
                   children: [
-                    Icon(Icons.star, size: 20, color: AppColors.yellow),
+                    const Icon(Icons.star, size: 20, color: AppColors.yellow),
                     const SizedBox(width: 4),
                     Text(
                       _pharmacy!.rating.toStringAsFixed(1),
@@ -343,7 +342,7 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
                 ],
               ),
             ),
-            Icon(Icons.chevron_right, color: AppColors.grey),
+            const Icon(Icons.chevron_right, color: AppColors.grey),
           ],
         ),
       ),
@@ -384,7 +383,7 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
                       color: AppColors.red,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.location_on,
                       color: AppColors.white,
                       size: 20,
@@ -410,7 +409,11 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
                       ],
                     ),
                   ),
-                  Icon(Icons.arrow_forward_ios, color: AppColors.red, size: 16),
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    color: AppColors.red,
+                    size: 16,
+                  ),
                 ],
               ),
             ),
@@ -419,7 +422,11 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
             const SizedBox(height: 12),
             Row(
               children: [
-                Icon(Icons.directions_walk, size: 16, color: AppColors.grey),
+                const Icon(
+                  Icons.directions_walk,
+                  size: 16,
+                  color: AppColors.grey,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   '${_pharmacy!.distanceKm!.toStringAsFixed(1)} km away from you',

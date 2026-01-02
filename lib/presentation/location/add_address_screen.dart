@@ -136,13 +136,15 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       final city = addressComponents['city'];
       final state = addressComponents['state'];
 
-      if (formattedAddress == null || formattedAddress.isEmpty) {
+      if (formattedAddress == null ||
+          (formattedAddress is String && formattedAddress.isEmpty)) {
         throw Exception('No address found');
       }
 
       setState(() {
-        _address = formattedAddress;
-        _selectedLocation = locality ?? city ?? 'Select location';
+        _address = formattedAddress as String;
+        _selectedLocation =
+            locality as String? ?? city as String? ?? 'Select location';
         _selectedCity = city != null && state != null ? '$city, $state' : '';
         _isLoadingAddress = false;
       });
@@ -156,12 +158,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text(
+          const SnackBar(
+            content: Text(
               'Could not fetch address. Try moving the pin or use search.',
             ),
             backgroundColor: AppColors.red,
-            duration: const Duration(seconds: 2),
+            duration: Duration(seconds: 2),
           ),
         );
       }
@@ -228,12 +230,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     if (_address == 'Could not fetch address' ||
         _address == 'Fetching address...') {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
-            'Please wait for address to load or move the pin',
-          ),
+        const SnackBar(
+          content: Text('Please wait for address to load or move the pin'),
           backgroundColor: AppColors.red,
-          duration: const Duration(seconds: 2),
+          duration: Duration(seconds: 2),
         ),
       );
       return;
@@ -243,10 +243,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       _selectedLocation = _address.split(',').first.trim();
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Location confirmed'),
+      const SnackBar(
+        content: Text('Location confirmed'),
         backgroundColor: AppColors.blue,
-        duration: const Duration(seconds: 1),
+        duration: Duration(seconds: 1),
       ),
     );
   }
@@ -257,10 +257,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
         _address == 'Fetching address...' ||
         _addressDetailsController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
-            'Please confirm location and fill all required fields',
-          ),
+        const SnackBar(
+          content: Text('Please confirm location and fill all required fields'),
           backgroundColor: AppColors.red,
         ),
       );
@@ -276,8 +274,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Address saved successfully'),
+        const SnackBar(
+          content: Text('Address saved successfully'),
           backgroundColor: AppColors.blue,
         ),
       );
@@ -300,8 +298,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Location accessed successfully'),
+          const SnackBar(
+            content: Text('Location accessed successfully'),
             backgroundColor: AppColors.blue,
           ),
         );
@@ -350,7 +348,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back, color: AppColors.coal),
+                    icon: const Icon(Icons.arrow_back, color: AppColors.coal),
                     onPressed: () => context.pop(),
                   ),
                   const SizedBox(width: 8),

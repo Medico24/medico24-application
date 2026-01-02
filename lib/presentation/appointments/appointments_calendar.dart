@@ -3,9 +3,8 @@ import 'package:medico24/core/theme/app_colors.dart';
 import 'package:medico24/core/api/models/appointment_model.dart';
 
 class AppointmentsCalendar extends StatefulWidget {
+  const AppointmentsCalendar({required this.appointments, super.key});
   final List<AppointmentModel> appointments;
-
-  const AppointmentsCalendar({super.key, required this.appointments});
 
   @override
   State<AppointmentsCalendar> createState() => _AppointmentsCalendarState();
@@ -35,7 +34,7 @@ class _AppointmentsCalendarState extends State<AppointmentsCalendar> {
   void _buildAppointmentDates() {
     final Map<DateTime, Color> dates = {};
 
-    for (var appointment in widget.appointments) {
+    for (final appointment in widget.appointments) {
       final date = DateTime(
         appointment.appointmentAt.year,
         appointment.appointmentAt.month,
@@ -122,7 +121,7 @@ class _AppointmentsCalendarState extends State<AppointmentsCalendar> {
   }
 
   Color? _getDateColor(DateTime date) {
-    for (var entry in _appointmentDates.entries) {
+    for (final entry in _appointmentDates.entries) {
       if (entry.key.year == date.year &&
           entry.key.month == date.month &&
           entry.key.day == date.day) {
@@ -176,13 +175,13 @@ class _AppointmentsCalendarState extends State<AppointmentsCalendar> {
         // Month and Year Selector
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-          decoration: BoxDecoration(color: AppColors.white),
+          decoration: const BoxDecoration(color: AppColors.white),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
                 onPressed: _previousMonth,
-                icon: Icon(Icons.chevron_left, color: AppColors.coal),
+                icon: const Icon(Icons.chevron_left, color: AppColors.coal),
               ),
               Text(
                 '${_getMonthName(_currentMonth.month)}, ${_currentMonth.year}',
@@ -193,7 +192,7 @@ class _AppointmentsCalendarState extends State<AppointmentsCalendar> {
               ),
               IconButton(
                 onPressed: _nextMonth,
-                icon: Icon(Icons.chevron_right, color: AppColors.coal),
+                icon: const Icon(Icons.chevron_right, color: AppColors.coal),
               ),
             ],
           ),

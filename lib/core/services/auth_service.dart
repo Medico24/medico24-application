@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
-import '../api/models/auth_model.dart';
-import '../service_locator.dart' as sl;
+import 'package:medico24/core/api/models/auth_model.dart';
+import 'package:medico24/core/service_locator.dart' as sl;
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;

@@ -120,12 +120,12 @@ class AuthInterceptor extends Interceptor {
             sendTimeout: err.requestOptions.sendTimeout,
           ),
         );
-        final response = await dio.post(
+        final response = await dio.post<Map<String, dynamic>>(
           '/api/v1/auth/firebase/verify',
           data: {'id_token': newFirebaseToken},
         );
 
-        final loginResponse = LoginResponse.fromJson(response.data);
+        final loginResponse = LoginResponse.fromJson(response.data!);
 
         // Store new tokens
         await _storage.write(

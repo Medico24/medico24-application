@@ -4,20 +4,19 @@ import 'package:medico24/core/theme/app_colors.dart';
 
 /// Google Map widget with static centered pin
 class MapWithCenteredPin extends StatelessWidget {
-  final LatLng center;
-  final bool isLoading;
-  final Function(GoogleMapController) onMapCreated;
-  final Function(CameraPosition) onCameraMove;
-  final VoidCallback onCameraIdle;
-
   const MapWithCenteredPin({
-    super.key,
     required this.center,
     required this.isLoading,
     required this.onMapCreated,
     required this.onCameraMove,
     required this.onCameraIdle,
+    super.key,
   });
+  final LatLng center;
+  final bool isLoading;
+  final Function(GoogleMapController) onMapCreated;
+  final Function(CameraPosition) onCameraMove;
+  final VoidCallback onCameraIdle;
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +24,7 @@ class MapWithCenteredPin extends StatelessWidget {
       children: [
         // Google Map (full screen)
         GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target: center,
-            zoom: 16,
-          ),
+          initialCameraPosition: CameraPosition(target: center, zoom: 16),
           myLocationEnabled: true,
           myLocationButtonEnabled: false,
           zoomControlsEnabled: false,
@@ -36,19 +32,17 @@ class MapWithCenteredPin extends StatelessWidget {
           onCameraMove: onCameraMove,
           onCameraIdle: onCameraIdle,
         ),
-        
+
         // Static pin in center
-        Center(
+        const Center(
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 24), // Offset to align pin point with center
-            child: Icon(
-              Icons.location_on,
-              size: 48,
-              color: AppColors.red,
-            ),
+            padding: EdgeInsets.only(
+              bottom: 24,
+            ), // Offset to align pin point with center
+            child: Icon(Icons.location_on, size: 48, color: AppColors.red),
           ),
         ),
-        
+
         // Move pin message
         Positioned(
           top: 16,
@@ -64,23 +58,21 @@ class MapWithCenteredPin extends StatelessWidget {
               'Move map to adjust pin location',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w500,
-                  ),
+                color: AppColors.white,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ),
-        
+
         // Loading indicator overlay
         if (isLoading)
           Positioned.fill(
-            child: Container(
+            child: ColoredBox(
               color: Colors.black.withValues(alpha: 0.3),
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    AppColors.white,
-                  ),
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
                 ),
               ),
             ),

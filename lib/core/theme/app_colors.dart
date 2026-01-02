@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  // Prevent instantiation
+  AppColors._();
   // Primary colors
   static const Color red = Color(0xFFE23744);
   static const Color yellow = Color(0xFFF8D149);
@@ -24,7 +26,4 @@ class AppColors {
   // Neutral colors
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
-
-  // Prevent instantiation
-  AppColors._();
 }

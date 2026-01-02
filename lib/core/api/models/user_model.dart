@@ -4,6 +4,27 @@ part 'user_model.g.dart';
 
 @JsonSerializable()
 class UserModel {
+  UserModel({
+    required this.id,
+    required this.firebaseUid,
+    required this.email,
+    required this.emailVerified,
+    required this.authProvider,
+    required this.role,
+    required this.isActive,
+    required this.isOnboarded,
+    required this.createdAt,
+    required this.updatedAt,
+    this.fullName,
+    this.givenName,
+    this.familyName,
+    this.photoUrl,
+    this.phone,
+    this.lastLoginAt,
+  });
+
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
   final String id;
   @JsonKey(name: 'firebase_uid')
   final String firebaseUid;
@@ -33,43 +54,11 @@ class UserModel {
   @JsonKey(name: 'last_login_at')
   final DateTime? lastLoginAt;
 
-  UserModel({
-    required this.id,
-    required this.firebaseUid,
-    required this.email,
-    required this.emailVerified,
-    required this.authProvider,
-    this.fullName,
-    this.givenName,
-    this.familyName,
-    this.photoUrl,
-    this.phone,
-    required this.role,
-    required this.isActive,
-    required this.isOnboarded,
-    required this.createdAt,
-    required this.updatedAt,
-    this.lastLoginAt,
-  });
-
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
-      _$UserModelFromJson(json);
-
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 }
 
 @JsonSerializable()
 class UserUpdateRequest {
-  @JsonKey(name: 'full_name')
-  final String? fullName;
-  @JsonKey(name: 'given_name')
-  final String? givenName;
-  @JsonKey(name: 'family_name')
-  final String? familyName;
-  @JsonKey(name: 'photo_url')
-  final String? photoUrl;
-  final String? phone;
-
   UserUpdateRequest({
     this.fullName,
     this.givenName,
@@ -80,6 +69,15 @@ class UserUpdateRequest {
 
   factory UserUpdateRequest.fromJson(Map<String, dynamic> json) =>
       _$UserUpdateRequestFromJson(json);
+  @JsonKey(name: 'full_name')
+  final String? fullName;
+  @JsonKey(name: 'given_name')
+  final String? givenName;
+  @JsonKey(name: 'family_name')
+  final String? familyName;
+  @JsonKey(name: 'photo_url')
+  final String? photoUrl;
+  final String? phone;
 
   Map<String, dynamic> toJson() => _$UserUpdateRequestToJson(this);
 }

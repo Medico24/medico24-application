@@ -20,6 +20,21 @@ class RatingConverter implements JsonConverter<double, dynamic> {
 
 @JsonSerializable()
 class PharmacyLocationModel {
+  PharmacyLocationModel({
+    required this.id,
+    required this.pharmacyId,
+    required this.addressLine,
+    required this.city,
+    required this.country,
+    required this.latitude,
+    required this.longitude,
+    required this.createdAt,
+    this.state,
+    this.pincode,
+  });
+
+  factory PharmacyLocationModel.fromJson(Map<String, dynamic> json) =>
+      _$PharmacyLocationModelFromJson(json);
   final String id;
   @JsonKey(name: 'pharmacy_id')
   final String pharmacyId;
@@ -34,27 +49,22 @@ class PharmacyLocationModel {
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
 
-  PharmacyLocationModel({
-    required this.id,
-    required this.pharmacyId,
-    required this.addressLine,
-    required this.city,
-    this.state,
-    required this.country,
-    this.pincode,
-    required this.latitude,
-    required this.longitude,
-    required this.createdAt,
-  });
-
-  factory PharmacyLocationModel.fromJson(Map<String, dynamic> json) =>
-      _$PharmacyLocationModelFromJson(json);
-
   Map<String, dynamic> toJson() => _$PharmacyLocationModelToJson(this);
 }
 
 @JsonSerializable()
 class PharmacyHoursModel {
+  PharmacyHoursModel({
+    required this.id,
+    required this.pharmacyId,
+    required this.dayOfWeek,
+    required this.openTime,
+    required this.closeTime,
+    required this.isClosed,
+  });
+
+  factory PharmacyHoursModel.fromJson(Map<String, dynamic> json) =>
+      _$PharmacyHoursModelFromJson(json);
   final String id;
   @JsonKey(name: 'pharmacy_id')
   final String pharmacyId;
@@ -67,18 +77,6 @@ class PharmacyHoursModel {
   @JsonKey(name: 'is_closed')
   final bool isClosed;
 
-  PharmacyHoursModel({
-    required this.id,
-    required this.pharmacyId,
-    required this.dayOfWeek,
-    required this.openTime,
-    required this.closeTime,
-    required this.isClosed,
-  });
-
-  factory PharmacyHoursModel.fromJson(Map<String, dynamic> json) =>
-      _$PharmacyHoursModelFromJson(json);
-
   Map<String, dynamic> toJson() => _$PharmacyHoursModelToJson(this);
 
   String get dayName {
@@ -89,7 +87,7 @@ class PharmacyHoursModel {
       'Thursday',
       'Friday',
       'Saturday',
-      'Sunday'
+      'Sunday',
     ];
     return days[dayOfWeek - 1];
   }
@@ -97,6 +95,27 @@ class PharmacyHoursModel {
 
 @JsonSerializable()
 class PharmacyModel {
+  PharmacyModel({
+    required this.id,
+    required this.name,
+    required this.isVerified,
+    required this.isActive,
+    required this.rating,
+    required this.ratingCount,
+    required this.supportsDelivery,
+    required this.supportsPickup,
+    required this.createdAt,
+    required this.updatedAt,
+    this.description,
+    this.phone,
+    this.email,
+    this.location,
+    this.hours,
+    this.distanceKm,
+  });
+
+  factory PharmacyModel.fromJson(Map<String, dynamic> json) =>
+      _$PharmacyModelFromJson(json);
   final String id;
   final String name;
   final String? description;
@@ -122,28 +141,6 @@ class PharmacyModel {
   final List<PharmacyHoursModel>? hours;
   @JsonKey(name: 'distance_km')
   final double? distanceKm;
-
-  PharmacyModel({
-    required this.id,
-    required this.name,
-    this.description,
-    this.phone,
-    this.email,
-    required this.isVerified,
-    required this.isActive,
-    required this.rating,
-    required this.ratingCount,
-    required this.supportsDelivery,
-    required this.supportsPickup,
-    required this.createdAt,
-    required this.updatedAt,
-    this.location,
-    this.hours,
-    this.distanceKm,
-  });
-
-  factory PharmacyModel.fromJson(Map<String, dynamic> json) =>
-      _$PharmacyModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$PharmacyModelToJson(this);
 
@@ -193,6 +190,19 @@ class PharmacyModel {
 
 @JsonSerializable()
 class PharmacyCreateRequest {
+  PharmacyCreateRequest({
+    required this.name,
+    required this.supportsDelivery,
+    required this.supportsPickup,
+    required this.location,
+    this.description,
+    this.phone,
+    this.email,
+    this.hours,
+  });
+
+  factory PharmacyCreateRequest.fromJson(Map<String, dynamic> json) =>
+      _$PharmacyCreateRequestFromJson(json);
   final String name;
   final String? description;
   final String? phone;
@@ -204,25 +214,23 @@ class PharmacyCreateRequest {
   final PharmacyLocationCreateRequest location;
   final List<PharmacyHoursCreateRequest>? hours;
 
-  PharmacyCreateRequest({
-    required this.name,
-    this.description,
-    this.phone,
-    this.email,
-    required this.supportsDelivery,
-    required this.supportsPickup,
-    required this.location,
-    this.hours,
-  });
-
-  factory PharmacyCreateRequest.fromJson(Map<String, dynamic> json) =>
-      _$PharmacyCreateRequestFromJson(json);
-
   Map<String, dynamic> toJson() => _$PharmacyCreateRequestToJson(this);
 }
 
 @JsonSerializable()
 class PharmacyLocationCreateRequest {
+  PharmacyLocationCreateRequest({
+    required this.addressLine,
+    required this.city,
+    required this.country,
+    required this.latitude,
+    required this.longitude,
+    this.state,
+    this.pincode,
+  });
+
+  factory PharmacyLocationCreateRequest.fromJson(Map<String, dynamic> json) =>
+      _$PharmacyLocationCreateRequestFromJson(json);
   @JsonKey(name: 'address_line')
   final String addressLine;
   final String city;
@@ -232,33 +240,11 @@ class PharmacyLocationCreateRequest {
   final double latitude;
   final double longitude;
 
-  PharmacyLocationCreateRequest({
-    required this.addressLine,
-    required this.city,
-    this.state,
-    required this.country,
-    this.pincode,
-    required this.latitude,
-    required this.longitude,
-  });
-
-  factory PharmacyLocationCreateRequest.fromJson(Map<String, dynamic> json) =>
-      _$PharmacyLocationCreateRequestFromJson(json);
-
   Map<String, dynamic> toJson() => _$PharmacyLocationCreateRequestToJson(this);
 }
 
 @JsonSerializable()
 class PharmacyHoursCreateRequest {
-  @JsonKey(name: 'day_of_week')
-  final int dayOfWeek;
-  @JsonKey(name: 'open_time')
-  final String openTime;
-  @JsonKey(name: 'close_time')
-  final String closeTime;
-  @JsonKey(name: 'is_closed')
-  final bool isClosed;
-
   PharmacyHoursCreateRequest({
     required this.dayOfWeek,
     required this.openTime,
@@ -268,6 +254,14 @@ class PharmacyHoursCreateRequest {
 
   factory PharmacyHoursCreateRequest.fromJson(Map<String, dynamic> json) =>
       _$PharmacyHoursCreateRequestFromJson(json);
+  @JsonKey(name: 'day_of_week')
+  final int dayOfWeek;
+  @JsonKey(name: 'open_time')
+  final String openTime;
+  @JsonKey(name: 'close_time')
+  final String closeTime;
+  @JsonKey(name: 'is_closed')
+  final bool isClosed;
 
   Map<String, dynamic> toJson() => _$PharmacyHoursCreateRequestToJson(this);
 }

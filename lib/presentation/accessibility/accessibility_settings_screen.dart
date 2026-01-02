@@ -68,7 +68,7 @@ class _AccessibilitySettingsScreenState
         backgroundColor: AppColors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColors.coal),
+          icon: const Icon(Icons.arrow_back, color: AppColors.coal),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -98,7 +98,11 @@ class _AccessibilitySettingsScreenState
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.info_outline, color: AppColors.blue, size: 24),
+                      const Icon(
+                        Icons.info_outline,
+                        color: AppColors.blue,
+                        size: 24,
+                      ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
@@ -124,7 +128,11 @@ class _AccessibilitySettingsScreenState
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.elderly, color: AppColors.coal, size: 24),
+                      const Icon(
+                        Icons.elderly,
+                        color: AppColors.coal,
+                        size: 24,
+                      ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
@@ -143,7 +151,7 @@ class _AccessibilitySettingsScreenState
                             _isOlderPerson = value;
                           });
                         },
-                        activeColor: AppColors.blue,
+                        activeThumbColor: AppColors.blue,
                       ),
                     ],
                   ),
@@ -274,8 +282,8 @@ class _AccessibilitySettingsScreenState
                           _initialIsOlderPerson = _isOlderPerson;
                         });
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text('Accessibility settings saved'),
+                          const SnackBar(
+                            content: Text('Accessibility settings saved'),
                             backgroundColor: AppColors.blue,
                           ),
                         );
