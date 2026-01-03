@@ -10,21 +10,21 @@ AppointmentModel _$AppointmentModelFromJson(Map<String, dynamic> json) =>
     AppointmentModel(
       id: json['id'] as String,
       patientId: json['patient_id'] as String,
-      doctorId: json['doctor_id'] as String?,
       doctorName: json['doctor_name'] as String,
-      clinicId: json['clinic_id'] as String?,
-      clinicName: json['clinic_name'] as String?,
       appointmentAt: DateTime.parse(json['appointment_at'] as String),
-      appointmentEndAt: json['appointment_end_at'] == null
-          ? null
-          : DateTime.parse(json['appointment_end_at'] as String),
       reason: json['reason'] as String,
       contactPhone: json['contact_phone'] as String,
-      notes: json['notes'] as String?,
       status: $enumDecode(_$AppointmentStatusEnumMap, json['status']),
       source: $enumDecode(_$AppointmentSourceEnumMap, json['source']),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
+      doctorId: json['doctor_id'] as String?,
+      clinicId: json['clinic_id'] as String?,
+      clinicName: json['clinic_name'] as String?,
+      appointmentEndAt: json['appointment_end_at'] == null
+          ? null
+          : DateTime.parse(json['appointment_end_at'] as String),
+      notes: json['notes'] as String?,
       cancelledAt: json['cancelled_at'] == null
           ? null
           : DateTime.parse(json['cancelled_at'] as String),
@@ -74,11 +74,11 @@ AppointmentCreateRequest _$AppointmentCreateRequestFromJson(
   Map<String, dynamic> json,
 ) => AppointmentCreateRequest(
   doctorName: json['doctor_name'] as String,
-  clinicName: json['clinic_name'] as String?,
   appointmentAt: json['appointment_at'] as String,
-  appointmentEndAt: json['appointment_end_at'] as String?,
   reason: json['reason'] as String,
   contactPhone: json['contact_phone'] as String,
+  clinicName: json['clinic_name'] as String?,
+  appointmentEndAt: json['appointment_end_at'] as String?,
   notes: json['notes'] as String?,
   doctorId: json['doctor_id'] as String?,
   clinicId: json['clinic_id'] as String?,

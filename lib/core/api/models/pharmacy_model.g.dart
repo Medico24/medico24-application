@@ -13,12 +13,12 @@ PharmacyLocationModel _$PharmacyLocationModelFromJson(
   pharmacyId: json['pharmacy_id'] as String,
   addressLine: json['address_line'] as String,
   city: json['city'] as String,
-  state: json['state'] as String?,
   country: json['country'] as String,
-  pincode: json['pincode'] as String?,
   latitude: (json['latitude'] as num).toDouble(),
   longitude: (json['longitude'] as num).toDouble(),
   createdAt: DateTime.parse(json['created_at'] as String),
+  state: json['state'] as String?,
+  pincode: json['pincode'] as String?,
 );
 
 Map<String, dynamic> _$PharmacyLocationModelToJson(
@@ -60,9 +60,6 @@ PharmacyModel _$PharmacyModelFromJson(Map<String, dynamic> json) =>
     PharmacyModel(
       id: json['id'] as String,
       name: json['name'] as String,
-      description: json['description'] as String?,
-      phone: json['phone'] as String?,
-      email: json['email'] as String?,
       isVerified: json['is_verified'] as bool,
       isActive: json['is_active'] as bool,
       rating: const RatingConverter().fromJson(json['rating']),
@@ -71,6 +68,9 @@ PharmacyModel _$PharmacyModelFromJson(Map<String, dynamic> json) =>
       supportsPickup: json['supports_pickup'] as bool,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
+      description: json['description'] as String?,
+      phone: json['phone'] as String?,
+      email: json['email'] as String?,
       location: json['location'] == null
           ? null
           : PharmacyLocationModel.fromJson(
@@ -106,14 +106,14 @@ PharmacyCreateRequest _$PharmacyCreateRequestFromJson(
   Map<String, dynamic> json,
 ) => PharmacyCreateRequest(
   name: json['name'] as String,
-  description: json['description'] as String?,
-  phone: json['phone'] as String?,
-  email: json['email'] as String?,
   supportsDelivery: json['supports_delivery'] as bool,
   supportsPickup: json['supports_pickup'] as bool,
   location: PharmacyLocationCreateRequest.fromJson(
     json['location'] as Map<String, dynamic>,
   ),
+  description: json['description'] as String?,
+  phone: json['phone'] as String?,
+  email: json['email'] as String?,
   hours: (json['hours'] as List<dynamic>?)
       ?.map(
         (e) => PharmacyHoursCreateRequest.fromJson(e as Map<String, dynamic>),
@@ -139,11 +139,11 @@ PharmacyLocationCreateRequest _$PharmacyLocationCreateRequestFromJson(
 ) => PharmacyLocationCreateRequest(
   addressLine: json['address_line'] as String,
   city: json['city'] as String,
-  state: json['state'] as String?,
   country: json['country'] as String,
-  pincode: json['pincode'] as String?,
   latitude: (json['latitude'] as num).toDouble(),
   longitude: (json['longitude'] as num).toDouble(),
+  state: json['state'] as String?,
+  pincode: json['pincode'] as String?,
 );
 
 Map<String, dynamic> _$PharmacyLocationCreateRequestToJson(
