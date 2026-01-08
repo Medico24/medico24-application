@@ -8,6 +8,7 @@ import 'package:medico24/core/database/database.dart';
 import 'package:medico24/core/repositories/appointment_repository.dart';
 import 'package:medico24/core/repositories/pharmacy_repository.dart';
 import 'package:medico24/core/repositories/user_repository.dart';
+import 'package:medico24/core/services/connectivity_service.dart';
 
 class ServiceLocator {
   factory ServiceLocator() => _instance;
@@ -17,6 +18,7 @@ class ServiceLocator {
   // Lazy initialization
   late final FlutterSecureStorage _secureStorage;
   late final AppDatabase _database;
+  late final ConnectivityService _connectivityService;
   late final AuthApiService _authApiService;
   late final UserApiService _userApiService;
   late final AppointmentApiService _appointmentApiService;
@@ -28,6 +30,7 @@ class ServiceLocator {
   void init() {
     _secureStorage = const FlutterSecureStorage();
     _database = AppDatabase();
+    _connectivityService = ConnectivityService();
     final dio = DioClient.instance;
 
     _authApiService = AuthApiService(dio);
@@ -40,11 +43,12 @@ class ServiceLocator {
       _appointmentApiService,
       _database,
     );
-    _pharmacyRepository = PharmacyRepository(_pharmacyApiService);
+    _pharmacyRepository = PharmacyRepository(_pharmacyApiService, _database);
   }
 
   FlutterSecureStorage get secureStorage => _secureStorage;
   AppDatabase get database => _database;
+  ConnectivityService get connectivityService => _connectivityService;
   AuthApiService get authApi => _authApiService;
   UserApiService get userApi => _userApiService;
   AppointmentApiService get appointmentApi => _appointmentApiService;

@@ -19,10 +19,8 @@ class PharmacyTabContent extends StatefulWidget {
 
 class _PharmacyTabContentState extends State<PharmacyTabContent> {
   final Logger _logger = Logger();
-  final PharmacyRepository _pharmacyRepository = PharmacyRepository(
-    PharmacyApiService(),
-  );
   final AppDatabase _database = AppDatabase();
+  late final PharmacyRepository _pharmacyRepository;
 
   List<PharmacyModel> _nearbyPharmacies = [];
   bool _isLoading = true;
@@ -34,6 +32,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
   @override
   void initState() {
     super.initState();
+    _pharmacyRepository = PharmacyRepository(PharmacyApiService(), _database);
     _loadData();
   }
 
