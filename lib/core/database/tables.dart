@@ -88,3 +88,33 @@ class CachedUser extends Table {
   @override
   Set<Column> get primaryKey => {id};
 }
+
+class CachedPharmacies extends Table {
+  TextColumn get id => text()();
+  TextColumn get name => text()();
+  TextColumn get description => text().nullable()();
+  TextColumn get address => text()();
+  TextColumn get city => text()();
+  TextColumn get state => text().nullable()();
+  TextColumn get country => text()();
+  TextColumn get postalCode => text().nullable()();
+  RealColumn get latitude => real()();
+  RealColumn get longitude => real()();
+  TextColumn get phone => text().nullable()();
+  TextColumn get email => text().nullable()();
+  TextColumn get website => text().nullable()();
+  BoolColumn get isActive => boolean().withDefault(const Constant(true))();
+  BoolColumn get isVerified => boolean().withDefault(const Constant(false))();
+  BoolColumn get supportsDelivery =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get supportsPickup =>
+      boolean().withDefault(const Constant(true))();
+  TextColumn get openingHours => text().nullable()();
+  TextColumn get services => text().nullable()(); // JSON string
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+  DateTimeColumn get lastSyncedAt => dateTime().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}

@@ -15,13 +15,17 @@ part 'database.g.dart';
     CurrentLocation,
     Appointments,
     CachedUser,
+    CachedPharmacies,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
+  // Constructor for testing
+  AppDatabase.forTesting(QueryExecutor executor) : super(executor);
+
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -40,6 +44,10 @@ class AppDatabase extends _$AppDatabase {
         await m.deleteTable('cached_user');
         await m.createTable(appointments);
         await m.createTable(cachedUser);
+      }
+      if (from < 4) {
+        // Add pharmacy caching table
+        await m.createTable(cachedPharmacies);
       }
     },
   );
@@ -292,6 +300,63 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> clearCachedUser() async {
     await delete(cachedUser).go();
+  }
+
+  // Cached Pharmacies Methods
+  Future<List<CachedPharmacy>> getAllCachedPharmacies() async {
+    return await select(cachedPharmacies).get();
+  }
+
+  Future<List<CachedPharmacy>> getNearbyPharmacies(
+    double latitude,
+    double longitude,
+    double radiusKm,
+  ) async {
+    // Simple bounding box query (not accurate for large distances but good enough)
+    final latDelta = radiusKm / 111.0; // 1 degree latitude ≈ 111 km
+    final lonDelta =
+        radiusKm / (111.0 * 0.707); // Approximate for mid-latitudes
+
+    return await (select(cachedPharmacies)..where(
+          (tbl) =>
+              tbl.latitude.isBetweenValues(
+                latitude - latDelta,
+                latitude + latDelta,
+              ) &
+              tbl.longitude.isBetweenValues(
+                longitude - lonDelta,
+                longitude + lonDelta,
+              ),
+        ))
+        .get();
+  }
+
+  Future<CachedPharmacy?> getCachedPharmacyById(String id) async {
+    return await (select(
+      cachedPharmacies,
+    )..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
+  }
+
+  Future<int> insertOrUpdateCachedPharmacy(
+    CachedPharmaciesCompanion pharmacy,
+  ) async {
+    return await into(cachedPharmacies).insertOnConflictUpdate(pharmacy);
+  }
+
+  Future<void> insertOrUpdateCachedPharmacies(
+    List<CachedPharmaciesCompanion> pharmacyList,
+  ) async {
+    await batch((batch) {
+      batch.insertAll(
+        cachedPharmacies,
+        pharmacyList,
+        mode: InsertMode.insertOrReplace,
+      );
+    });
+  }
+
+  Future<void> clearCachedPharmacies() async {
+    await delete(cachedPharmacies).go();
   }
 }
 

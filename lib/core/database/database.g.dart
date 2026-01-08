@@ -3787,6 +3787,1222 @@ class CachedUserCompanion extends UpdateCompanion<CachedUserData> {
   }
 }
 
+class $CachedPharmaciesTable extends CachedPharmacies
+    with TableInfo<$CachedPharmaciesTable, CachedPharmacy> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CachedPharmaciesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _addressMeta = const VerificationMeta(
+    'address',
+  );
+  @override
+  late final GeneratedColumn<String> address = GeneratedColumn<String>(
+    'address',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cityMeta = const VerificationMeta('city');
+  @override
+  late final GeneratedColumn<String> city = GeneratedColumn<String>(
+    'city',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _stateMeta = const VerificationMeta('state');
+  @override
+  late final GeneratedColumn<String> state = GeneratedColumn<String>(
+    'state',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _countryMeta = const VerificationMeta(
+    'country',
+  );
+  @override
+  late final GeneratedColumn<String> country = GeneratedColumn<String>(
+    'country',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _postalCodeMeta = const VerificationMeta(
+    'postalCode',
+  );
+  @override
+  late final GeneratedColumn<String> postalCode = GeneratedColumn<String>(
+    'postal_code',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _latitudeMeta = const VerificationMeta(
+    'latitude',
+  );
+  @override
+  late final GeneratedColumn<double> latitude = GeneratedColumn<double>(
+    'latitude',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _longitudeMeta = const VerificationMeta(
+    'longitude',
+  );
+  @override
+  late final GeneratedColumn<double> longitude = GeneratedColumn<double>(
+    'longitude',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _phoneMeta = const VerificationMeta('phone');
+  @override
+  late final GeneratedColumn<String> phone = GeneratedColumn<String>(
+    'phone',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _emailMeta = const VerificationMeta('email');
+  @override
+  late final GeneratedColumn<String> email = GeneratedColumn<String>(
+    'email',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _websiteMeta = const VerificationMeta(
+    'website',
+  );
+  @override
+  late final GeneratedColumn<String> website = GeneratedColumn<String>(
+    'website',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _isVerifiedMeta = const VerificationMeta(
+    'isVerified',
+  );
+  @override
+  late final GeneratedColumn<bool> isVerified = GeneratedColumn<bool>(
+    'is_verified',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_verified" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _supportsDeliveryMeta = const VerificationMeta(
+    'supportsDelivery',
+  );
+  @override
+  late final GeneratedColumn<bool> supportsDelivery = GeneratedColumn<bool>(
+    'supports_delivery',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("supports_delivery" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _supportsPickupMeta = const VerificationMeta(
+    'supportsPickup',
+  );
+  @override
+  late final GeneratedColumn<bool> supportsPickup = GeneratedColumn<bool>(
+    'supports_pickup',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("supports_pickup" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _openingHoursMeta = const VerificationMeta(
+    'openingHours',
+  );
+  @override
+  late final GeneratedColumn<String> openingHours = GeneratedColumn<String>(
+    'opening_hours',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _servicesMeta = const VerificationMeta(
+    'services',
+  );
+  @override
+  late final GeneratedColumn<String> services = GeneratedColumn<String>(
+    'services',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lastSyncedAtMeta = const VerificationMeta(
+    'lastSyncedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastSyncedAt = GeneratedColumn<DateTime>(
+    'last_synced_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    description,
+    address,
+    city,
+    state,
+    country,
+    postalCode,
+    latitude,
+    longitude,
+    phone,
+    email,
+    website,
+    isActive,
+    isVerified,
+    supportsDelivery,
+    supportsPickup,
+    openingHours,
+    services,
+    createdAt,
+    updatedAt,
+    lastSyncedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'cached_pharmacies';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CachedPharmacy> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('address')) {
+      context.handle(
+        _addressMeta,
+        address.isAcceptableOrUnknown(data['address']!, _addressMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_addressMeta);
+    }
+    if (data.containsKey('city')) {
+      context.handle(
+        _cityMeta,
+        city.isAcceptableOrUnknown(data['city']!, _cityMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_cityMeta);
+    }
+    if (data.containsKey('state')) {
+      context.handle(
+        _stateMeta,
+        state.isAcceptableOrUnknown(data['state']!, _stateMeta),
+      );
+    }
+    if (data.containsKey('country')) {
+      context.handle(
+        _countryMeta,
+        country.isAcceptableOrUnknown(data['country']!, _countryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_countryMeta);
+    }
+    if (data.containsKey('postal_code')) {
+      context.handle(
+        _postalCodeMeta,
+        postalCode.isAcceptableOrUnknown(data['postal_code']!, _postalCodeMeta),
+      );
+    }
+    if (data.containsKey('latitude')) {
+      context.handle(
+        _latitudeMeta,
+        latitude.isAcceptableOrUnknown(data['latitude']!, _latitudeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_latitudeMeta);
+    }
+    if (data.containsKey('longitude')) {
+      context.handle(
+        _longitudeMeta,
+        longitude.isAcceptableOrUnknown(data['longitude']!, _longitudeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_longitudeMeta);
+    }
+    if (data.containsKey('phone')) {
+      context.handle(
+        _phoneMeta,
+        phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta),
+      );
+    }
+    if (data.containsKey('email')) {
+      context.handle(
+        _emailMeta,
+        email.isAcceptableOrUnknown(data['email']!, _emailMeta),
+      );
+    }
+    if (data.containsKey('website')) {
+      context.handle(
+        _websiteMeta,
+        website.isAcceptableOrUnknown(data['website']!, _websiteMeta),
+      );
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
+    if (data.containsKey('is_verified')) {
+      context.handle(
+        _isVerifiedMeta,
+        isVerified.isAcceptableOrUnknown(data['is_verified']!, _isVerifiedMeta),
+      );
+    }
+    if (data.containsKey('supports_delivery')) {
+      context.handle(
+        _supportsDeliveryMeta,
+        supportsDelivery.isAcceptableOrUnknown(
+          data['supports_delivery']!,
+          _supportsDeliveryMeta,
+        ),
+      );
+    }
+    if (data.containsKey('supports_pickup')) {
+      context.handle(
+        _supportsPickupMeta,
+        supportsPickup.isAcceptableOrUnknown(
+          data['supports_pickup']!,
+          _supportsPickupMeta,
+        ),
+      );
+    }
+    if (data.containsKey('opening_hours')) {
+      context.handle(
+        _openingHoursMeta,
+        openingHours.isAcceptableOrUnknown(
+          data['opening_hours']!,
+          _openingHoursMeta,
+        ),
+      );
+    }
+    if (data.containsKey('services')) {
+      context.handle(
+        _servicesMeta,
+        services.isAcceptableOrUnknown(data['services']!, _servicesMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('last_synced_at')) {
+      context.handle(
+        _lastSyncedAtMeta,
+        lastSyncedAt.isAcceptableOrUnknown(
+          data['last_synced_at']!,
+          _lastSyncedAtMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CachedPharmacy map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CachedPharmacy(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      ),
+      address: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}address'],
+      )!,
+      city: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}city'],
+      )!,
+      state: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}state'],
+      ),
+      country: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}country'],
+      )!,
+      postalCode: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}postal_code'],
+      ),
+      latitude: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}latitude'],
+      )!,
+      longitude: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}longitude'],
+      )!,
+      phone: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}phone'],
+      ),
+      email: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}email'],
+      ),
+      website: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}website'],
+      ),
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
+      isVerified: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_verified'],
+      )!,
+      supportsDelivery: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}supports_delivery'],
+      )!,
+      supportsPickup: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}supports_pickup'],
+      )!,
+      openingHours: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}opening_hours'],
+      ),
+      services: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}services'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      lastSyncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_synced_at'],
+      ),
+    );
+  }
+
+  @override
+  $CachedPharmaciesTable createAlias(String alias) {
+    return $CachedPharmaciesTable(attachedDatabase, alias);
+  }
+}
+
+class CachedPharmacy extends DataClass implements Insertable<CachedPharmacy> {
+  final String id;
+  final String name;
+  final String? description;
+  final String address;
+  final String city;
+  final String? state;
+  final String country;
+  final String? postalCode;
+  final double latitude;
+  final double longitude;
+  final String? phone;
+  final String? email;
+  final String? website;
+  final bool isActive;
+  final bool isVerified;
+  final bool supportsDelivery;
+  final bool supportsPickup;
+  final String? openingHours;
+  final String? services;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? lastSyncedAt;
+  const CachedPharmacy({
+    required this.id,
+    required this.name,
+    this.description,
+    required this.address,
+    required this.city,
+    this.state,
+    required this.country,
+    this.postalCode,
+    required this.latitude,
+    required this.longitude,
+    this.phone,
+    this.email,
+    this.website,
+    required this.isActive,
+    required this.isVerified,
+    required this.supportsDelivery,
+    required this.supportsPickup,
+    this.openingHours,
+    this.services,
+    required this.createdAt,
+    required this.updatedAt,
+    this.lastSyncedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    map['address'] = Variable<String>(address);
+    map['city'] = Variable<String>(city);
+    if (!nullToAbsent || state != null) {
+      map['state'] = Variable<String>(state);
+    }
+    map['country'] = Variable<String>(country);
+    if (!nullToAbsent || postalCode != null) {
+      map['postal_code'] = Variable<String>(postalCode);
+    }
+    map['latitude'] = Variable<double>(latitude);
+    map['longitude'] = Variable<double>(longitude);
+    if (!nullToAbsent || phone != null) {
+      map['phone'] = Variable<String>(phone);
+    }
+    if (!nullToAbsent || email != null) {
+      map['email'] = Variable<String>(email);
+    }
+    if (!nullToAbsent || website != null) {
+      map['website'] = Variable<String>(website);
+    }
+    map['is_active'] = Variable<bool>(isActive);
+    map['is_verified'] = Variable<bool>(isVerified);
+    map['supports_delivery'] = Variable<bool>(supportsDelivery);
+    map['supports_pickup'] = Variable<bool>(supportsPickup);
+    if (!nullToAbsent || openingHours != null) {
+      map['opening_hours'] = Variable<String>(openingHours);
+    }
+    if (!nullToAbsent || services != null) {
+      map['services'] = Variable<String>(services);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || lastSyncedAt != null) {
+      map['last_synced_at'] = Variable<DateTime>(lastSyncedAt);
+    }
+    return map;
+  }
+
+  CachedPharmaciesCompanion toCompanion(bool nullToAbsent) {
+    return CachedPharmaciesCompanion(
+      id: Value(id),
+      name: Value(name),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      address: Value(address),
+      city: Value(city),
+      state: state == null && nullToAbsent
+          ? const Value.absent()
+          : Value(state),
+      country: Value(country),
+      postalCode: postalCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(postalCode),
+      latitude: Value(latitude),
+      longitude: Value(longitude),
+      phone: phone == null && nullToAbsent
+          ? const Value.absent()
+          : Value(phone),
+      email: email == null && nullToAbsent
+          ? const Value.absent()
+          : Value(email),
+      website: website == null && nullToAbsent
+          ? const Value.absent()
+          : Value(website),
+      isActive: Value(isActive),
+      isVerified: Value(isVerified),
+      supportsDelivery: Value(supportsDelivery),
+      supportsPickup: Value(supportsPickup),
+      openingHours: openingHours == null && nullToAbsent
+          ? const Value.absent()
+          : Value(openingHours),
+      services: services == null && nullToAbsent
+          ? const Value.absent()
+          : Value(services),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      lastSyncedAt: lastSyncedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastSyncedAt),
+    );
+  }
+
+  factory CachedPharmacy.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CachedPharmacy(
+      id: serializer.fromJson<String>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      description: serializer.fromJson<String?>(json['description']),
+      address: serializer.fromJson<String>(json['address']),
+      city: serializer.fromJson<String>(json['city']),
+      state: serializer.fromJson<String?>(json['state']),
+      country: serializer.fromJson<String>(json['country']),
+      postalCode: serializer.fromJson<String?>(json['postalCode']),
+      latitude: serializer.fromJson<double>(json['latitude']),
+      longitude: serializer.fromJson<double>(json['longitude']),
+      phone: serializer.fromJson<String?>(json['phone']),
+      email: serializer.fromJson<String?>(json['email']),
+      website: serializer.fromJson<String?>(json['website']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      isVerified: serializer.fromJson<bool>(json['isVerified']),
+      supportsDelivery: serializer.fromJson<bool>(json['supportsDelivery']),
+      supportsPickup: serializer.fromJson<bool>(json['supportsPickup']),
+      openingHours: serializer.fromJson<String?>(json['openingHours']),
+      services: serializer.fromJson<String?>(json['services']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      lastSyncedAt: serializer.fromJson<DateTime?>(json['lastSyncedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'name': serializer.toJson<String>(name),
+      'description': serializer.toJson<String?>(description),
+      'address': serializer.toJson<String>(address),
+      'city': serializer.toJson<String>(city),
+      'state': serializer.toJson<String?>(state),
+      'country': serializer.toJson<String>(country),
+      'postalCode': serializer.toJson<String?>(postalCode),
+      'latitude': serializer.toJson<double>(latitude),
+      'longitude': serializer.toJson<double>(longitude),
+      'phone': serializer.toJson<String?>(phone),
+      'email': serializer.toJson<String?>(email),
+      'website': serializer.toJson<String?>(website),
+      'isActive': serializer.toJson<bool>(isActive),
+      'isVerified': serializer.toJson<bool>(isVerified),
+      'supportsDelivery': serializer.toJson<bool>(supportsDelivery),
+      'supportsPickup': serializer.toJson<bool>(supportsPickup),
+      'openingHours': serializer.toJson<String?>(openingHours),
+      'services': serializer.toJson<String?>(services),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'lastSyncedAt': serializer.toJson<DateTime?>(lastSyncedAt),
+    };
+  }
+
+  CachedPharmacy copyWith({
+    String? id,
+    String? name,
+    Value<String?> description = const Value.absent(),
+    String? address,
+    String? city,
+    Value<String?> state = const Value.absent(),
+    String? country,
+    Value<String?> postalCode = const Value.absent(),
+    double? latitude,
+    double? longitude,
+    Value<String?> phone = const Value.absent(),
+    Value<String?> email = const Value.absent(),
+    Value<String?> website = const Value.absent(),
+    bool? isActive,
+    bool? isVerified,
+    bool? supportsDelivery,
+    bool? supportsPickup,
+    Value<String?> openingHours = const Value.absent(),
+    Value<String?> services = const Value.absent(),
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> lastSyncedAt = const Value.absent(),
+  }) => CachedPharmacy(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    description: description.present ? description.value : this.description,
+    address: address ?? this.address,
+    city: city ?? this.city,
+    state: state.present ? state.value : this.state,
+    country: country ?? this.country,
+    postalCode: postalCode.present ? postalCode.value : this.postalCode,
+    latitude: latitude ?? this.latitude,
+    longitude: longitude ?? this.longitude,
+    phone: phone.present ? phone.value : this.phone,
+    email: email.present ? email.value : this.email,
+    website: website.present ? website.value : this.website,
+    isActive: isActive ?? this.isActive,
+    isVerified: isVerified ?? this.isVerified,
+    supportsDelivery: supportsDelivery ?? this.supportsDelivery,
+    supportsPickup: supportsPickup ?? this.supportsPickup,
+    openingHours: openingHours.present ? openingHours.value : this.openingHours,
+    services: services.present ? services.value : this.services,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    lastSyncedAt: lastSyncedAt.present ? lastSyncedAt.value : this.lastSyncedAt,
+  );
+  CachedPharmacy copyWithCompanion(CachedPharmaciesCompanion data) {
+    return CachedPharmacy(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      address: data.address.present ? data.address.value : this.address,
+      city: data.city.present ? data.city.value : this.city,
+      state: data.state.present ? data.state.value : this.state,
+      country: data.country.present ? data.country.value : this.country,
+      postalCode: data.postalCode.present
+          ? data.postalCode.value
+          : this.postalCode,
+      latitude: data.latitude.present ? data.latitude.value : this.latitude,
+      longitude: data.longitude.present ? data.longitude.value : this.longitude,
+      phone: data.phone.present ? data.phone.value : this.phone,
+      email: data.email.present ? data.email.value : this.email,
+      website: data.website.present ? data.website.value : this.website,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+      isVerified: data.isVerified.present
+          ? data.isVerified.value
+          : this.isVerified,
+      supportsDelivery: data.supportsDelivery.present
+          ? data.supportsDelivery.value
+          : this.supportsDelivery,
+      supportsPickup: data.supportsPickup.present
+          ? data.supportsPickup.value
+          : this.supportsPickup,
+      openingHours: data.openingHours.present
+          ? data.openingHours.value
+          : this.openingHours,
+      services: data.services.present ? data.services.value : this.services,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      lastSyncedAt: data.lastSyncedAt.present
+          ? data.lastSyncedAt.value
+          : this.lastSyncedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CachedPharmacy(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('address: $address, ')
+          ..write('city: $city, ')
+          ..write('state: $state, ')
+          ..write('country: $country, ')
+          ..write('postalCode: $postalCode, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
+          ..write('phone: $phone, ')
+          ..write('email: $email, ')
+          ..write('website: $website, ')
+          ..write('isActive: $isActive, ')
+          ..write('isVerified: $isVerified, ')
+          ..write('supportsDelivery: $supportsDelivery, ')
+          ..write('supportsPickup: $supportsPickup, ')
+          ..write('openingHours: $openingHours, ')
+          ..write('services: $services, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('lastSyncedAt: $lastSyncedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+    id,
+    name,
+    description,
+    address,
+    city,
+    state,
+    country,
+    postalCode,
+    latitude,
+    longitude,
+    phone,
+    email,
+    website,
+    isActive,
+    isVerified,
+    supportsDelivery,
+    supportsPickup,
+    openingHours,
+    services,
+    createdAt,
+    updatedAt,
+    lastSyncedAt,
+  ]);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CachedPharmacy &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.description == this.description &&
+          other.address == this.address &&
+          other.city == this.city &&
+          other.state == this.state &&
+          other.country == this.country &&
+          other.postalCode == this.postalCode &&
+          other.latitude == this.latitude &&
+          other.longitude == this.longitude &&
+          other.phone == this.phone &&
+          other.email == this.email &&
+          other.website == this.website &&
+          other.isActive == this.isActive &&
+          other.isVerified == this.isVerified &&
+          other.supportsDelivery == this.supportsDelivery &&
+          other.supportsPickup == this.supportsPickup &&
+          other.openingHours == this.openingHours &&
+          other.services == this.services &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.lastSyncedAt == this.lastSyncedAt);
+}
+
+class CachedPharmaciesCompanion extends UpdateCompanion<CachedPharmacy> {
+  final Value<String> id;
+  final Value<String> name;
+  final Value<String?> description;
+  final Value<String> address;
+  final Value<String> city;
+  final Value<String?> state;
+  final Value<String> country;
+  final Value<String?> postalCode;
+  final Value<double> latitude;
+  final Value<double> longitude;
+  final Value<String?> phone;
+  final Value<String?> email;
+  final Value<String?> website;
+  final Value<bool> isActive;
+  final Value<bool> isVerified;
+  final Value<bool> supportsDelivery;
+  final Value<bool> supportsPickup;
+  final Value<String?> openingHours;
+  final Value<String?> services;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> lastSyncedAt;
+  final Value<int> rowid;
+  const CachedPharmaciesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.description = const Value.absent(),
+    this.address = const Value.absent(),
+    this.city = const Value.absent(),
+    this.state = const Value.absent(),
+    this.country = const Value.absent(),
+    this.postalCode = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
+    this.phone = const Value.absent(),
+    this.email = const Value.absent(),
+    this.website = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.isVerified = const Value.absent(),
+    this.supportsDelivery = const Value.absent(),
+    this.supportsPickup = const Value.absent(),
+    this.openingHours = const Value.absent(),
+    this.services = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.lastSyncedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CachedPharmaciesCompanion.insert({
+    required String id,
+    required String name,
+    this.description = const Value.absent(),
+    required String address,
+    required String city,
+    this.state = const Value.absent(),
+    required String country,
+    this.postalCode = const Value.absent(),
+    required double latitude,
+    required double longitude,
+    this.phone = const Value.absent(),
+    this.email = const Value.absent(),
+    this.website = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.isVerified = const Value.absent(),
+    this.supportsDelivery = const Value.absent(),
+    this.supportsPickup = const Value.absent(),
+    this.openingHours = const Value.absent(),
+    this.services = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.lastSyncedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       name = Value(name),
+       address = Value(address),
+       city = Value(city),
+       country = Value(country),
+       latitude = Value(latitude),
+       longitude = Value(longitude),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<CachedPharmacy> custom({
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<String>? description,
+    Expression<String>? address,
+    Expression<String>? city,
+    Expression<String>? state,
+    Expression<String>? country,
+    Expression<String>? postalCode,
+    Expression<double>? latitude,
+    Expression<double>? longitude,
+    Expression<String>? phone,
+    Expression<String>? email,
+    Expression<String>? website,
+    Expression<bool>? isActive,
+    Expression<bool>? isVerified,
+    Expression<bool>? supportsDelivery,
+    Expression<bool>? supportsPickup,
+    Expression<String>? openingHours,
+    Expression<String>? services,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? lastSyncedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (address != null) 'address': address,
+      if (city != null) 'city': city,
+      if (state != null) 'state': state,
+      if (country != null) 'country': country,
+      if (postalCode != null) 'postal_code': postalCode,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
+      if (phone != null) 'phone': phone,
+      if (email != null) 'email': email,
+      if (website != null) 'website': website,
+      if (isActive != null) 'is_active': isActive,
+      if (isVerified != null) 'is_verified': isVerified,
+      if (supportsDelivery != null) 'supports_delivery': supportsDelivery,
+      if (supportsPickup != null) 'supports_pickup': supportsPickup,
+      if (openingHours != null) 'opening_hours': openingHours,
+      if (services != null) 'services': services,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (lastSyncedAt != null) 'last_synced_at': lastSyncedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CachedPharmaciesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? name,
+    Value<String?>? description,
+    Value<String>? address,
+    Value<String>? city,
+    Value<String?>? state,
+    Value<String>? country,
+    Value<String?>? postalCode,
+    Value<double>? latitude,
+    Value<double>? longitude,
+    Value<String?>? phone,
+    Value<String?>? email,
+    Value<String?>? website,
+    Value<bool>? isActive,
+    Value<bool>? isVerified,
+    Value<bool>? supportsDelivery,
+    Value<bool>? supportsPickup,
+    Value<String?>? openingHours,
+    Value<String?>? services,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? lastSyncedAt,
+    Value<int>? rowid,
+  }) {
+    return CachedPharmaciesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      address: address ?? this.address,
+      city: city ?? this.city,
+      state: state ?? this.state,
+      country: country ?? this.country,
+      postalCode: postalCode ?? this.postalCode,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      phone: phone ?? this.phone,
+      email: email ?? this.email,
+      website: website ?? this.website,
+      isActive: isActive ?? this.isActive,
+      isVerified: isVerified ?? this.isVerified,
+      supportsDelivery: supportsDelivery ?? this.supportsDelivery,
+      supportsPickup: supportsPickup ?? this.supportsPickup,
+      openingHours: openingHours ?? this.openingHours,
+      services: services ?? this.services,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      lastSyncedAt: lastSyncedAt ?? this.lastSyncedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
+    if (city.present) {
+      map['city'] = Variable<String>(city.value);
+    }
+    if (state.present) {
+      map['state'] = Variable<String>(state.value);
+    }
+    if (country.present) {
+      map['country'] = Variable<String>(country.value);
+    }
+    if (postalCode.present) {
+      map['postal_code'] = Variable<String>(postalCode.value);
+    }
+    if (latitude.present) {
+      map['latitude'] = Variable<double>(latitude.value);
+    }
+    if (longitude.present) {
+      map['longitude'] = Variable<double>(longitude.value);
+    }
+    if (phone.present) {
+      map['phone'] = Variable<String>(phone.value);
+    }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    if (website.present) {
+      map['website'] = Variable<String>(website.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (isVerified.present) {
+      map['is_verified'] = Variable<bool>(isVerified.value);
+    }
+    if (supportsDelivery.present) {
+      map['supports_delivery'] = Variable<bool>(supportsDelivery.value);
+    }
+    if (supportsPickup.present) {
+      map['supports_pickup'] = Variable<bool>(supportsPickup.value);
+    }
+    if (openingHours.present) {
+      map['opening_hours'] = Variable<String>(openingHours.value);
+    }
+    if (services.present) {
+      map['services'] = Variable<String>(services.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (lastSyncedAt.present) {
+      map['last_synced_at'] = Variable<DateTime>(lastSyncedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CachedPharmaciesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('address: $address, ')
+          ..write('city: $city, ')
+          ..write('state: $state, ')
+          ..write('country: $country, ')
+          ..write('postalCode: $postalCode, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
+          ..write('phone: $phone, ')
+          ..write('email: $email, ')
+          ..write('website: $website, ')
+          ..write('isActive: $isActive, ')
+          ..write('isVerified: $isVerified, ')
+          ..write('supportsDelivery: $supportsDelivery, ')
+          ..write('supportsPickup: $supportsPickup, ')
+          ..write('openingHours: $openingHours, ')
+          ..write('services: $services, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('lastSyncedAt: $lastSyncedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -3801,6 +5017,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $AppointmentsTable appointments = $AppointmentsTable(this);
   late final $CachedUserTable cachedUser = $CachedUserTable(this);
+  late final $CachedPharmaciesTable cachedPharmacies = $CachedPharmaciesTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3812,6 +5031,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     currentLocation,
     appointments,
     cachedUser,
+    cachedPharmacies,
   ];
 }
 
@@ -5678,6 +6898,549 @@ typedef $$CachedUserTableProcessedTableManager =
       CachedUserData,
       PrefetchHooks Function()
     >;
+typedef $$CachedPharmaciesTableCreateCompanionBuilder =
+    CachedPharmaciesCompanion Function({
+      required String id,
+      required String name,
+      Value<String?> description,
+      required String address,
+      required String city,
+      Value<String?> state,
+      required String country,
+      Value<String?> postalCode,
+      required double latitude,
+      required double longitude,
+      Value<String?> phone,
+      Value<String?> email,
+      Value<String?> website,
+      Value<bool> isActive,
+      Value<bool> isVerified,
+      Value<bool> supportsDelivery,
+      Value<bool> supportsPickup,
+      Value<String?> openingHours,
+      Value<String?> services,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<DateTime?> lastSyncedAt,
+      Value<int> rowid,
+    });
+typedef $$CachedPharmaciesTableUpdateCompanionBuilder =
+    CachedPharmaciesCompanion Function({
+      Value<String> id,
+      Value<String> name,
+      Value<String?> description,
+      Value<String> address,
+      Value<String> city,
+      Value<String?> state,
+      Value<String> country,
+      Value<String?> postalCode,
+      Value<double> latitude,
+      Value<double> longitude,
+      Value<String?> phone,
+      Value<String?> email,
+      Value<String?> website,
+      Value<bool> isActive,
+      Value<bool> isVerified,
+      Value<bool> supportsDelivery,
+      Value<bool> supportsPickup,
+      Value<String?> openingHours,
+      Value<String?> services,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> lastSyncedAt,
+      Value<int> rowid,
+    });
+
+class $$CachedPharmaciesTableFilterComposer
+    extends Composer<_$AppDatabase, $CachedPharmaciesTable> {
+  $$CachedPharmaciesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get address => $composableBuilder(
+    column: $table.address,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get city => $composableBuilder(
+    column: $table.city,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get state => $composableBuilder(
+    column: $table.state,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get country => $composableBuilder(
+    column: $table.country,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get postalCode => $composableBuilder(
+    column: $table.postalCode,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get latitude => $composableBuilder(
+    column: $table.latitude,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get longitude => $composableBuilder(
+    column: $table.longitude,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get phone => $composableBuilder(
+    column: $table.phone,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get website => $composableBuilder(
+    column: $table.website,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isVerified => $composableBuilder(
+    column: $table.isVerified,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get supportsDelivery => $composableBuilder(
+    column: $table.supportsDelivery,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get supportsPickup => $composableBuilder(
+    column: $table.supportsPickup,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get openingHours => $composableBuilder(
+    column: $table.openingHours,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get services => $composableBuilder(
+    column: $table.services,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastSyncedAt => $composableBuilder(
+    column: $table.lastSyncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CachedPharmaciesTableOrderingComposer
+    extends Composer<_$AppDatabase, $CachedPharmaciesTable> {
+  $$CachedPharmaciesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get address => $composableBuilder(
+    column: $table.address,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get city => $composableBuilder(
+    column: $table.city,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get state => $composableBuilder(
+    column: $table.state,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get country => $composableBuilder(
+    column: $table.country,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get postalCode => $composableBuilder(
+    column: $table.postalCode,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get latitude => $composableBuilder(
+    column: $table.latitude,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get longitude => $composableBuilder(
+    column: $table.longitude,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get phone => $composableBuilder(
+    column: $table.phone,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get website => $composableBuilder(
+    column: $table.website,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isVerified => $composableBuilder(
+    column: $table.isVerified,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get supportsDelivery => $composableBuilder(
+    column: $table.supportsDelivery,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get supportsPickup => $composableBuilder(
+    column: $table.supportsPickup,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get openingHours => $composableBuilder(
+    column: $table.openingHours,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get services => $composableBuilder(
+    column: $table.services,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastSyncedAt => $composableBuilder(
+    column: $table.lastSyncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CachedPharmaciesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CachedPharmaciesTable> {
+  $$CachedPharmaciesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get address =>
+      $composableBuilder(column: $table.address, builder: (column) => column);
+
+  GeneratedColumn<String> get city =>
+      $composableBuilder(column: $table.city, builder: (column) => column);
+
+  GeneratedColumn<String> get state =>
+      $composableBuilder(column: $table.state, builder: (column) => column);
+
+  GeneratedColumn<String> get country =>
+      $composableBuilder(column: $table.country, builder: (column) => column);
+
+  GeneratedColumn<String> get postalCode => $composableBuilder(
+    column: $table.postalCode,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get latitude =>
+      $composableBuilder(column: $table.latitude, builder: (column) => column);
+
+  GeneratedColumn<double> get longitude =>
+      $composableBuilder(column: $table.longitude, builder: (column) => column);
+
+  GeneratedColumn<String> get phone =>
+      $composableBuilder(column: $table.phone, builder: (column) => column);
+
+  GeneratedColumn<String> get email =>
+      $composableBuilder(column: $table.email, builder: (column) => column);
+
+  GeneratedColumn<String> get website =>
+      $composableBuilder(column: $table.website, builder: (column) => column);
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+
+  GeneratedColumn<bool> get isVerified => $composableBuilder(
+    column: $table.isVerified,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get supportsDelivery => $composableBuilder(
+    column: $table.supportsDelivery,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get supportsPickup => $composableBuilder(
+    column: $table.supportsPickup,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get openingHours => $composableBuilder(
+    column: $table.openingHours,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get services =>
+      $composableBuilder(column: $table.services, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastSyncedAt => $composableBuilder(
+    column: $table.lastSyncedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$CachedPharmaciesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CachedPharmaciesTable,
+          CachedPharmacy,
+          $$CachedPharmaciesTableFilterComposer,
+          $$CachedPharmaciesTableOrderingComposer,
+          $$CachedPharmaciesTableAnnotationComposer,
+          $$CachedPharmaciesTableCreateCompanionBuilder,
+          $$CachedPharmaciesTableUpdateCompanionBuilder,
+          (
+            CachedPharmacy,
+            BaseReferences<
+              _$AppDatabase,
+              $CachedPharmaciesTable,
+              CachedPharmacy
+            >,
+          ),
+          CachedPharmacy,
+          PrefetchHooks Function()
+        > {
+  $$CachedPharmaciesTableTableManager(
+    _$AppDatabase db,
+    $CachedPharmaciesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CachedPharmaciesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CachedPharmaciesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CachedPharmaciesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                Value<String> address = const Value.absent(),
+                Value<String> city = const Value.absent(),
+                Value<String?> state = const Value.absent(),
+                Value<String> country = const Value.absent(),
+                Value<String?> postalCode = const Value.absent(),
+                Value<double> latitude = const Value.absent(),
+                Value<double> longitude = const Value.absent(),
+                Value<String?> phone = const Value.absent(),
+                Value<String?> email = const Value.absent(),
+                Value<String?> website = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<bool> isVerified = const Value.absent(),
+                Value<bool> supportsDelivery = const Value.absent(),
+                Value<bool> supportsPickup = const Value.absent(),
+                Value<String?> openingHours = const Value.absent(),
+                Value<String?> services = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> lastSyncedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CachedPharmaciesCompanion(
+                id: id,
+                name: name,
+                description: description,
+                address: address,
+                city: city,
+                state: state,
+                country: country,
+                postalCode: postalCode,
+                latitude: latitude,
+                longitude: longitude,
+                phone: phone,
+                email: email,
+                website: website,
+                isActive: isActive,
+                isVerified: isVerified,
+                supportsDelivery: supportsDelivery,
+                supportsPickup: supportsPickup,
+                openingHours: openingHours,
+                services: services,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                lastSyncedAt: lastSyncedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String name,
+                Value<String?> description = const Value.absent(),
+                required String address,
+                required String city,
+                Value<String?> state = const Value.absent(),
+                required String country,
+                Value<String?> postalCode = const Value.absent(),
+                required double latitude,
+                required double longitude,
+                Value<String?> phone = const Value.absent(),
+                Value<String?> email = const Value.absent(),
+                Value<String?> website = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<bool> isVerified = const Value.absent(),
+                Value<bool> supportsDelivery = const Value.absent(),
+                Value<bool> supportsPickup = const Value.absent(),
+                Value<String?> openingHours = const Value.absent(),
+                Value<String?> services = const Value.absent(),
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> lastSyncedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CachedPharmaciesCompanion.insert(
+                id: id,
+                name: name,
+                description: description,
+                address: address,
+                city: city,
+                state: state,
+                country: country,
+                postalCode: postalCode,
+                latitude: latitude,
+                longitude: longitude,
+                phone: phone,
+                email: email,
+                website: website,
+                isActive: isActive,
+                isVerified: isVerified,
+                supportsDelivery: supportsDelivery,
+                supportsPickup: supportsPickup,
+                openingHours: openingHours,
+                services: services,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                lastSyncedAt: lastSyncedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CachedPharmaciesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CachedPharmaciesTable,
+      CachedPharmacy,
+      $$CachedPharmaciesTableFilterComposer,
+      $$CachedPharmaciesTableOrderingComposer,
+      $$CachedPharmaciesTableAnnotationComposer,
+      $$CachedPharmaciesTableCreateCompanionBuilder,
+      $$CachedPharmaciesTableUpdateCompanionBuilder,
+      (
+        CachedPharmacy,
+        BaseReferences<_$AppDatabase, $CachedPharmaciesTable, CachedPharmacy>,
+      ),
+      CachedPharmacy,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -5694,4 +7457,6 @@ class $AppDatabaseManager {
       $$AppointmentsTableTableManager(_db, _db.appointments);
   $$CachedUserTableTableManager get cachedUser =>
       $$CachedUserTableTableManager(_db, _db.cachedUser);
+  $$CachedPharmaciesTableTableManager get cachedPharmacies =>
+      $$CachedPharmaciesTableTableManager(_db, _db.cachedPharmacies);
 }
