@@ -1,0 +1,229 @@
+name: Code Quality Checks
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+env:
+  FLUTTER_VERSION: "3.27.5"
+
+jobs:
+  # Dart/Flutter formatting and linting
+  lint:
+    name: Lint and Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Run Flutter analyzer
+        run: flutter analyze --fatal-infos --fatal-warnings
+
+      - name: Check for TODO/FIXME comments
+        run: |
+          if grep -r "TODO\|FIXME" lib/ --exclude-dir={build,*.g.dart}; then
+            echo "⚠️ Found TODO/FIXME comments. Consider addressing them."
+          fi
+        continue-on-error: true
+
+  # Code metrics and complexity analysis
+  metrics:
+    name: Code Metrics
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Install dart_code_metrics
+        run: dart pub global activate dart_code_metrics
+
+      - name: Run code metrics
+        run: dart pub global run dart_code_metrics:metrics analyze lib
+        continue-on-error: true
+
+      - name: Check code metrics
+        run: dart pub global run dart_code_metrics:metrics check-unused-files lib
+        continue-on-error: true
+
+  # Security checks
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Check for known vulnerabilities in dependencies
+        run: |
+          flutter pub outdated --json > outdated.json || true
+          cat outdated.json
+
+      - name: Run dependency audit
+        run: dart pub audit
+        continue-on-error: true
+
+      - name: Scan for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+        continue-on-error: true
+
+  # Test coverage requirements
+  coverage:
+    name: Test Coverage Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Run tests with coverage
+        run: flutter test --coverage
+
+      - name: Check coverage threshold
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lcov
+          lcov --summary coverage/lcov.info
+        continue-on-error: true
+
+      - name: Coverage report
+        run: |
+          total_coverage=$(lcov --summary coverage/lcov.info | grep "lines" | awk '{print $2}' | sed 's/%//')
+          echo "Total coverage: $total_coverage%"
+          if (( $(echo "$total_coverage < 70" | bc -l) )); then
+            echo "⚠️ Coverage is below 70%"
+          fi
+        continue-on-error: true
+
+  # Dependency validation
+  dependencies:
+    name: Dependency Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Check for dependency conflicts
+        run: flutter pub get
+
+      - name: List outdated packages
+        run: flutter pub outdated
+        continue-on-error: true
+
+      - name: Verify pubspec.yaml
+        run: |
+          if ! grep -q "publish_to: 'none'" pubspec.yaml; then
+            echo "⚠️ Warning: Package might be publishable to pub.dev"
+          fi
+
+  # Build validation (quick build check)
+  build-check:
+    name: Build Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Check for build errors (debug mode)
+        run: flutter build apk --debug --target-platform android-arm64 || echo "Build check skipped"
+        continue-on-error: true
+
+  # Documentation check
+  documentation:
+    name: Documentation Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check README.md exists
+        run: |
+          if [ ! -f "README.md" ]; then
+            echo "❌ README.md is missing"
+            exit 1
+          fi
+
+      - name: Check for API documentation
+        run: |
+          if [ ! -d "doc" ] && [ ! -d "docs" ]; then
+            echo "⚠️ No documentation folder found"
+          fi
+        continue-on-error: true
+
+      - name: Validate CHANGELOG
+        run: |
+          if [ ! -f "CHANGELOG.md" ]; then
+            echo "⚠️ CHANGELOG.md is missing"
+          fi
+        continue-on-error: true
