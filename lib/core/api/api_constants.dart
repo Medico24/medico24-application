@@ -44,6 +44,10 @@ class ApiConstants {
   static String pharmacyHoursDay(String id, int day) =>
       '$apiVersion/pharmacies/$id/hours/$day';
 
+  // Environment
+  static const String environmentConditions =
+      '$apiVersion/environment/conditions';
+
   // Notifications
   static const String notificationRegisterToken =
       '$apiVersion/notifications/register-token';

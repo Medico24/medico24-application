@@ -2,10 +2,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:medico24/core/api/dio_client.dart';
 import 'package:medico24/core/api/services/appointment_api_service.dart';
 import 'package:medico24/core/api/services/auth_api_service.dart';
+import 'package:medico24/core/api/services/environment_api_service.dart';
 import 'package:medico24/core/api/services/pharmacy_api_service.dart';
 import 'package:medico24/core/api/services/user_api_service.dart';
 import 'package:medico24/core/database/database.dart';
 import 'package:medico24/core/repositories/appointment_repository.dart';
+import 'package:medico24/core/repositories/environment_repository.dart';
 import 'package:medico24/core/repositories/pharmacy_repository.dart';
 import 'package:medico24/core/repositories/user_repository.dart';
 import 'package:medico24/core/services/connectivity_service.dart';
@@ -23,9 +25,11 @@ class ServiceLocator {
   late final UserApiService _userApiService;
   late final AppointmentApiService _appointmentApiService;
   late final PharmacyApiService _pharmacyApiService;
+  late final EnvironmentApiService _environmentApiService;
   late final UserRepository _userRepository;
   late final AppointmentRepository _appointmentRepository;
   late final PharmacyRepository _pharmacyRepository;
+  late final EnvironmentRepository _environmentRepository;
 
   void init() {
     _secureStorage = const FlutterSecureStorage();
@@ -37,6 +41,7 @@ class ServiceLocator {
     _userApiService = UserApiService(dio);
     _appointmentApiService = AppointmentApiService(dio);
     _pharmacyApiService = PharmacyApiService();
+    _environmentApiService = EnvironmentApiService();
 
     _userRepository = UserRepository(_userApiService, _database);
     _appointmentRepository = AppointmentRepository(
@@ -44,6 +49,7 @@ class ServiceLocator {
       _database,
     );
     _pharmacyRepository = PharmacyRepository(_pharmacyApiService, _database);
+    _environmentRepository = EnvironmentRepository(_environmentApiService);
   }
 
   FlutterSecureStorage get secureStorage => _secureStorage;
@@ -53,9 +59,11 @@ class ServiceLocator {
   UserApiService get userApi => _userApiService;
   AppointmentApiService get appointmentApi => _appointmentApiService;
   PharmacyApiService get pharmacyApi => _pharmacyApiService;
+  EnvironmentApiService get environmentApi => _environmentApiService;
   UserRepository get userRepository => _userRepository;
   AppointmentRepository get appointmentRepository => _appointmentRepository;
   PharmacyRepository get pharmacyRepository => _pharmacyRepository;
+  EnvironmentRepository get environmentRepository => _environmentRepository;
 }
 
 // Global instance
