@@ -2,6 +2,7 @@ import 'package:medico24/core/api/models/user_model.dart';
 import 'package:medico24/core/api/models/appointment_model.dart';
 import 'package:medico24/core/api/models/pharmacy_model.dart';
 import 'package:medico24/core/api/models/auth_model.dart';
+import 'package:medico24/core/api/models/environment_model.dart';
 
 /// Mock data for testing
 class MockData {
@@ -168,4 +169,15 @@ class MockData {
     'platform': 'android',
     'is_active': true,
   };
+
+  // Environment Model Mock Data
+  static final mockEnvironmentConditionsJson = {
+    'aqi': 35,
+    'aqi_category': 'Good',
+    'temperature': 21.3,
+    'condition': 'Clear sky',
+  };
+
+  static EnvironmentConditionsModel get mockEnvironmentConditions =>
+      EnvironmentConditionsModel.fromJson(mockEnvironmentConditionsJson);
 }
