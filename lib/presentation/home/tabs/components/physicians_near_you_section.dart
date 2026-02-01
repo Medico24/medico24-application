@@ -86,9 +86,7 @@ class _PhysicianCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: const DecorationImage(
-                    image: NetworkImage(
-                      'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=200&q=80',
-                    ),
+                    image: AssetImage('assets/images/logo.png'),
                     fit: BoxFit.cover,
                   ),
                 ),

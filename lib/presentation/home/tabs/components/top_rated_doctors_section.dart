@@ -64,20 +64,14 @@ class _TopRatedDoctorCircle extends StatelessWidget {
   Widget build(BuildContext context) {
     final names = ['Dr. James', 'Dr. Linda', 'Dr. Alex', 'Dr. Sue'];
     final roles = ['Neurologist', 'Pediatrician', 'Surgeon', 'Dentist'];
-    final images = [
-      'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=200&q=80',
-      'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=200&q=80',
-      'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=200&q=80',
-      'https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?auto=format&fit=crop&w=200&q=80',
-    ];
 
     return Column(
       children: [
         Stack(
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               radius: 40,
-              backgroundImage: NetworkImage(images[index % images.length]),
+              backgroundImage: AssetImage('assets/images/logo.png'),
             ),
             Positioned(
               bottom: 0,

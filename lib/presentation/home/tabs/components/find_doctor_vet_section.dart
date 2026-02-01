@@ -37,8 +37,8 @@ class _FindDoctorCard extends StatelessWidget {
           Positioned(
             right: 0,
             bottom: 0,
-            child: Image.network(
-              'https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=200&q=80',
+            child: Image.asset(
+              'assets/images/logo.png',
               height: 100,
               width: 100,
               fit: BoxFit.cover,
@@ -103,8 +103,8 @@ class _FindVetCard extends StatelessWidget {
           Positioned(
             right: 0,
             bottom: 0,
-            child: Image.network(
-              'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=200&q=80',
+            child: Image.asset(
+              'assets/images/logo.png',
               height: 100,
               width: 100,
               fit: BoxFit.cover,

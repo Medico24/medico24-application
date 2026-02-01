@@ -157,15 +157,16 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
           _isLoadingAddress = false;
         });
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Could not fetch address. Try moving the pin or use search.',
+        // Only show error if it's not the initial load
+        if (_lastCenter != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Could not fetch address: ${e.toString()}'),
+              backgroundColor: AppColors.red,
+              duration: const Duration(seconds: 3),
             ),
-            backgroundColor: AppColors.red,
-            duration: Duration(seconds: 2),
-          ),
-        );
+          );
+        }
       }
     }
   }
@@ -227,7 +228,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   /// Handle location selection confirmation
   void _onSelectLocation() {
     // Don't confirm if address fetch failed
-    if (_address == 'Could not fetch address' ||
+    if (_address == 'Unable to fetch address' ||
         _address == 'Fetching address...') {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -265,11 +266,33 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       return;
     }
 
+    final fullAddress = '$_address, ${_addressDetailsController.text}';
+
+    // Save address with coordinates
     await _database.addSavedAddress(
       title: _selectedAddressType,
-      address: '$_address, ${_addressDetailsController.text}',
+      address: fullAddress,
       city: _selectedCity,
+      latitude: _center.latitude,
+      longitude: _center.longitude,
       isDefault: _selectedAddressType == 'Home',
+    );
+
+    // Update current location so weather/air quality work immediately
+    await _database.updateCurrentLocation(
+      title: _selectedAddressType,
+      address: fullAddress,
+      city: _selectedCity,
+      latitude: _center.latitude,
+      longitude: _center.longitude,
+    );
+
+    // Add to recent locations
+    await _database.addRecentLocation(
+      address: fullAddress,
+      city: _selectedCity,
+      latitude: _center.latitude,
+      longitude: _center.longitude,
     );
 
     if (mounted) {
@@ -289,20 +312,47 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       final position = await LocationService.getCurrentLocation();
       final latLng = LatLng(position.latitude, position.longitude);
 
+      print('=== GOT CURRENT LOCATION ===');
+      print('Position: lat=${position.latitude}, lng=${position.longitude}');
+
       setState(() {
         _center = latLng;
         _isLoadingLocation = false;
       });
 
+      print(
+        'Set _center to: lat=${_center.latitude}, lng=${_center.longitude}',
+      );
+
       _mapController?.animateCamera(CameraUpdate.newLatLngZoom(latLng, 16));
 
+      // Trigger reverse geocoding and auto-confirm location
+      await _reverseGeocode();
+
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Location accessed successfully'),
-            backgroundColor: AppColors.blue,
-          ),
-        );
+        // Auto-select the location after fetching address
+        if (_address != 'Unable to fetch address' &&
+            _address != 'Fetching address...') {
+          setState(() {
+            _selectedLocation = _address.split(',').first.trim();
+          });
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Location accessed successfully'),
+              backgroundColor: AppColors.blue,
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Could not fetch address for current location. Try moving the pin.',
+              ),
+              backgroundColor: AppColors.red,
+            ),
+          );
+        }
       }
     } catch (e) {
       setState(() => _isLoadingLocation = false);

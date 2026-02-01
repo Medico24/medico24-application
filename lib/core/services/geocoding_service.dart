@@ -57,13 +57,26 @@ class GeocodingService {
 
     try {
       final res = await http.get(uri);
+
+      // Check for HTTP errors
+      if (res.statusCode != 200) {
+        throw Exception('HTTP ${res.statusCode}: ${res.body}');
+      }
+
       final data = jsonDecode(res.body);
 
       if (data['status'] != 'OK') {
-        throw Exception("Geocoding failed: ${data["status"]}");
+        // Provide more detailed error messages
+        final errorMessage = data['error_message'] ?? data['status'];
+        throw Exception("Geocoding failed: $errorMessage");
       }
 
-      final result = data['results'][0];
+      final results = data['results'] as List;
+      if (results.isEmpty) {
+        throw Exception('No results found for this location');
+      }
+
+      final result = results[0];
       final components = result['address_components'] as List;
 
       String locality = '';
@@ -92,6 +105,8 @@ class GeocodingService {
         'postal_code': postalCode,
       };
     } catch (e) {
+      // Log the error for debugging
+      print('Geocoding error for ($lat, $lng): $e');
       throw Exception('Failed to get address components: $e');
     }
   }

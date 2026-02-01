@@ -40,6 +40,8 @@ class _EnvironmentCardState extends State<EnvironmentCard> {
     _loadEnvironmentData();
   }
 
+  late CurrentLocationData? currentLocation;
+
   Future<void> _loadEnvironmentData() async {
     setState(() {
       _isLoading = true;
@@ -48,11 +50,11 @@ class _EnvironmentCardState extends State<EnvironmentCard> {
 
     try {
       // Get current location from database
-      final currentLocation = await _database.getCurrentLocation();
+      currentLocation = await _database.getCurrentLocation();
 
       if (currentLocation == null ||
-          currentLocation.latitude == null ||
-          currentLocation.longitude == null) {
+          currentLocation?.latitude == null ||
+          currentLocation?.longitude == null) {
         setState(() {
           _error = 'Location not available';
           _isLoading = false;
@@ -61,12 +63,12 @@ class _EnvironmentCardState extends State<EnvironmentCard> {
       }
 
       _logger.d(
-        'Fetching environment data for lat: ${currentLocation.latitude}, lng: ${currentLocation.longitude}',
+        'Fetching environment data for lat: ${currentLocation?.latitude}, lng: ${currentLocation?.longitude}',
       );
 
       final data = await _environmentRepository.getEnvironmentConditions(
-        latitude: currentLocation.latitude!,
-        longitude: currentLocation.longitude!,
+        latitude: currentLocation?.latitude ?? 22.00,
+        longitude: currentLocation?.longitude ?? 88.00,
       );
 
       if (mounted) {
@@ -128,7 +130,7 @@ class _EnvironmentCardState extends State<EnvironmentCard> {
                     const Icon(Icons.air, color: AppColors.white, size: 20),
                     const SizedBox(width: 8),
                     Text(
-                      'Air Quality',
+                      _error.toString(),
                       style: textTheme.bodyLarge?.copyWith(
                         color: AppColors.white,
                         fontWeight: FontWeight.w500,
@@ -138,7 +140,7 @@ class _EnvironmentCardState extends State<EnvironmentCard> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  _error!,
+                  currentLocation?.toString() ?? 'Location unavailable',
                   style: textTheme.bodyMedium?.copyWith(
                     color: AppColors.white.withValues(alpha: 0.8),
                   ),

@@ -133,6 +133,12 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                   ),
                 ),
                 child: ListTile(
+                  onTap: () async {
+                    final result = await context.push(AppRouter.addAddress);
+                    if (result == true) {
+                      _loadData(); // Reload data when returning from add address
+                    }
+                  },
                   leading: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(

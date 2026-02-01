@@ -238,6 +238,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       tabIndex: index,
       tabLabel: _navTabs[index]['label'] as String,
       tabIcon: _navTabs[index]['icon'] as IconData,
+      currentLocation: _currentLocation,
     );
   }
 }

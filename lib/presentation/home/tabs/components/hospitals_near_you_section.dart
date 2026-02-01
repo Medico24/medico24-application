@@ -81,8 +81,8 @@ class _HospitalCard extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Image.network(
-                'https://images.unsplash.com/photo-1587351021759-3e566b9af9ef?auto=format&fit=crop&w=500&q=80',
+              Image.asset(
+                'assets/images/logo.png',
                 height: 140,
                 width: double.infinity,
                 fit: BoxFit.cover,
