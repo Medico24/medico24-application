@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:drift/drift.dart' hide isNotNull;
+import 'package:drift/drift.dart' hide isNotNull, isNull;
 import 'package:drift/native.dart';
 import 'package:medico24/core/database/database.dart';
 
@@ -256,6 +256,142 @@ void main() {
       // Assert
       final result = await database.getAllCachedPharmacies();
       expect(result.length, 0);
+    });
+  });
+
+  group('Database - Location Management', () {
+    test(
+      'updateCurrentLocation inserts new location with coordinates',
+      () async {
+        // Act
+        await database.updateCurrentLocation(
+          title: 'Home',
+          address: '123 Main St, City, State',
+          city: 'Test City',
+          latitude: 40.7128,
+          longitude: -74.0060,
+        );
+
+        // Assert
+        final result = await database.getCurrentLocation();
+        expect(result, isNotNull);
+        expect(result!.title, 'Home');
+        expect(result.latitude, 40.7128);
+        expect(result.longitude, -74.0060);
+        expect(result.city, 'Test City');
+      },
+    );
+
+    test('updateCurrentLocation updates existing location', () async {
+      // Arrange - Insert initial location
+      await database.updateCurrentLocation(
+        title: 'Home',
+        address: '123 Main St',
+        city: 'Old City',
+        latitude: 40.7128,
+        longitude: -74.0060,
+      );
+
+      // Act - Update to new location
+      await database.updateCurrentLocation(
+        title: 'Work',
+        address: '456 Office Blvd',
+        city: 'New City',
+        latitude: 34.0522,
+        longitude: -118.2437,
+      );
+
+      // Assert
+      final result = await database.getCurrentLocation();
+      expect(result, isNotNull);
+      expect(result!.title, 'Work');
+      expect(result.latitude, 34.0522);
+      expect(result.longitude, -118.2437);
+      expect(result.city, 'New City');
+    });
+
+    test('addSavedAddress saves address with coordinates', () async {
+      // Act
+      await database.addSavedAddress(
+        title: 'Home',
+        address: '123 Main St, City, State',
+        city: 'Test City',
+        latitude: 40.7128,
+        longitude: -74.0060,
+        isDefault: true,
+      );
+
+      // Assert
+      final result = await database.getAllSavedAddresses();
+      expect(result.length, 1);
+      expect(result[0].title, 'Home');
+      expect(result[0].latitude, 40.7128);
+      expect(result[0].longitude, -74.0060);
+      expect(result[0].isDefault, true);
+    });
+
+    test('addRecentLocation saves recent location with coordinates', () async {
+      // Act
+      await database.addRecentLocation(
+        address: '789 Recent Ave',
+        city: 'Recent City',
+        latitude: 51.5074,
+        longitude: -0.1278,
+      );
+
+      // Assert
+      final result = await database.getRecentLocations(limit: 10);
+      expect(result.length, 1);
+      expect(result[0].address, '789 Recent Ave');
+      expect(result[0].latitude, 51.5074);
+      expect(result[0].longitude, -0.1278);
+    });
+
+    test('getCurrentLocation returns null when no location is set', () async {
+      // Act
+      final result = await database.getCurrentLocation();
+
+      // Assert
+      expect(result, isNull);
+    });
+
+    test('deleteSavedAddress removes address', () async {
+      // Arrange
+      await database.addSavedAddress(
+        title: 'Work',
+        address: '456 Office Blvd',
+        city: 'Work City',
+        latitude: 34.0522,
+        longitude: -118.2437,
+      );
+
+      final addresses = await database.getAllSavedAddresses();
+      final addressId = addresses[0].id;
+
+      // Act
+      await database.deleteSavedAddress(addressId);
+
+      // Assert
+      final result = await database.getAllSavedAddresses();
+      expect(result.length, 0);
+    });
+
+    test('getRecentLocations limits results correctly', () async {
+      // Arrange - Add multiple recent locations
+      for (int i = 0; i < 10; i++) {
+        await database.addRecentLocation(
+          address: 'Address $i',
+          city: 'City $i',
+          latitude: 40.0 + i,
+          longitude: -74.0 + i,
+        );
+      }
+
+      // Act
+      final result = await database.getRecentLocations(limit: 5);
+
+      // Assert
+      expect(result.length, 5);
     });
   });
 }
