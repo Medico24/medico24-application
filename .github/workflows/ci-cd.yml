@@ -7,8 +7,8 @@ on:
     branches: [master, develop]
 
 env:
-  FLUTTER_VERSION: "3.27.5"
-  JAVA_VERSION: "17"
+  FLUTTER_VERSION: "3.38.5"
+  JAVA_VERSION: "25"
 
 jobs:
   # Code quality and analysis
