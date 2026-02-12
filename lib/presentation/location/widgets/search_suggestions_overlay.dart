@@ -10,7 +10,7 @@ class SearchSuggestionsOverlay extends StatelessWidget {
     super.key,
   });
   final List<PlaceSuggestion> suggestions;
-  final Function(PlaceSuggestion) onSuggestionTap;
+  final void Function(PlaceSuggestion) onSuggestionTap;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class SearchSuggestionsOverlay extends StatelessWidget {
         child: ListView.separated(
           shrinkWrap: true,
           itemCount: suggestions.length,
-          separatorBuilder: (_, __) =>
+          separatorBuilder: (context, index) =>
               Divider(height: 1, color: AppColors.grey.withValues(alpha: 0.2)),
           itemBuilder: (context, index) {
             final suggestion = suggestions[index];

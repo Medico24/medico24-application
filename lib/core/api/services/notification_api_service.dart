@@ -15,7 +15,7 @@ class NotificationApiService {
     String platform,
   ) async {
     try {
-      final response = await _dio.post(
+      final response = await _dio.post<Map<String, dynamic>>(
         ApiConstants.notificationRegisterToken,
         data: {'fcm_token': fcmToken, 'platform': platform},
       );
@@ -29,7 +29,7 @@ class NotificationApiService {
   /// Deactivate a specific FCM token
   Future<void> deactivateToken(String fcmToken, String platform) async {
     try {
-      await _dio.delete(
+      await _dio.delete<dynamic>(
         ApiConstants.notificationDeactivateToken,
         data: {'fcm_token': fcmToken, 'platform': platform},
       );
@@ -41,7 +41,7 @@ class NotificationApiService {
   /// Deactivate all FCM tokens for current user
   Future<void> deactivateAllTokens() async {
     try {
-      await _dio.delete(ApiConstants.notificationDeactivateAll);
+      await _dio.delete<dynamic>(ApiConstants.notificationDeactivateAll);
     } on DioException catch (e) {
       throw _handleError(e);
     }

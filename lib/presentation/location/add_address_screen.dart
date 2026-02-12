@@ -312,17 +312,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       final position = await LocationService.getCurrentLocation();
       final latLng = LatLng(position.latitude, position.longitude);
 
-      print('=== GOT CURRENT LOCATION ===');
-      print('Position: lat=${position.latitude}, lng=${position.longitude}');
-
       setState(() {
         _center = latLng;
         _isLoadingLocation = false;
       });
-
-      print(
-        'Set _center to: lat=${_center.latitude}, lng=${_center.longitude}',
-      );
 
       _mapController?.animateCamera(CameraUpdate.newLatLngZoom(latLng, 16));
 

@@ -148,7 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onTap: () async {
                   await Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    MaterialPageRoute<void>(
                       builder: (context) => const AccessibilitySettingsScreen(),
                     ),
                   );
@@ -303,11 +303,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     );
-                    if (confirmed == true && mounted) {
+                    if (confirmed == true) {
+                      if (!mounted) return;
                       await _authService.signOut();
-                      if (mounted) {
-                        context.go(AppRouter.login);
-                      }
+                      if (!mounted) return;
+                      if (!context.mounted) return;
+                      context.go(AppRouter.login);
                     }
                   },
                   style: ElevatedButton.styleFrom(

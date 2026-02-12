@@ -46,7 +46,7 @@ class AuthInterceptor extends Interceptor {
       // Prevent multiple simultaneous refresh attempts
       if (_isRefreshing) {
         _logger.i('Token refresh already in progress, waiting...');
-        await Future.delayed(const Duration(milliseconds: 500));
+        await Future<void>.delayed(const Duration(milliseconds: 500));
 
         // Try reading the potentially updated token
         final newToken = await _storage.read(key: 'access_token');
@@ -70,7 +70,7 @@ class AuthInterceptor extends Interceptor {
               },
             );
 
-            final retryResponse = await dio.request(
+            final retryResponse = await dio.request<dynamic>(
               err.requestOptions.path,
               data: err.requestOptions.data,
               queryParameters: err.requestOptions.queryParameters,
@@ -152,7 +152,7 @@ class AuthInterceptor extends Interceptor {
         _logger.i('Retrying original request with new token...');
 
         // Retry using the same Dio instance to maintain consistency
-        final retryResponse = await dio.request(
+        final retryResponse = await dio.request<dynamic>(
           err.requestOptions.path,
           data: err.requestOptions.data,
           queryParameters: err.requestOptions.queryParameters,

@@ -21,12 +21,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _navigateToNextScreen() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future<void>.delayed(const Duration(seconds: 2));
     if (mounted) {
       setState(() {
         _opacity = 0.0;
       });
-      await Future.delayed(const Duration(milliseconds: 300));
+      await Future<void>.delayed(const Duration(milliseconds: 300));
       if (mounted) {
         // Check if user is logged in
         final user = FirebaseAuth.instance.currentUser;

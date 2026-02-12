@@ -52,7 +52,7 @@ class ConnectivityService {
   }) async* {
     while (true) {
       yield await hasConnection();
-      await Future.delayed(interval);
+      await Future<void>.delayed(interval);
     }
   }
 }

@@ -26,7 +26,7 @@ class AddressBottomSheet extends StatelessWidget {
   final TextEditingController addressDetailsController;
   final TextEditingController phoneController;
   final String selectedAddressType;
-  final Function(String) onAddressTypeChanged;
+  final void Function(String) onAddressTypeChanged;
   final VoidCallback onSaveAddress;
 
   @override

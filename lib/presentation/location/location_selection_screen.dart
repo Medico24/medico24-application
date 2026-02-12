@@ -311,9 +311,9 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                           latitude: address.latitude,
                           longitude: address.longitude,
                         );
-                        if (mounted) {
-                          context.pop();
-                        }
+                        if (!mounted) return;
+                        if (!context.mounted) return;
+                        context.pop();
                       },
                       onDelete: () async {
                         await _database.deleteSavedAddress(address.id);
@@ -383,9 +383,9 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                           latitude: location.latitude,
                           longitude: location.longitude,
                         );
-                        if (mounted) {
-                          context.pop();
-                        }
+                        if (!mounted) return;
+                        if (!context.mounted) return;
+                        context.pop();
                       },
                     ),
                   );

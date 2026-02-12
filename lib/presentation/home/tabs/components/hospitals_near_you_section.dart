@@ -21,7 +21,7 @@ class HospitalsNearYouSection extends StatelessWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: 2,
-            separatorBuilder: (_, __) => const SizedBox(width: 16),
+            separatorBuilder: (context, index) => const SizedBox(width: 16),
             itemBuilder: (context, index) {
               return const _HospitalCard();
             },
@@ -33,10 +33,10 @@ class HospitalsNearYouSection extends StatelessWidget {
 }
 
 class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({required this.title, required this.onTap});
+
   final String title;
   final VoidCallback onTap;
-
-  const _SectionHeader({required this.title, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

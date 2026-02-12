@@ -21,7 +21,7 @@ class TopRatedDoctorsSection extends StatelessWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: 4,
-            separatorBuilder: (_, __) => const SizedBox(width: 20),
+            separatorBuilder: (context, index) => const SizedBox(width: 20),
             itemBuilder: (context, index) {
               return _TopRatedDoctorCircle(index: index);
             },
@@ -33,10 +33,10 @@ class TopRatedDoctorsSection extends StatelessWidget {
 }
 
 class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({required this.title, required this.onTap});
+
   final String title;
   final VoidCallback onTap;
-
-  const _SectionHeader({required this.title, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +57,9 @@ class _SectionHeader extends StatelessWidget {
 }
 
 class _TopRatedDoctorCircle extends StatelessWidget {
-  final int index;
   const _TopRatedDoctorCircle({required this.index});
+
+  final int index;
 
   @override
   Widget build(BuildContext context) {

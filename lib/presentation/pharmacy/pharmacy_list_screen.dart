@@ -166,7 +166,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
   }
 
   void _showFiltersBottomSheet() {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -487,7 +487,7 @@ class _PharmacyListScreenState extends State<PharmacyListScreen> {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
+            MaterialPageRoute<void>(
               builder: (context) => PharmacyDetailScreen(
                 pharmacyId: pharmacy.id,
                 pharmacyRepository: widget.pharmacyRepository,

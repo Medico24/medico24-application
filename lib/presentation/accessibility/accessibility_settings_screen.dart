@@ -273,21 +273,20 @@ class _AccessibilitySettingsScreenState
                         mobilityLevel: _mobilityLevel,
                         isOlderPerson: _isOlderPerson,
                       );
-                      if (mounted) {
-                        // Update initial values after saving
-                        setState(() {
-                          _initialHearingLevel = _hearingLevel;
-                          _initialVisionLevel = _visionLevel;
-                          _initialMobilityLevel = _mobilityLevel;
-                          _initialIsOlderPerson = _isOlderPerson;
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Accessibility settings saved'),
-                            backgroundColor: AppColors.blue,
-                          ),
-                        );
-                      }
+                      if (!mounted) return;
+                      setState(() {
+                        _initialHearingLevel = _hearingLevel;
+                        _initialVisionLevel = _visionLevel;
+                        _initialMobilityLevel = _mobilityLevel;
+                        _initialIsOlderPerson = _isOlderPerson;
+                      });
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Accessibility settings saved'),
+                          backgroundColor: AppColors.blue,
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.blue,
@@ -372,18 +371,21 @@ class _AccessibilitySettingsScreenState
             : Colors.transparent,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: RadioListTile<String>(
-        title: Text(
-          title,
-          style: Theme.of(
-            context,
-          ).textTheme.bodyLarge?.copyWith(color: AppColors.coal),
-        ),
-        value: value,
+      child: RadioGroup<String>(
         groupValue: groupValue,
-        onChanged: onChanged,
-        activeColor: AppColors.red,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        onChanged: (value) {
+          onChanged(value);
+        },
+        child: ListTile(
+          title: Text(
+            title,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: AppColors.coal),
+          ),
+          leading: Radio<String>(value: value, activeColor: AppColors.red),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        ),
       ),
     );
   }

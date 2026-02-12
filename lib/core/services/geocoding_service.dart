@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -68,7 +69,7 @@ class GeocodingService {
       if (data['status'] != 'OK') {
         // Provide more detailed error messages
         final errorMessage = data['error_message'] ?? data['status'];
-        throw Exception("Geocoding failed: $errorMessage");
+        throw Exception('Geocoding failed: $errorMessage');
       }
 
       final results = data['results'] as List;
@@ -106,7 +107,7 @@ class GeocodingService {
       };
     } catch (e) {
       // Log the error for debugging
-      print('Geocoding error for ($lat, $lng): $e');
+      debugPrint('Geocoding error for ($lat, $lng): $e');
       throw Exception('Failed to get address components: $e');
     }
   }

@@ -14,8 +14,8 @@ class MapWithCenteredPin extends StatelessWidget {
   });
   final LatLng center;
   final bool isLoading;
-  final Function(GoogleMapController) onMapCreated;
-  final Function(CameraPosition) onCameraMove;
+  final void Function(GoogleMapController) onMapCreated;
+  final void Function(CameraPosition) onCameraMove;
   final VoidCallback onCameraIdle;
 
   @override

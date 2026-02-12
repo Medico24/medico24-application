@@ -25,7 +25,6 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
   List<PharmacyModel> _nearbyPharmacies = [];
   bool _isLoading = true;
   String? _errorMessage;
-  CurrentLocationData? _currentLocation;
   double? _userLatitude;
   double? _userLongitude;
 
@@ -103,7 +102,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
     _logger.d('Navigating to pharmacy list - View All (no location filter)');
     Navigator.push(
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<void>(
         builder: (context) =>
             PharmacyListScreen(pharmacyRepository: _pharmacyRepository),
       ),
@@ -116,7 +115,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
     );
     Navigator.push(
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<void>(
         builder: (context) => PharmacyListScreen(
           pharmacyRepository: _pharmacyRepository,
           userLatitude: _userLatitude,
@@ -130,7 +129,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
   void _navigateToPharmacyDetail(String pharmacyId) {
     Navigator.push(
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<void>(
         builder: (context) => PharmacyDetailScreen(
           pharmacyId: pharmacyId,
           pharmacyRepository: _pharmacyRepository,
@@ -180,7 +179,7 @@ class _PharmacyTabContentState extends State<PharmacyTabContent> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
+                MaterialPageRoute<void>(
                   builder: (context) => PharmacyListScreen(
                     pharmacyRepository: _pharmacyRepository,
                     userLatitude: _userLatitude,

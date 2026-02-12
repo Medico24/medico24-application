@@ -648,12 +648,6 @@ class _PharmacyDetailScreenState extends State<PharmacyDetailScreen> {
       );
 
       if (!nextDayHours.isClosed) {
-        final openParts = nextDayHours.openTime.split(':');
-        final openTime = TimeOfDay(
-          hour: int.parse(openParts[0]),
-          minute: int.parse(openParts[1]),
-        );
-
         if (i == 1) {
           return 'Opens tomorrow at ${_formatTime(nextDayHours.openTime)}';
         } else {
