@@ -29,6 +29,9 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Create .env file from .env.example
+        run: cp .env.example .env
+
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
@@ -60,6 +63,9 @@ jobs:
 
       - name: Get dependencies
         run: flutter pub get
+
+      - name: Create .env file from .env.example
+        run: cp .env.example .env
 
       - name: Install dart_code_metrics
         run: dart pub global activate dart_code_metrics
