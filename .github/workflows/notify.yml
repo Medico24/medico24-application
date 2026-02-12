@@ -25,7 +25,9 @@ jobs:
           TITLE="📢 GitHub Activity"
           DESC=""
           AUTHOR="${{ github.actor }}"
-          URL="https://github.com/${{ github.repository }}"
+          REPO="${{ github.repository }}"
+          REPO_URL="https://github.com/${{ github.repository }}"
+          URL="$REPO_URL"
 
           if [ "$EVENT" = "push" ]; then
             TITLE="🚀 New Push to ${{ github.ref_name }}"
@@ -67,19 +69,23 @@ jobs:
             --arg title "$TITLE" \
             --arg desc "$DESC" \
             --arg author "$AUTHOR" \
+            --arg repo "$REPO" \
+            --arg repo_url "$REPO_URL" \
             --arg url "$URL" \
             --argjson color "$COLOR" \
             '{
               username: "GitHub Bot",
               embeds: [{
                 title: $title,
+                url: $repo_url,
                 description: $desc,
                 color: $color,
-                url: $url,
                 fields: [
-                  {name: "👤 Actor", value: $author, inline: true}
+                  {name: "📦 Repository", value: $repo, inline: true},
+                  {name: "👤 Actor", value: $author, inline: true},
+                  {name: "🔗 View Source", value: $repo_url, inline: false}
                 ],
-                footer: {text: "GitHub Notifications"},
+                footer: {text: "GitHub Activity Notifications"},
                 timestamp: (now | todate)
               }]
             }' > payload.json
