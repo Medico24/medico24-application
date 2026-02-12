@@ -8,7 +8,7 @@ on:
 
 env:
   FLUTTER_VERSION: "3.38.5"
-  JAVA_VERSION: "25"
+  JAVA_VERSION: "21"
 
 jobs:
   # Code quality and analysis
@@ -141,6 +141,9 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Create .env file from .env.example
+        run: cp .env.example .env
+
       - name: Build APK
         run: flutter build apk --release --split-per-abi
 
@@ -179,6 +182,9 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Create .env file from .env.example
+        run: cp .env.example .env
+
       - name: Build iOS (no codesign)
         run: flutter build ios --release --no-codesign
 
@@ -194,35 +200,6 @@ jobs:
         with:
           name: ios-ipa
           path: build/ios/iphoneos/app-release.ipa
-
-  # Build Web
-  build-web:
-    name: Build Web
-    runs-on: ubuntu-latest
-    needs: [analyze, test]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: 'stable'
-          cache: true
-
-      - name: Get dependencies
-        run: flutter pub get
-
-      - name: Build Web
-        run: flutter build web --release --web-renderer canvaskit
-
-      - name: Upload Web build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: web-build
-          path: build/web
 
   # Deploy Android to Play Store (only on main branch)
   deploy-android:
@@ -280,28 +257,3 @@ jobs:
       - name: Deployment placeholder
         run: echo "Add TestFlight deployment configuration"
 
-  # Deploy Web (only on main branch)
-  deploy-web:
-    name: Deploy Web
-    runs-on: ubuntu-latest
-    needs: [build-web]
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-
-    steps:
-      - name: Download Web build
-        uses: actions/download-artifact@v4
-        with:
-          name: web-build
-          path: build/web
-
-      # Add web deployment steps (Firebase Hosting, Vercel, etc.)
-      # - name: Deploy to Firebase Hosting
-      #   uses: FirebaseExtended/action-hosting-deploy@v0
-      #   with:
-      #     repoToken: '${{ secrets.GITHUB_TOKEN }}'
-      #     firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-      #     channelId: live
-      #     projectId: medico24
-
-      - name: Deployment placeholder
-        run: echo "Add web deployment configuration (Firebase, Vercel, etc.)"
