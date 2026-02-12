@@ -133,6 +133,9 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Create .env file from .env.example
+        run: cp .env.example .env
+
       - name: Run tests with coverage
         run: flutter test --coverage
 
@@ -199,6 +202,9 @@ jobs:
 
       - name: Get dependencies
         run: flutter pub get
+
+      - name: Create .env file from .env.example
+        run: cp .env.example .env
 
       - name: Check for build errors (debug mode)
         run: flutter build apk --debug --target-platform android-arm64 || echo "Build check skipped"
