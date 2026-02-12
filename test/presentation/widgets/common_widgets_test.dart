@@ -146,7 +146,6 @@ void main() {
     testWidgets('Form validation should work', (WidgetTester tester) async {
       // Arrange
       final formKey = GlobalKey<FormState>();
-      String? validationError;
 
       await tester.pumpWidget(
         MaterialApp(
@@ -160,7 +159,6 @@ void main() {
                   }
                   return null;
                 },
-                onSaved: (value) => validationError = value,
               ),
             ),
           ),
@@ -184,7 +182,7 @@ void main() {
             body: Builder(
               builder: (context) => ElevatedButton(
                 onPressed: () {
-                  showDialog(
+                  showDialog<void>(
                     context: context,
                     builder: (context) => AlertDialog(
                       title: const Text('Test Dialog'),

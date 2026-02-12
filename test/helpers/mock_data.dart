@@ -158,7 +158,7 @@ class MockData {
         'longitude': -73.9855,
         'created_at': '2024-01-02T12:00:00Z',
       },
-      'hours': [],
+      'hours': <dynamic>[],
     },
   ];
 

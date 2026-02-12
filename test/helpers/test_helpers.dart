@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:medico24/core/api/services/auth_api_service.dart';
 import 'package:medico24/core/api/services/user_api_service.dart';
 import 'package:medico24/core/api/services/appointment_api_service.dart';

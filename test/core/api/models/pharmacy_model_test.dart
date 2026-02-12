@@ -151,7 +151,7 @@ void main() {
         expect(json['supports_delivery'], true);
         expect(json['supports_pickup'], true);
         expect(json['location'], isNotNull);
-        expect(json['hours'], isA<List>());
+        expect(json['hours'], isA<List<dynamic>>());
       });
     });
 

@@ -20,8 +20,8 @@ void main() {
     group('getEnvironmentConditions', () {
       test('should fetch environment conditions successfully', () async {
         // Arrange
-        final latitude = 40.7128;
-        final longitude = -74.0060;
+        const latitude = 40.7128;
+        const longitude = -74.0060;
         final responseData = MockData.mockEnvironmentConditionsJson;
 
         when(
@@ -57,8 +57,8 @@ void main() {
 
       test('should throw DioException on network error', () async {
         // Arrange
-        final latitude = 40.7128;
-        final longitude = -74.0060;
+        const latitude = 40.7128;
+        const longitude = -74.0060;
 
         when(
           mockDio.get<Map<String, dynamic>>(
@@ -84,8 +84,8 @@ void main() {
 
       test('should throw exception on empty response', () async {
         // Arrange
-        final latitude = 40.7128;
-        final longitude = -74.0060;
+        const latitude = 40.7128;
+        const longitude = -74.0060;
 
         when(
           mockDio.get<Map<String, dynamic>>(

@@ -24,8 +24,8 @@ void main() {
         'should return environment conditions on successful API call',
         () async {
           // Arrange
-          final latitude = 40.7128;
-          final longitude = -74.0060;
+          const latitude = 40.7128;
+          const longitude = -74.0060;
           final expectedConditions = MockData.mockEnvironmentConditions;
 
           when(
@@ -54,8 +54,8 @@ void main() {
 
       test('should throw DioException on API network error', () async {
         // Arrange
-        final latitude = 40.7128;
-        final longitude = -74.0060;
+        const latitude = 40.7128;
+        const longitude = -74.0060;
 
         when(
           mockApiService.getEnvironmentConditions(
@@ -81,8 +81,8 @@ void main() {
 
       test('should throw exception on API general error', () async {
         // Arrange
-        final latitude = 40.7128;
-        final longitude = -74.0060;
+        const latitude = 40.7128;
+        const longitude = -74.0060;
 
         when(
           mockApiService.getEnvironmentConditions(

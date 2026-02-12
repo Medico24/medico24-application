@@ -5,7 +5,7 @@ import 'package:medico24/core/database/database.dart';
 
 // Create test database class
 class TestDatabase extends AppDatabase {
-  TestDatabase(QueryExecutor executor) : super.forTesting(executor);
+  TestDatabase(super.executor) : super.forTesting();
 }
 
 void main() {
